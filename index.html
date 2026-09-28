@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>БиблиоМир — Электронная библиотека</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ШАПКА -->
+    <header class="header">
+        <div class="logo">
+            <img class="logo-icon" src="photo/icon.jpg" alt="БиблиоМир">
+            <div class="logo-text">
+                <span class="logo-title">БиблиоМир</span>
+                <span class="logo-subtitle">Читай. Развивайся. Открывай мир.</span>
+            </div>
+        </div>
+        <form class="search-form">
+            <input type="text" placeholder="Поиск книг, авторов, жанров...">
+            <button type="submit">
+                <img src="photo/lupa.jpg" alt="Поиск" class="search-icon">
+            </button>
+        </form>
+        <div class="user-actions">
+            <a href="#" class="btn-login">
+                <img src="photo/logo.jfif" alt="Войти" class="login-icon">
+                Войти
+            </a>
+            <a href="#" class="btn-register">Зарегистрироваться</a>
+        </div>
+    </header>
+
+    <!-- НАВИГАЦИЯ -->
+    <nav class="nav">
+        <ul>
+            <li><a href="#" class="active">Главная</a></li>
+            <li><a href="#">Каталог</a></li>
+            <li><a href="#">Авторы</a></li>
+            <li><a href="#">Жанры</a></li>
+            <li><a href="#">Новинки</a></li>
+            <li><a href="#">Моя библиотека</a></li>
+            <li><a href="#">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <main class="main-content">
+
+            <!-- ПРОМО-БАННЕР -->
+            <section class="promo-banner">
+                <div class="promo-content">
+                    <div class="promo-text">
+                        <h1>Электронная библиотека</h1>
+                        <p>Тысячи книг для учебы, работы и отдыха.<br>
+                           Открывайте новые миры вместе с нами!</p>
+                    </div>
+                    <div class="promo-features">
+                        <div class="feature-item">
+                            <img src="photo/icon.jpg" alt="" class="feature-icon">
+                            <span>Большой<br>каталог книг</span>
+                        </div>
+                        <div class="feature-item">
+                            <img src="photo/shapka.jpg" alt="" class="feature-icon">
+                            <span>Удобный<br>поиск и фильтры</span>
+                        </div>
+                        <div class="feature-item">
+                            <img src="photo/heart.jpg" alt="" class="feature-icon">
+                            <span>Персональные<br>рекомендации</span>
+                        </div>
+                        <div class="feature-item">
+                            <img src="photo/laptop.jpg" alt="" class="feature-icon">
+                            <span>Чтение<br>на любых устройствах</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-find">Найти книгу →</button>
+            </section>
+
+            <!-- ОСНОВНЫЕ ПОКАЗАТЕЛИ -->
+            <section id="indicators" class="indicators-section">
+                <div class="section-header">
+                    <h2>Основные показатели</h2>
+                    <a href="#" class="see-all">Подробнее →</a>
+                </div>
+                <table class="indicators-table">
+                    <caption>Статистика библиотеки на <time datetime="2026-09-28">28 сентября 2026</time></caption>
+                    <thead>
+                        <tr>
+                            <th>Показатель</th>
+                            <th>Значение</th>
+                            <th>Динамика</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Книг в каталоге</td><td>12 450</td><td>+120</td></tr>
+                        <tr><td>Зарегистрированных читателей</td><td>8 320</td><td>+45</td></tr>
+                        <tr><td>Выдано книг за месяц</td><td>1 870</td><td>+8%</td></tr>
+                        <tr><td>Средняя оценка книг</td><td>4.7</td><td>+0.1</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- СТАТУС ПРОЕКТА -->
+            <section class="status-section">
+                <div class="section-header">
+                    <h2>Статус проекта</h2>
+                    <a href="#" class="see-all">Все задачи →</a>
+                </div>
+                <div class="status-grid">
+                    <article class="status-card">
+                        <h3>Обновление каталога</h3>
+                        <p>Завершено на 85%</p>
+                        <time datetime="2026-09-28">28.09.2026</time>
+                    </article>
+                    <article class="status-card">
+                        <h3>Мобильное приложение</h3>
+                        <p>В разработке</p>
+                        <time datetime="2026-10-15">15.10.2026</time>
+                    </article>
+                    <article class="status-card">
+                        <h3>Интеграция с API</h3>
+                        <p>Запланировано</p>
+                        <time datetime="2026-11-01">01.11.2026</time>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ПОПУЛЯРНЫЕ КНИГИ -->
+            <section class="book-section">
+                <div class="section-header">
+                    <h2>Популярные книги</h2>
+                    <a href="#" class="see-all">Все популярные →</a>
+                </div>
+                <div class="books-grid">
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-sokolov.jpg" alt="Чистый код">
+                        </figure>
+                        <h3>Чистый код</h3>
+                        <p class="book-author">Алексей Соколов</p>
+                        <span class="tag tag-prog">Программирование</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.9 (128)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-krilova.jpg" alt="Психология успеха">
+                        </figure>
+                        <h3>Психология успеха</h3>
+                        <p class="book-author">Мария Крылова</p>
+                        <span class="tag tag-psych">Психология</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.7 (96)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-volkov.jpg" alt="Мир вокруг нас">
+                        </figure>
+                        <h3>Мир вокруг нас</h3>
+                        <p class="book-author">Дмитрий Волков</p>
+                        <span class="tag tag-sci">Научно-популярная</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.8 (112)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-smirnova.jpg" alt="История России">
+                        </figure>
+                        <h3>История России</h3>
+                        <p class="book-author">Елена Смирнова</p>
+                        <span class="tag tag-hist">История</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.6 (85)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            
+            <!-- НОВИНКИ -->
+            <section class="book-section">
+                <div class="section-header">
+                    <h2>Новинки</h2>
+                    <a href="#" class="see-all">Все новинки →</a>
+                </div>
+                <div class="books-grid">
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/slava.jpg" alt="Цифровое будущее">
+                        </figure>
+                        <h3>Работа над собой</h3>
+                        <p class="book-author">Вячеслав Петров</p>
+                        <span class="tag tag-prog">Технологии</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 5 (42)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-eco.jpg" alt="Эко жизнь">
+                        </figure>
+                        <h3>Эко жизнь</h3>
+                        <p class="book-author">Мария Крылова</p>
+                        <span class="tag tag-eco">Экология</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.7 (37)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-naviki.png" alt="Гибкие навыки">
+                        </figure>
+                        <h3>Гибкие навыки</h3>
+                        <p class="book-author">Алексей Соколов</p>
+                        <span class="tag tag-self">Саморазвитие</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.8 (50)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+
+                    <article class="book-card">
+                        <figure class="book-cover">
+                            <img src="photo/books-galaxy.jpg" alt="Звезды и галактики">
+                        </figure>
+                        <h3>Звезды и галактики</h3>
+                        <p class="book-author">Дмитрий Волков</p>
+                        <span class="tag tag-astro">Астрономия</span>
+                        <div class="book-footer">
+                            <span class="rating">★ 4.9 (48)</span>
+                            <a href="#" class="btn-read">Читать</a>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            <!-- КАТАЛОГ ПО ЖАНРАМ -->
+            <section class="genres-section">
+                <div class="section-header">
+                    <h2>Каталог по жанрам</h2>
+                    <a href="#" class="see-all">Весь каталог →</a>
+                </div>
+                <div class="genres-grid">
+                    <div class="genre-item">
+                        <div class="genre-icon"><img src="photo/icon.jpg" alt=""></div>
+                        <b>Художественная литература</b>
+                        <small>1 245 книг</small>
+                    </div>
+                    <div class="genre-item">
+                        <div class="genre-icon"><img src="photo/probirki.jpg" alt=""></div>
+                        <b>Научно-популярная литература</b>
+                        <small>842 книги</small>
+                    </div>
+                    <div class="genre-item">
+                        <div class="genre-icon"><img src="photo/shapka.jpg" alt=""></div>
+                        <b>Учебная литература</b>
+                        <small>612 книг</small>
+                    </div>
+                    <div class="genre-item">
+                        <div class="genre-icon"><img src="photo/grahics.jpg" alt=""></div>
+                        <b>Бизнес и экономика</b>
+                        <small>530 книг</small>
+                    </div>
+                    <div class="genre-item">
+                        <div class="genre-icon"><img src="photo/heart.jpg" alt=""></div>
+                        <b>Психология</b>
+                        <small>421 книга</small>
+                    </div>
+                    <div class="genre-item">
+                        <div class="genre-icon"><img src="photo/techology.jpg" alt=""></div>
+                        <b>Технологии</b>
+                        <small>389 книг</small>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- САЙДБАР -->
+        <aside class="sidebar">
+
+            <div class="sidebar-block">
+                <h3>Поиск и фильтры</h3>
+                <form class="filter-form">
+                    <div class="form-group">
+                        <label>Жанр</label>
+                        <select><option>Все жанры</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Автор</label>
+                        <select><option>Все авторы</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Год издания</label>
+                        <select><option>Все годы</option></select>
+                    </div>
+                    <div class="form-group-checkbox">
+                        <input type="checkbox" id="available">
+                        <label for="available">Только доступные книги</label>
+                    </div>
+                    <button type="submit" class="btn-sidebar-search">🔍 Найти книги</button>
+                    <a href="#" class="advanced-search">Расширенный поиск →</a>
+                </form>
+            </div>
+
+            <div class="sidebar-block">
+                <h3>Популярные авторы</h3>
+                <ul class="authors-list">
+                    <li>
+                        <div class="author-info-box">
+                            <div class="author-avatar">
+                                <img src="photo/logo.jfif" alt="Алексей Соколов">
+                            </div>
+                            <div>
+                                <h4>Алексей Соколов</h4>
+                                <small>12 книг</small>
+                            </div>
+                        </div>
+                        <span class="arrow-link">&gt;</span>
+                    </li>
+                    <li>
+                        <div class="author-info-box">
+                            <div class="author-avatar">
+                                <img src="photo/logo.jfif" alt="Мария Крылова">
+                            </div>
+                            <div>
+                                <h4>Мария Крылова</h4>
+                                <small>8 книг</small>
+                            </div>
+                        </div>
+                        <span class="arrow-link">&gt;</span>
+                    </li>
+                    <li>
+                        <div class="author-info-box">
+                            <div class="author-avatar">
+                                <img src="photo/logo.jfif" alt="Дмитрий Волков">
+                            </div>
+                            <div>
+                                <h4>Дмитрий Волков</h4>
+                                <small>15 книг</small>
+                            </div>
+                        </div>
+                        <span class="arrow-link">&gt;</span>
+                    </li>
+                    <li>
+                        <div class="author-info-box">
+                            <div class="author-avatar">
+                                <img src="photo/logo.jfif" alt="Елена Смирнова">
+                            </div>
+                            <div>
+                                <h4>Елена Смирнова</h4>
+                                <small>9 книг</small>
+                            </div>
+                        </div>
+                        <span class="arrow-link">&gt;</span>
+                    </li>
+                    <li>
+                        <div class="author-info-box">
+                            <div class="author-avatar">
+                                <img src="photo/logo.jfif" alt="Иван Петров">
+                            </div>
+                            <div>
+                                <h4>Вячеслав Петров</h4>
+                                <small>11 книг</small>
+                            </div>
+                        </div>
+                        <span class="arrow-link">&gt;</span>
+                    </li>
+                </ul>
+                <a href="#" class="btn-all-authors">Все авторы →</a>
+            </div>
+
+            <div class="sidebar-block">
+                <h3>Рекомендуем</h3>
+                <div class="recommend-item">
+                    <figure class="rec-cover">
+                        <img src="photo/books-smirnova2.jpg" alt="Искусство учиться">
+                    </figure>
+                    <div class="rec-info">
+                        <h4>Искусство учиться</h4>
+                        <p class="rec-author">Елена Смирнова</p>
+                        <p class="rec-description">Практические советы для эффективного обучения и развития.</p>
+                        <div class="rec-rating-box">
+                            <span class="stars">★★★★★</span>
+                            <span class="rating-val">5</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn-read-online">Читать онлайн</a>
+            </div>
+        </aside>
+    </div>
+    <footer class="footer">
+        <div class="footer-top">
+    <div class="footer-col brand-col">
+        <div class="footer-logo">
+            <div class="logo-icon-box">
+                <img src="photo/icon.jpg" alt="БиблиоМир">
+            </div>
+            <div class="logo-text-box">
+                <h3>БиблиоМир</h3>
+                <p>Читай. Развивайся. Открывай мир.</p>
+            </div>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-icon"><img src="photo/vk.jpg" alt="ВКонтакте"></a>
+            <a href="#" class="social-icon"><img src="photo/tg.jfif" alt="Telegram"></a>
+            <a href="#" class="social-icon"><img src="photo/youtube.png" alt="YouTube"></a>
+            <a href="#" class="social-icon"><img src="photo/browser.jpg" alt="Сайт"></a>
+        </div>
+    </div>
+
+    <div class="footer-col">
+        <h4>Разделы</h4>
+        <ul>
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">Каталог</a></li>
+            <li><a href="#">Авторы</a></li>
+            <li><a href="#">Жанры</a></li>
+            <li><a href="#">Новинки</a></li>
+            <li><a href="#">Контакты</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-col">
+        <h4>Пользователям</h4>
+        <ul>
+            <li><a href="#">Как читать книги</a></li>
+            <li><a href="#">Вопросы и ответы</a></li>
+            <li><a href="#">Правила пользования</a></li>
+            <li><a href="#">Политика конфиденциальности</a></li>
+            <li><a href="#">Пользовательское соглашение</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-col contacts-col">
+        <h4>Контакты</h4>
+        <address>
+            <ul class="contacts-list">
+                <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="#1a73e8"/></svg> г. Йошкар-Ола, ул. Книжная, д. 67</li>
+                <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011-.24c1.12.37 2.33.57 3.59.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.26.2 2.47.57 3.59a1 1 0 01-.24 1l-2.21 2.2z" fill="#1a73e8"/></svg> +7 (495) 123-45-67</li>
+                <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#1a73e8"/></svg> info@bibliomir.ru</li>
+                <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 11h-4v-2h2V6h2v7z" fill="#1a73e8"/></svg> Пн–Пт: 9:00 – 18:00</li>
+            </ul>
+        </address>
+    </div>
+</div>
+
+        <div class="footer-bottom">
+    <p>&copy; <time datetime="2025">2026</time> БиблиоМир. Все права защищены.</p>
+    <div class="footer-links">
+        <a href="#">Карта сайта</a>
+        <a href="#">Политика конфиденциальности</a>
+        <a href="#">Пользовательское соглашение</a>
+    </div>
+</div>
+    </footer>
+
+</body>
+</html>
