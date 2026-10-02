@@ -27,7 +27,7 @@ img {
     display: block;
 }
 
-/*2. ШАПКА*/
+/* 2. ШАПКА */
 .header {
     max-width: 1280px;
     margin: 0 auto;
@@ -79,7 +79,7 @@ img {
 
 .search-form input {
     width: 100%;
-    padding: 9px 44px 9px 16px;
+    padding: 9px 55px 9px 16px; 
     font-size: 13px;
     border: 1px solid #d3dde9;
     border-radius: 6px;
@@ -94,21 +94,30 @@ img {
 
 .search-form button {
     position: absolute;
-    right: 4px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: none; 
+    background: #1a73e8; 
     border: none;
     cursor: pointer;
-    padding: 6px 10px;
+    padding: 0 16px; 
     display: flex;
     align-items: center;
+    justify-content: center;
+    border-radius: 0 5px 5px 0; 
+    transition: background-color 0.2s;
+}
+
+.search-form button:hover {
+    background: #1558b0; 
 }
 
 .search-icon {
     width: 16px;
     height: 16px;
     object-fit: contain;
+    filter: brightness(0) invert(1);
 }
 
 /* Пользователь */
@@ -155,14 +164,14 @@ img {
     transform: translateY(-1px);
 }
 
-/* 3. НАВИГАЦИЯ*/
+/* 3. НАВИГАЦИЯ */
 .nav {
+    max-width: 1280px;
+    margin: 0 auto;
     background-color: #1a73e8;
 }
 
 .nav ul {
-    max-width: 1280px;
-    margin: 0 auto;
     padding: 0 24px;
     display: flex;
     flex-wrap: wrap;
@@ -182,7 +191,7 @@ img {
     background-color: #1558b0;
 }
 
-/* 4. КОНТЕЙНЕР*/
+/* 4. КОНТЕЙНЕР */
 .container {
     max-width: 1280px;
     margin: 0 auto;
@@ -197,7 +206,7 @@ img {
     min-width: 0;
 }
 
-/* 5. ПРОМО-БАННЕР*/
+/* 5. ПРОМО-БАННЕР */
 .promo-banner {
     position: relative;
     border-radius: 10px;
@@ -289,7 +298,7 @@ img {
     box-shadow: 0 10px 22px rgba(26, 115, 232, 0.4);
 }
 
-/* 6. ЗАГОЛОВКИ СЕКЦИЙ*/
+/* 6. ЗАГОЛОВКИ СЕКЦИЙ */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -315,7 +324,7 @@ img {
     text-decoration: underline;
 }
 
-/*7. КАРТОЧКИ КНИГ*/
+/* 7. КАРТОЧКИ КНИГ */
 .book-section {
     margin-top: 22px;
 }
@@ -723,98 +732,16 @@ img {
     background: #d2e3fc;
 }
 
-/* 10. ТАБЛИЦА */
-#indicators {
-    margin-top: 22px;
-}
-
-.indicators-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid #e4ecf6;
-}
-
-.indicators-table caption {
-    caption-side: top;
-    text-align: left;
-    font-size: 12px;
-    color: #778899;
-    padding: 8px 0;
-}
-
-.indicators-table th,
-.indicators-table td {
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 1px solid #eef3f9;
-    font-size: 13px;
-}
-
-.indicators-table th {
-    background: #f5f9ff;
-    font-weight: 700;
-    color: #0b2265;
-}
-
-.indicators-table tr:last-child td {
-    border-bottom: none;
-}
-
-/* 11. СТАТУС ПРОЕКТА */
-.status-section {
-    margin-top: 22px;
-}
-
-.status-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.status-card {
-    background: #fff;
-    border: 1px solid #e4ecf6;
-    border-radius: 6px;
-    padding: 16px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.status-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(15, 43, 92, 0.1);
-}
-
-.status-card h3 {
-    font-size: 14px;
-    margin-bottom: 6px;
-    color: #0b2265;
-}
-
-.status-card p {
-    font-size: 13px;
-    color: #556677;
-    margin-bottom: 8px;
-}
-
-.status-card time {
-    font-size: 11px;
-    color: #99a8ba;
-}
-
-/* 12.ПОДВАЛ */
+/* 10. ПОДВАЛ */
 .footer {
+    max-width: 1280px;
+    margin: 32px auto 0;
     background: #eef5ff;
     border-top: 1px solid #dbe7f7;
-    margin-top: 32px;
     padding: 30px 24px 0;
 }
 
 .footer-top {
-    max-width: 1280px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: 1.3fr 1fr 1.2fr 1.3fr;
     gap: 30px;
@@ -890,6 +817,7 @@ img {
     border-radius: 50%;
     background: #ffffff;
     transition: background-color 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
 }
 
 .social-icon:hover {
@@ -897,10 +825,11 @@ img {
     transform: translateY(-3px);
 }
 
-.social-icon svg {
+.social-icon img {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
 }
 
 /* Контакты */
@@ -932,6 +861,7 @@ img {
     align-items: center;
     flex-wrap: nowrap;
     gap: 20px;
+    padding: 18px 0;
 }
 
 .footer-bottom p {
@@ -950,7 +880,7 @@ img {
     white-space: nowrap;
 }
 
-/*  13. АДАПТИВНОСТЬ  */
+/* 11. АДАПТИВНОСТЬ */
 @media (max-width: 1100px) {
     .books-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -972,16 +902,8 @@ img {
     }
 
     .footer-top {
-        flex-wrap: wrap;
+        grid-template-columns: 1fr 1fr;
         gap: 20px;
-    }
-
-    .footer-col {
-        min-width: 45%;
-    }
-
-    .status-grid {
-        grid-template-columns: 1fr;
     }
 }
 
@@ -1023,8 +945,8 @@ img {
         text-align: center;
     }
 
-    .footer-col {
-        min-width: 100%;
+    .footer-top {
+        grid-template-columns: 1fr;
     }
 
     .nav a {
@@ -1032,9 +954,13 @@ img {
         font-size: 12px;
     }
 
-    .indicators-table th,
-    .indicators-table td {
-        padding: 8px 10px;
-        font-size: 12px;
+    .footer-bottom {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
