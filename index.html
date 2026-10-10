@@ -1,429 +1,454 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>БиблиоМир — Электронная библиотека</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelBlog — блог о путешествиях</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ШАПКА -->
-    <header class="header">
-        <div class="logo">
-            <img class="logo-icon" src="photo/books.svg" alt="БиблиоМир">
-            <div class="logo-text">
-                <span class="logo-title">БиблиоМир</span>
-                <span class="logo-subtitle">Читай. Развивайся. Открывай мир.</span>
-            </div>
-        </div>
-        <form class="search-form">
-            <input type="text" placeholder="Поиск книг, авторов, жанров...">
-            <button type="submit">
-                <img src="photo/lupa.svg" alt="Поиск" class="search-icon">
-            </button>
-        </form>
-        <div class="user-actions">
-            <a href="#" class="btn-login">
-                <img src="photo/logo.jfif" alt="Войти" class="login-icon">
-                Войти
-            </a>
-            <a href="#" class="btn-register">Зарегистрироваться</a>
-        </div>
-    </header>
+  <!-- ============================================================
+       ШАПКА
+       ============================================================ -->
+  <header class="site-header">
+    <div class="container site-header__inner">
 
-    <!-- НАВИГАЦИЯ -->
-    <nav class="nav">
-        <ul>
-            <li><a href="#" class="active">Главная</a></li>
-            <li><a href="#">Каталог</a></li>
-            <li><a href="#">Авторы</a></li>
-            <li><a href="#">Жанры</a></li>
-            <li><a href="#">Новинки</a></li>
-            <li><a href="#">Моя библиотека</a></li>
-            <li><a href="#">Контакты</a></li>
+      <a href="#" class="logo" aria-label="TravelBlog — на главную">
+        <span class="logo__mark">
+          <img src="photo/gori.svg" alt="" width="36" height="36">
+        </span>
+        <span class="logo__info">
+          <span class="logo__title">TravelBlog</span>
+          <span class="logo__subtitle">Блог о путешествиях</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Основная навигация">
+        <ul class="main-nav__list">
+          <li><a href="#" class="main-nav__link">Главная</a></li>
+          <li><a href="#articles" class="main-nav__link">Статьи</a></li>
+          <li><a href="#directions" class="main-nav__link">Направления</a></li>
+          <li><a href="#about" class="main-nav__link">О нас</a></li>
         </ul>
-    </nav>
+      </nav>
 
-    <div class="container">
+      <div class="site-header__actions">
+        <button type="button" class="icon-btn" aria-label="Открыть поиск">
+          <img src="photo/lupa.svg" alt="" width="18" height="18">
+        </button>
+        <a href="#subscribe" class="btn btn--primary btn--sm">Подписаться</a>
+      </div>
 
-        <!-- ОСНОВНОЙ КОНТЕНТ -->
-        <main class="main-content">
+    </div>
+  </header>
 
-            <!-- ПРОМО-БАННЕР -->
-            <section class="promo-banner">
-                <div class="promo-content">
-                    <div class="promo-text">
-                        <h1>Электронная библиотека</h1>
-                        <p>Тысячи книг для учебы, работы и отдыха.<br>
-                           Открывайте новые миры вместе с нами!</p>
-                    </div>
-                    <div class="promo-features">
-                        <div class="feature-item">
-                            <img src="photo/books.svg" alt="" class="feature-icon">
-                            <span>Большой<br>каталог книг</span>
-                        </div>
-                        <div class="feature-item">
-                            <img src="photo/chapka.svg" alt="" class="feature-icon">
-                            <span>Удобный<br>поиск и фильтры</span>
-                        </div>
-                        <div class="feature-item">
-                            <img src="photo/heart.svg" alt="" class="feature-icon">
-                            <span>Персональные<br>рекомендации</span>
-                        </div>
-                        <div class="feature-item">
-                            <img src="photo/laptop.svg" alt="" class="feature-icon">
-                            <span>Чтение<br>на любых устройствах</span>
-                        </div>
-                    </div>
-                </div>
-                <button class="btn-find">Найти книгу →</button>
-            </section>
+  <main>
 
-            <!-- ПОПУЛЯРНЫЕ КНИГИ -->
-            <section class="book-section">
-                <div class="section-header">
-                    <h2>Популярные книги</h2>
-                    <a href="#" class="see-all">Все популярные →</a>
-                </div>
-                <div class="books-grid">
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-sokolov.jpg" alt="Чистый код">
-                        </figure>
-                        <h3>Чистый код</h3>
-                        <p class="book-author">Алексей Соколов</p>
-                        <span class="tag tag-prog">Программирование</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.9 (128)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
+    <!-- ============================================================
+         БАННЕР
+         background-image + background-size: cover — фон не искажается
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero__overlay" aria-hidden="true"></div>
 
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-krilova.jpg" alt="Психология успеха">
-                        </figure>
-                        <h3>Психология успеха</h3>
-                        <p class="book-author">Мария Крылова</p>
-                        <span class="tag tag-psych">Психология</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.7 (96)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
+      <div class="container hero__inner">
 
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-volkov.jpg" alt="Мир вокруг нас">
-                        </figure>
-                        <h3>Мир вокруг нас</h3>
-                        <p class="book-author">Дмитрий Волков</p>
-                        <span class="tag tag-sci">Научно-популярная</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.8 (112)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
+        <div class="hero__content">
+          <p class="hero__kicker">Новые горизонты</p>
 
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-smirnova.jpg" alt="История России">
-                        </figure>
-                        <h3>История России</h3>
-                        <p class="book-author">Елена Смирнова</p>
-                        <span class="tag tag-hist">История</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.6 (85)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
-                </div>
-            </section>
-            
-            <!-- НОВИНКИ -->
-            <section class="book-section">
-                <div class="section-header">
-                    <h2>Новинки</h2>
-                    <a href="#" class="see-all">Все новинки →</a>
-                </div>
-                <div class="books-grid">
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/slava.jpg" alt="Цифровое будущее">
-                        </figure>
-                        <h3>Работа над собой</h3>
-                        <p class="book-author">Вячеслав Петров</p>
-                        <span class="tag tag-prog">Технологии</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 5 (42)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
+          <h1 class="hero__title">
+            Путешествуй.<br>
+            Вдохновляйся.<br>
+            Живи ярче.
+          </h1>
 
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-eco.jpg" alt="Эко жизнь">
-                        </figure>
-                        <h3>Эко жизнь</h3>
-                        <p class="book-author">Мария Крылова</p>
-                        <span class="tag tag-eco">Экология</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.7 (37)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
+          <p class="hero__subtitle">
+            Истории, маршруты и советы<br>
+            для тех, кто влюблён в путешествия
+          </p>
 
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-naviki.png" alt="Гибкие навыки">
-                        </figure>
-                        <h3>Гибкие навыки</h3>
-                        <p class="book-author">Алексей Соколов</p>
-                        <span class="tag tag-self">Саморазвитие</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.8 (50)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
+          <a href="#articles" class="btn btn--primary">Смотреть статьи →</a>
+        </div>
 
-                    <article class="book-card">
-                        <figure class="book-cover">
-                            <img src="photo/books-galaxy.jpg" alt="Звезды и галактики">
-                        </figure>
-                        <h3>Звезды и галактики</h3>
-                        <p class="book-author">Дмитрий Волков</p>
-                        <span class="tag tag-astro">Астрономия</span>
-                        <div class="book-footer">
-                            <span class="rating">★ 4.9 (48)</span>
-                            <a href="#" class="btn-read">Читать</a>
-                        </div>
-                    </article>
-                </div>
-            </section>
+        <div class="hero__deco">
+          <span class="hero__deco-text">Мир<br>ближе,<br>чем кажется</span>
+          <span class="hero__deco-heart" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </span>
+        </div>
 
-            <!-- КАТАЛОГ ПО ЖАНРАМ -->
-            <section class="genres-section">
-                <div class="section-header">
-                    <h2>Каталог по жанрам</h2>
-                    <a href="#" class="see-all">Весь каталог →</a>
-                </div>
-                <div class="genres-grid">
-                    <div class="genre-item">
-                        <div class="genre-icon"><img src="photo/books2.svg" alt=""></div>
-                        <b>Художественная литература</b>
-                        <small>1 245 книг</small>
-                    </div>
-                    <div class="genre-item">
-                        <div class="genre-icon"><img src="photo/probirki.jpg" alt=""></div>
-                        <b>Научно-популярная литература</b>
-                        <small>842 книги</small>
-                    </div>
-                    <div class="genre-item">
-                        <div class="genre-icon"><img src="photo/chapka.svg" alt=""></div>
-                        <b>Учебная литература</b>
-                        <small>612 книг</small>
-                    </div>
-                    <div class="genre-item">
-                        <div class="genre-icon"><img src="photo/grahics.jpg" alt=""></div>
-                        <b>Бизнес и экономика</b>
-                        <small>530 книг</small>
-                    </div>
-                    <div class="genre-item">
-                        <div class="genre-icon"><img src="photo/heart.svg" alt=""></div>
-                        <b>Психология</b>
-                        <small>421 книга</small>
-                    </div>
-                    <div class="genre-item">
-                        <div class="genre-icon"><img src="photo/techology.jpg" alt=""></div>
-                        <b>Технологии</b>
-                        <small>389 книг</small>
-                    </div>
-                </div>
-            </section>
-        </main>
+      </div>
+    </section>
 
-        <!-- САЙДБАР -->
-        <aside class="sidebar">
+    <!-- ============================================================
+         ПРЕИМУЩЕСТВА
+         ============================================================ -->
+    <section class="features">
+      <div class="container features__grid">
 
-            <div class="sidebar-block">
-                <h3>Поиск и фильтры</h3>
-                <form class="filter-form">
-                    <div class="form-group">
-                        <label>Жанр</label>
-                        <select><option>Все жанры</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Автор</label>
-                        <select><option>Все авторы</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Год издания</label>
-                        <select><option>Все годы</option></select>
-                    </div>
-                    <div class="form-group-checkbox">
-                        <input type="checkbox" id="available">
-                        <label for="available">Только доступные книги</label>
-                    </div>
-                    
-                    <button type="submit" class="btn-sidebar-search">Найти книги</button>
-                    <a href="#" class="advanced-search">Расширенный поиск →</a>
-                </form>
+        <div class="feature" tabindex="0">
+          <span class="feature__icon">
+            <img src="photo/air.svg" alt="" width="24" height="24">
+          </span>
+          <div>
+            <h3 class="feature__title">Проверенные маршруты</h3>
+            <p class="feature__text">Только живой опыт</p>
+          </div>
+        </div>
+
+        <div class="feature" tabindex="0">
+          <span class="feature__icon">
+            <img src="photo/book.svg" alt="" width="24" height="24">
+          </span>
+          <div>
+            <h3 class="feature__title">Полезные советы</h3>
+            <p class="feature__text">Больше времени и денег</p>
+          </div>
+        </div>
+
+        <div class="feature" tabindex="0">
+          <span class="feature__icon">
+            <img src="photo/camera.svg" alt="" width="24" height="24">
+          </span>
+          <div>
+            <h3 class="feature__title">Красочные фото</h3>
+            <p class="feature__text">Вдохновение в каждой детали</p>
+          </div>
+        </div>
+
+        <div class="feature" tabindex="0">
+          <span class="feature__icon">
+            <img src="photo/ludi.svg" alt="" width="24" height="24">
+          </span>
+          <div>
+            <h3 class="feature__title">Дружное сообщество</h3>
+            <p class="feature__text">Путешествуем вместе</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ПОПУЛЯРНЫЕ СТАТЬИ
+         Карточки с полным набором эффектов:
+         - transform: scale() при наведении
+         - transition плавных переходов
+         - ::before как overlay (opacity)
+         - ::after как декоративная линия
+         - box-shadow меняется при hover/focus-within
+         ============================================================ -->
+    <section class="section" id="articles">
+      <div class="container">
+
+        <header class="section-header">
+          <h2 class="section-title">Популярные статьи</h2>
+          <a href="#" class="section-link">Смотреть все →</a>
+        </header>
+
+        <div class="articles">
+
+          <article class="card" tabindex="0">
+            <div class="card__media">
+              <img src="https://avatars.mds.yandex.net/i?id=8812b2d528db82e3038dff1285dcedbe_l-5886887-images-thumbs&n=13"
+                   alt="Пятиозерье">
+              <span class="card__badge">Байкал</span>
             </div>
-
-            <div class="sidebar-block">
-                <h3>Популярные авторы</h3>
-                <ul class="authors-list">
-                    <li>
-                        <div class="author-info-box">
-                            <div class="author-avatar">
-                                <img src="photo/logo.jfif" alt="Алексей Соколов">
-                            </div>
-                            <div>
-                                <h4>Алексей Соколов</h4>
-                                <small>12 книг</small>
-                            </div>
-                        </div>
-                        <span class="arrow-link">&gt;</span>
-                    </li>
-                    <li>
-                        <div class="author-info-box">
-                            <div class="author-avatar">
-                                <img src="photo/logo.jfif" alt="Мария Крылова">
-                            </div>
-                            <div>
-                                <h4>Мария Крылова</h4>
-                                <small>8 книг</small>
-                            </div>
-                        </div>
-                        <span class="arrow-link">&gt;</span>
-                    </li>
-                    <li>
-                        <div class="author-info-box">
-                            <div class="author-avatar">
-                                <img src="photo/logo.jfif" alt="Дмитрий Волков">
-                            </div>
-                            <div>
-                                <h4>Дмитрий Волков</h4>
-                                <small>15 книг</small>
-                            </div>
-                        </div>
-                        <span class="arrow-link">&gt;</span>
-                    </li>
-                    <li>
-                        <div class="author-info-box">
-                            <div class="author-avatar">
-                                <img src="photo/logo.jfif" alt="Елена Смирнова">
-                            </div>
-                            <div>
-                                <h4>Елена Смирнова</h4>
-                                <small>9 книг</small>
-                            </div>
-                        </div>
-                        <span class="arrow-link">&gt;</span>
-                    </li>
-                    <li>
-                        <div class="author-info-box">
-                            <div class="author-avatar">
-                                <img src="photo/logo.jfif" alt="Иван Петров">
-                            </div>
-                            <div>
-                                <h4>Вячеслав Петров</h4>
-                                <small>11 книг</small>
-                            </div>
-                        </div>
-                        <span class="arrow-link">&gt;</span>
-                    </li>
-                </ul>
-                <a href="#" class="btn-all-authors">Все авторы →</a>
+            <div class="card__body">
+              <h3 class="card__title">Идеальные выходные в Пятиозерье</h3>
+              <p class="card__text">Уютные улочки, древние церкви и незабываемые виды на море.</p>
+              <ul class="card__meta">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  12 мая 2024
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  12K
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                  708
+                </li>
+              </ul>
             </div>
+          </article>
 
-            <div class="sidebar-block">
-                <h3>Рекомендуем</h3>
-                <div class="recommend-item">
-                    <figure class="rec-cover">
-                        <img src="photo/books-smirnova2.jpg" alt="Искусство учиться">
-                    </figure>
-                    <div class="rec-info">
-                        <h4>Искусство учиться</h4>
-                        <p class="rec-author">Елена Смирнова</p>
-                        <p class="rec-description">Практические советы для эффективного обучения и развития.</p>
-                        <div class="rec-rating-box">
-                            <span class="stars">★★★★★</span>
-                            <span class="rating-val">5</span>
-                        </div>
-                    </div>
-                </div>
-                <a href="#" class="btn-read-online">Читать онлайн</a>
+          <article class="card" tabindex="0">
+            <div class="card__media">
+              <img src="https://avatars.mds.yandex.net/i?id=8edf29bad897884a121f9fdf219fc737_l-10871821-images-thumbs&n=13"
+                   alt="Япония весной">
+              <span class="card__badge">Япония</span>
             </div>
-        </aside>
+            <div class="card__body">
+              <h3 class="card__title">Япония весной — больше, чем мечта</h3>
+              <p class="card__text">Цветение сакуры, древние храмы и современный ритм жизни.</p>
+              <ul class="card__meta">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  28 марта 2024
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  25K
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                  1.2K
+                </li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="card" tabindex="0">
+            <div class="card__media">
+              <img src="https://i.pinimg.com/originals/77/01/da/7701dacd6b9bd966e8ec23218f0197a3.jpg?nii=t"
+                   alt="Северное сияние">
+              <span class="card__badge">Северное</span>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Норвегия: природа, которая удивляет</h3>
+              <p class="card__text">Фьорды, горы и северное сияние — всё это и многое другое.</p>
+              <ul class="card__meta">
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  15 марта 2024
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  18K
+                </li>
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                  519
+                </li>
+              </ul>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== НАПРАВЛЕНИЯ ===================== -->
+<section class="section-box" id="directions">
+
+  <header class="section-header">
+    <h2 class="section-title">Популярные направления</h2>
+    <a href="#" class="section-link">Все направления →</a>
+  </header>
+
+  <div class="directions">
+
+    <a href="#" class="direction" tabindex="0">
+      <div class="direction__media">
+        <img src="https://viking.by/wp-content/uploads/2024/03/1650716288_1-sportishka-com-p-italiya-krasivo-foto-1.jpg" alt="Италия">
+      </div>
+      <div class="direction__body">
+        <div class="direction__text-block">
+          <h3 class="direction__title">Италия</h3>
+          <p class="direction__text">124 статьи</p>
+        </div>
+        <span class="direction__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="direction" tabindex="0">
+      <div class="direction__media">
+        <img src="https://img.magnific.com/premium-photo/houses-by-lake-mountains-against-sky-town_1048944-21647044.jpg?semt=ais_hybrid&w=740" alt="Норвегия">
+      </div>
+      <div class="direction__body">
+        <div class="direction__text-block">
+          <h3 class="direction__title">Норвегия</h3>
+          <p class="direction__text">86 статей</p>
+        </div>
+        <span class="direction__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="direction" tabindex="0">
+      <div class="direction__media">
+        <img src="https://i.pinimg.com/originals/5f/b4/21/5fb42125fa589991f37799231c6ef5fc.jpg" alt="Япония">
+      </div>
+      <div class="direction__body">
+        <div class="direction__text-block">
+          <h3 class="direction__title">Япония</h3>
+          <p class="direction__text">97 статей</p>
+        </div>
+        <span class="direction__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <a href="#" class="direction" tabindex="0">
+      <div class="direction__media">
+        <img src="https://img.goodfon.ru/wallpaper/nbig/3/7b/gory-tserkov-islandiia-pole-kamni.webp" alt="Исландия">
+      </div>
+      <div class="direction__body">
+        <div class="direction__text-block">
+          <h3 class="direction__title">Исландия</h3>
+          <p class="direction__text">64 статьи</p>
+        </div>
+        <span class="direction__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+    <!-- ============================================================
+         ПОДПИСКА
+         ============================================================ -->
+    <section class="subscribe" id="subscribe">
+      <div class="subscribe__inner">
+
+        <div class="subscribe__text">
+          <h2 class="subscribe__title">Оставайся в путешествии</h2>
+          <p class="subscribe__subtitle">
+            Подпишись на рассылку и получи новые статьи,<br>
+            маршруты и советы первым.
+          </p>
+        </div>
+
+        <form class="subscribe__form" action="#" method="post" novalidate>
+          <label for="email" class="visually-hidden">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="subscribe__input"
+            placeholder="Ваш e-mail"
+            required
+          >
+          <button type="submit" class="btn btn--primary">Подписаться</button>
+        </form>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       ПОДВАЛ
+       ============================================================ -->
+  <footer class="site-footer" id="about">
+    <div class="container site-footer__inner">
+
+      <div class="site-footer__brand">
+        <a href="#" class="logo logo--light">
+          <span class="logo__mark">
+            <img src="photo/air.svg" alt="" width="36" height="36">
+          </span>
+          <span class="logo__info">
+            <span class="logo__title">TravelBlog</span>
+            <span class="logo__subtitle">Блог о путешествиях</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="footer-nav" aria-label="Навигация в подвале">
+        <ul class="footer-nav__list">
+          <li><a href="#" class="footer-nav__link">Главная</a></li>
+          <li><a href="#articles" class="footer-nav__link">Статьи</a></li>
+          <li><a href="#directions" class="footer-nav__link">Направления</a></li>
+          <li><a href="#about" class="footer-nav__link">О нас</a></li>
+        </ul>
+      </nav>
+
+      <ul class="socials">
+        <li><a href="#" class="socials__link" aria-label="ВКонтакте">
+          <img src="photo/vk.svg" alt="" width="20" height="20">
+        </a></li>
+        <li><a href="#" class="socials__link" aria-label="Telegram">
+          <img src="photo/tg.svg" alt="" width="20" height="20">
+        </a></li>
+        <li><a href="#" class="socials__link" aria-label="Instagram">
+          <img src="photo/ig.svg" alt="" width="20" height="20">
+        </a></li>
+      </ul>
+
     </div>
 
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-col brand-col">
-                <div class="footer-logo">
-                    <div class="logo-icon-box">
-                        <img src="photo/books.svg" alt="БиблиоМир">
-                    </div>
-                    <div class="logo-text-box">
-                        <h3>БиблиоМир</h3>
-                        <p>Читай. Развивайся. Открывай мир.</p>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <a href="#" class="social-icon"><img src="photo/vk.svg" alt="ВКонтакте"></a>
-                    <a href="#" class="social-icon"><img src="photo/tg.svg" alt="Telegram"></a>
-                    <a href="#" class="social-icon"><img src="photo/youtube.svg" alt="YouTube"></a>
-                    <a href="#" class="social-icon"><img src="photo/web.svg" alt="Сайт"></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4>Разделы</h4>
-                <ul>
-                    <li><a href="#">Главная</a></li>
-                    <li><a href="#">Каталог</a></li>
-                    <li><a href="#">Авторы</a></li>
-                    <li><a href="#">Жанры</a></li>
-                    <li><a href="#">Новинки</a></li>
-                    <li><a href="#">Контакты</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Пользователям</h4>
-                <ul>
-                    <li><a href="#">Как читать книги</a></li>
-                    <li><a href="#">Вопросы и ответы</a></li>
-                    <li><a href="#">Правила пользования</a></li>
-                    <li><a href="#">Политика конфиденциальности</a></li>
-                    <li><a href="#">Пользовательское соглашение</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col contacts-col">
-                <h4>Контакты</h4>
-                <address>
-                    <ul class="contacts-list">
-                        <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="#000000"/></svg> г. Йошкар-Ола, ул. Книжная, д. 67</li>
-                        <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011-.24c1.12.37 2.33.57 3.59.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.26.2 2.47.57 3.59a1 1 0 01-.24 1l-2.21 2.2z" fill="#000000"/></svg> +7 (495) 123-45-67</li>
-                        <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#000000"/></svg> info@bibliomir.ru</li>
-                        <li><svg class="c-icon" viewBox="0 0 24 24" width="16" height="16"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 11h-4v-2h2V6h2v7z" fill="#000000"/></svg> Пн–Пт: 9:00 – 18:00</li>
-                    </ul>
-                </address>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; <time datetime="2025">2026</time> БиблиоМир. Все права защищены.</p>
-            <div class="footer-links">
-                <a href="#">Карта сайта</a>
-                <a href="#">Политика конфиденциальности</a>
-                <a href="#">Пользовательское соглашение</a>
-            </div>
-        </div>
-    </footer>
+    <div class="container site-footer__bottom">
+      <p class="site-footer__copy">© 2026 TravelBlog. Все права защищены.</p>
+      <p class="site-footer__slogan">
+        Путешествуй всегда и везде
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>
