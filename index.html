@@ -28,6 +28,7 @@
         html, body {
             border: none !important;
             outline: none;
+            overflow-x: hidden; /* Защита от горизонтального скролла */
         }
 
         body {
@@ -35,7 +36,6 @@
             color: var(--text-main);
             font-family: var(--font-body);
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         a { color: var(--text-main); text-decoration: none; transition: color 0.3s; }
@@ -103,13 +103,8 @@
             transition: color 0.3s;
         }
 
-        .logo:hover .logo-title {
-            color: var(--accent-hover);
-        }
-        
-        .logo:hover .logo-subtitle {
-            color: var(--text-main);
-        }
+        .logo:hover .logo-title { color: var(--accent-hover); }
+        .logo:hover .logo-subtitle { color: var(--text-main); }
 
         .nav-links {
             display: flex;
@@ -118,13 +113,8 @@
             color: var(--text-muted);
         }
 
-        .nav-links a {
-            color: var(--text-muted);
-        }
-
-        .nav-links a:hover {
-            color: var(--text-main);
-        }
+        .nav-links a { color: var(--text-muted); }
+        .nav-links a:hover { color: var(--text-main); }
 
         .header-actions {
             display: flex;
@@ -141,11 +131,16 @@
             align-items: center;
         }
 
-        .search-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
+        .search-btn svg { width: 20px; height: 20px; fill: currentColor; }
+
+        .burger-menu {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
         }
+        .burger-menu svg { width: 28px; height: 28px; fill: currentColor; }
 
         .btn-primary {
             background-color: var(--accent-color);
@@ -157,19 +152,17 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            white-space: nowrap;
         }
 
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-        }
+        .btn-primary:hover { background-color: var(--accent-hover); }
 
         /* ================= HERO ================= */
         .hero {
             position: relative;
             padding: 100px 0;
-            /* ВСТАВЬТЕ ССЫЛКУ НА ФОТО ШАПКИ ВМЕСТО ТЕКСТА НИЖЕ */
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://butyl.shop/upload/iblock/53b/tpd0wlfu4katjuhuxorq71poqgbwz6sp/61405.jpg') center/cover no-repeat;
-            background-color: #1a1a1a; /* Резервный темный цвет, если фото нет */
+            background-color: #1a1a1a;
             min-height: 650px;
             display: flex;
             align-items: center;
@@ -239,6 +232,7 @@
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .btn-outline:hover {
@@ -274,9 +268,8 @@
         }
 
         .features-grid {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
         }
 
@@ -284,12 +277,12 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            flex: 1 1 200px;
         }
 
         .feature-icon {
             width: 40px;
             height: 40px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -444,7 +437,6 @@
         .booking-image {
             position: relative;
             background-color: #2a2a2a; 
-            /* ВСТАВЬТЕ ССЫЛКУ НА ФОТО БРОНИРОВАНИЯ ВМЕСТО ТЕКСТА НИЖЕ */
             background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('https://kbondarev.ru/media/project/2026/07/06/thumbx_ru_w_2e582160b4ee80cd7163b25e9b9fa9f3_2ac60d8b.jpg');
             background-position: center;
             background-size: cover;
@@ -634,90 +626,174 @@
             filter: brightness(0) invert(1);
         }
 
-        /* ================= АДАПТИВНОСТЬ (MOBILE) ================= */
+        /* ================= АДАПТИВНОСТЬ (ПЛАНШЕТЫ) ================= */
         @media (max-width: 1024px) {
-            .dishes-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .booking-inner {
-                grid-template-columns: 1fr;
-            }
-            .booking-image {
-                min-height: 300px;
-            }
-            .hero-slogan {
-                display: none;
-            }
-            .hero-content {
-                padding-left: 0;
-            }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .dishes-grid { grid-template-columns: repeat(2, 1fr); }
+            .booking-inner { grid-template-columns: 1fr; }
+            .booking-image { min-height: 300px; }
+            .hero-slogan { display: none; }
+            .hero-content { padding-left: 0; }
         }
 
+        /* ================= АДАПТИВНОСТЬ (ТЕЛЕФОНЫ) ================= */
         @media (max-width: 768px) {
+            /* Шапка */
             .header-inner {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .nav-links, .search-btn, .header-actions .btn-primary {
+                display: none; /* Скрываем лишнее */
+            }
+            .burger-menu {
+                display: block; /* Показываем бургер */
+            }
+
+            /* Hero */
+            .hero {
+                padding: 50px 0;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+                margin-bottom: 15px;
+            }
+            .hero p {
+                font-size: 0.95rem;
+                margin-bottom: 25px;
+            }
+            .hero-buttons {
                 flex-direction: column;
-                align-items: flex-start;
+                width: 100%;
+                gap: 10px;
+            }
+            .hero-buttons .btn-primary, 
+            .hero-buttons .btn-outline {
+                width: 100%;
+                text-align: center;
+            }
+            .hero-slogan {
+                display: none; /* Убираем наезжающий текст */
+            }
+
+            /* Преимущества (в строку) */
+            .features {
+                padding: 20px 0;
+            }
+            .features-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 5px;
+                text-align: center;
+            }
+            .feature-item {
+                flex-direction: column;
+                gap: 8px;
+                align-items: center;
+            }
+            .feature-icon {
+                width: 36px;
+                height: 36px;
+                margin: 0 auto;
+            }
+            .feature-text h4 {
+                font-size: 0.65rem;
+                line-height: 1.2;
+            }
+            .feature-text p {
+                display: none; /* Скрываем описание */
+            }
+
+            /* Блюда (горизонтальные карточки) */
+            .dishes-grid {
+                display: flex;
+                flex-direction: column;
                 gap: 15px;
             }
-
-            .nav-links {
-                display: none;
+            .dish-card {
+                flex-direction: row;
+                height: 120px;
             }
-
-            .header-actions {
-                width: 100%;
+            .dish-image {
+                width: 120px;
+                height: 120px;
+                border-radius: 8px 0 0 8px;
+                flex-shrink: 0;
+            }
+            .dish-info {
+                padding: 12px 15px;
                 justify-content: space-between;
             }
-
-            .hero h1 {
-                font-size: 3rem;
+            .dish-title {
+                font-size: 1rem;
+                margin-bottom: 2px;
+            }
+            .dish-desc {
+                display: none; /* Скрываем описание */
+            }
+            .dish-bottom {
+                margin-top: 0;
+            }
+            .dish-price {
+                font-size: 1rem;
+            }
+            .btn-cart {
+                width: 30px;
+                height: 30px;
+            }
+            .btn-cart svg {
+                width: 14px;
+                height: 14px;
             }
 
-            .hero-slogan {
-                display: block;
-                position: static;
-                text-align: center;
-                margin: 30px auto 0;
-                transform: none;
-                font-size: 2.2rem;
+            /* Бронирование (форма сверху, фото снизу) */
+            .booking-inner {
+                display: flex;
+                flex-direction: column-reverse;
             }
-
-            .hero-slogan span {
-                display: inline;
-                font-size: 2.2rem;
-            }
-
-            .hero {
-                padding: 60px 0;
-            }
-
-            .features-grid {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .dishes-grid {
-                grid-template-columns: 1fr;
-            }
-
             .booking-form-wrapper {
-                padding: 30px 20px;
+                padding: 25px 20px;
             }
-
+            .booking-form {
+                margin-top: 15px;
+                gap: 10px;
+            }
+            .booking-image {
+                min-height: 220px;
+            }
             .booking-image-text {
-                font-size: 2.2rem;
-                bottom: 20px;
-                right: 20px;
+                font-size: 1.8rem;
+                bottom: 15px;
+                right: 15px;
             }
 
+            /* Отзывы */
+            .reviews {
+                padding: 40px 0;
+            }
             .reviews-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .review-card {
+                padding: 20px;
             }
 
+            /* Подвал */
+            footer {
+                padding: 40px 0 20px;
+            }
             .footer-inner {
                 flex-direction: column;
                 text-align: center;
-                gap: 30px;
+                gap: 25px;
+                align-items: center;
+            }
+            .footer-col {
+                width: 100%;
+            }
+            .social-icons {
+                justify-content: center;
             }
         }
     </style>
@@ -745,6 +821,10 @@
                     <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 </button>
                 <button class="btn-primary">Забронировать стол</button>
+                <!-- Иконка бургер-меню для мобильных -->
+                <button class="burger-menu" aria-label="Меню">
+                    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                </button>
             </div>
         </div>
     </header>
