@@ -3,1095 +3,1139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gusto - Ресторан авторской кухни</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <title>FoodExpress - Доставка еды</title>
+    <
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    
+    <script>
+        document.addEventListener("error", function (e) {
+            var i = e.target;
+            if (i.tagName !== "IMG" || i.dataset.done) return;
+            if (i.dataset.fb && !i.dataset.tried) { i.dataset.tried = 1; i.src = i.dataset.fb; return; }
+            i.dataset.done = 1;
+            i.src = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="#ffe0cc"/><text x="2" y="2" font-size="1.4" text-anchor="middle">\u{1F37D}\uFE0F</text></svg>');
+        }, true);
+    </script>
+
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1a1a1a;
-            --accent-color: #d4af37; 
-            --accent-hover: #e5c07b;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --border-color: #2a2a2a;
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Inter', sans-serif;
-            --font-handwritten: 'Caveat', cursive;
+            --brand-orange: #f25b22;
+            --brand-orange-hover: #d94b16;
+            --bg-body: #f5f6f8;
+            --text-dark: #222;
+            --text-muted: #8e8e93;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        
         html, body {
-            border: none !important;
-            outline: none;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            max-width: 100%;
             overflow-x: hidden;
+            background-color: var(--bg-body);
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            line-height: 1.6;
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
         }
 
-        a { color: var(--text-main); text-decoration: none; transition: color 0.3s; }
-        a:hover { color: var(--accent-color); }
-        button, input, select { font-family: inherit; }
-        img { max-width: 100%; display: block; object-fit: cover; }
-
-        .container {
-            width: 100%;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        h2 {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            margin-bottom: 25px;
-            color: var(--text-main);
-            font-weight: 600;
-        }
-
-        /* ================= HEADER ================= */
-        header {
-            background-color: rgba(18, 18, 18, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 0;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-        }
-
-        .logo-title {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            font-style: italic;
-            letter-spacing: 1px;
-            line-height: 1;
-            transition: color 0.3s;
-        }
-
-        .logo-subtitle {
-            font-family: var(--font-body);
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin-top: 5px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .logo:hover .logo-title { color: var(--accent-hover); }
-        .logo:hover .logo-subtitle { color: var(--text-main); }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .nav-links a { color: var(--text-muted); }
-        .nav-links a:hover { color: var(--text-main); }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .search-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-btn svg { width: 20px; height: 20px; fill: currentColor; }
-
-        .burger-menu {
-            display: none;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            cursor: pointer;
-        }
-        .burger-menu svg { width: 28px; height: 28px; fill: currentColor; }
-
-        .btn-primary {
-            background-color: var(--accent-color);
-            color: #000;
-            padding: 12px 24px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            white-space: nowrap;
-        }
-
-        .btn-primary:hover { background-color: var(--accent-hover); }
-
-        /* ================= HERO ================= */
-        .hero {
-            position: relative;
-            padding: 100px 0;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://butyl.shop/upload/iblock/53b/tpd0wlfu4katjuhuxorq71poqgbwz6sp/61405.jpg') center/cover no-repeat;
-            background-color: #1a1a1a;
-            min-height: 650px;
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-content {
-            max-width: 650px;
-            position: relative;
-            z-index: 2;
-            padding-left: 40px;
-        }
-
-        .hero-logo {
-            display: flex;
-            align-items: center;
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            font-style: italic;
-            color: #fff;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-
-        .hero-logo span {
-            display: inline-block;
-            width: 40px;
-            height: 1px;
+        /* --- Navbar --- */
+        .navbar-custom {
             background-color: #fff;
-            margin-right: 15px;
-            opacity: 0.7;
+            padding: 12px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            width: 100%;
         }
-
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: 4.8rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            color: var(--text-main);
-            font-weight: 600;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            margin-bottom: 35px;
-            color: #ddd;
-            max-width: 450px;
-            line-height: 1.5;
-        }
-
-        .hero-buttons {
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--brand-orange) !important;
             display: flex;
-            gap: 15px;
-        }
-
-        .hero-buttons .btn-primary, 
-        .hero-buttons .btn-outline {
-            padding: 14px 28px;
-            font-size: 0.95rem;
-        }
-
-        .btn-outline {
-            background-color: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-            border: 1px solid #fff;
-            color: #fff;
-            font-weight: 600;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
+            align-items: center;
+            gap: 10px;
             white-space: nowrap;
         }
-
-        .btn-outline:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            background-color: rgba(0,0,0,0.6);
+        .navbar-brand i { font-size: 2rem; }
+        
+        .nav-link-custom {
+            font-weight: 700;
+            color: #333 !important;
+            margin: 0 12px;
+            font-size: 0.95rem;
+            padding-bottom: 5px !important;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-link-custom:hover, .nav-link-custom.active {
+            color: var(--brand-orange) !important;
+            border-bottom: 2px solid var(--brand-orange);
         }
 
-        .hero-slogan {
-            position: absolute;
-            right: 8%;
-            top: 25%;
-            font-family: var(--font-handwritten);
+        .search-bar {
+            background-color: #f1f3f5;
+            border-radius: 8px;
+            border: none;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            min-width: 300px;
+        }
+        .search-bar:focus { background-color: #fff; outline: none; box-shadow: 0 0 0 2px rgba(242, 91, 34, 0.2); }
+
+        .header-icons a {
+            color: #333;
+            font-size: 1.5rem;
+            margin-left: 20px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .header-icons a:hover { color: var(--brand-orange); }
+        .cart-badge {
+            font-size: 0.65rem;
+            padding: 4px 7px;
+            background-color: #e63946 !important;
+            transform: translate(-30%, -30%) !important;
+            border: 2px solid #fff;
+        }
+
+        /* --- Hero Banner --- */
+        .hero-banner {
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%), 
+                        url('img/hero.jpg') center/cover,
+                        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop') center/cover #3a2a22;
+            border-radius: 16px;
+            padding: 65px 50px;
+            color: white;
+            margin-top: 25px;
+            position: relative;
+        }
+        .hero-title {
             font-size: 2.8rem;
-            color: #fff;
-            text-align: center;
-            line-height: 1.1;
-            transform: rotate(-6deg);
-            z-index: 2;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 15px;
         }
-
-        .hero-slogan span {
-            display: block;
-            margin-top: 5px;
-            font-size: 2.5rem;
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 35px;
         }
-
-        /* ================= ПРЕИМУЩЕСТВА ================= */
-        .features {
-            padding: 40px 0;
-            border-bottom: 1px solid var(--border-color);
+        .btn-brand {
+            background-color: var(--brand-orange);
+            color: white;
+            border-radius: 8px;
+            font-weight: 700;
+            padding: 12px 32px;
+            border: none;
+            font-size: 1rem;
+            transition: background 0.2s;
         }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+        .btn-brand:hover { background-color: var(--brand-orange-hover); color: white; }
+        
+        .hero-features-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            color: var(--text-dark);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-width: 340px;
+            margin-left: auto;
         }
-
-        .feature-item {
+        .hero-feature-item {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 20px;
         }
+        .hero-feature-item:last-child { margin-bottom: 0; }
+        .hero-feature-item i {
+            color: var(--brand-orange);
+            font-size: 2rem;
+        }
+        .hero-feature-item h6 { margin: 0; font-weight: 800; font-size: 1rem; }
+        .hero-feature-item p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
 
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            flex-shrink: 0;
+        /* --- Categories --- */
+        .category-pills {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+            margin-top: 30px;
+            width: 100%;
+        }
+        .category-pills::-webkit-scrollbar { display: none; }
+        
+        .category-btn {
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 700;
+            color: #444;
+            font-size: 0.9rem;
+            white-space: nowrap;
             display: flex;
             align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            color: var(--accent-color);
+            gap: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            flex-shrink: 0;
+        }
+        .category-btn:hover, .category-btn.active {
+            background: var(--brand-orange);
+            color: white;
+            border-color: var(--brand-orange);
+        }
+        
+        .category-icon {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        .category-btn.active .category-icon { color: white !important; }
+
+        @media (min-width: 992px) {
+            .category-pills { overflow-x: visible; }
+            .category-btn { flex: 1; justify-content: center; }
         }
 
-        .feature-icon img {
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-            filter: brightness(0) saturate(100%) invert(73%) sepia(39%) saturate(697%) hue-rotate(8deg) brightness(89%) contrast(89%);
-        }
-
-        .feature-text h4 {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .feature-text p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* ================= ПОПУЛЯРНЫЕ БЛЮДА ================= */
-        .popular-dishes {
-            padding: 60px 0;
-        }
-
+        /* --- Section Titles --- */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .section-header a {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .section-header a:hover {
-            color: var(--accent-color);
-        }
-
-        .dishes-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .dish-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-
-        .dish-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-
-        .dish-image {
-            width: 100%;
-            height: 220px;
-        }
-
-        .dish-info {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .dish-title {
-            font-family: var(--font-heading);
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
-
-        .dish-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
             margin-bottom: 20px;
-            flex-grow: 1;
+            margin-top: 45px;
         }
-
-        .dish-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
+        .section-header h3 { font-weight: 800; font-size: 1.4rem; margin: 0; }
+        .section-header a {
+            color: var(--brand-orange);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
+        .section-header a:hover { text-decoration: underline; }
 
-        .dish-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-color);
-        }
-
-        .btn-cart {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-cart:hover {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-            color: #000;
-        }
-
-        .btn-cart svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
-        /* ================= БРОНИРОВАНИЕ ================= */
-        .booking {
-            padding: 60px 0;
-            background-color: #181818;
-        }
-
-        .booking-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            background-color: var(--card-bg);
-            border-radius: 12px;
+        /* --- Restaurant Cards --- */
+        .card-restaurant {
+            border: none;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: transform 0.2s;
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
-
-        .booking-image {
-            position: relative;
-            background-color: #2a2a2a; 
-            background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.4)), url('https://kbondarev.ru/media/project/2026/07/06/thumbx_ru_w_2e582160b4ee80cd7163b25e9b9fa9f3_2ac60d8b.jpg');
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            min-height: 450px;
+        .card-restaurant:hover { transform: translateY(-5px); }
+        
+        .card-img-wrapper { 
+            position: relative; 
+            height: 170px; 
+            width: 100%;
         }
-
-        .booking-image-text {
-            position: absolute;
-            bottom: 40px;
-            right: 40px;
-            font-family: var(--font-handwritten);
-            font-size: 2.8rem;
-            color: #fff;
-            line-height: 1.1;
-            text-align: center;
-            transform: rotate(-5deg);
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+        .card-img-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
         }
         
-        .booking-form-wrapper {
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .booking-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .booking-form label {
+        .badge-discount {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: #ffc107;
+            color: #000;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
             font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: -10px;
         }
-
-        .booking-form input, .booking-form select {
-            padding: 15px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 4px;
-            font-size: 0.95rem;
-            width: 100%;
-            outline: none;
-        }
-
-        .booking-form input:focus, .booking-form select:focus {
-            border-color: var(--accent-color);
-        }
-
-        .booking-form button {
-            margin-top: 10px;
-            width: 100%;
-            padding: 15px;
-        }
-
-        /* ================= ОТЗЫВЫ ================= */
-        .reviews {
-            padding: 60px 0;
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .review-card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .review-header {
+        
+        .btn-like {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .review-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .review-author h4 {
-            font-family: var(--font-heading);
-            font-size: 1rem;
-            margin-bottom: 3px;
-        }
-
-        .review-stars {
-            color: var(--accent-color);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-        }
-
-        .review-text {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-style: italic;
-            line-height: 1.5;
-        }
-
-        /* ================= FOOTER ================= */
-        footer {
-            background-color: #0a0a0a;
-            padding: 50px 0;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.9rem;
-        }
-
-        .footer-inner {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .footer-logo {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-
-        .footer-logo .logo-title {
-            font-size: 1.8rem;
-        }
-
-        .footer-logo .logo-subtitle {
-            font-size: 0.55rem;
-            color: var(--text-muted);
-            letter-spacing: 2.5px;
-            margin-top: 5px;
-        }
-
-        .footer-col h4 {
-            color: var(--text-main);
-            margin-bottom: 20px;
-            font-family: var(--font-heading);
+            justify-content: center;
+            color: #ccc;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: color 0.2s;
             font-size: 1.1rem;
         }
-
-        .footer-col p {
-            margin-bottom: 10px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* ================= СОЦСЕТИ ================= */
-        .social-icons {
+        .btn-like:hover { color: var(--brand-orange); }
+        
+        .restaurant-info { 
+            padding: 16px; 
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .restaurant-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 2px; }
+        .restaurant-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
+        
+        .rating-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            margin-top: auto;
+        }
+        .rating-box .stars { color: #ffb703; display: flex; align-items: center; gap: 4px; }
+        .rating-box .delivery { color: var(--text-muted); font-weight: 600; }
+        .rating-box .delivery.free { color: #2a9d8f; }
+        
+        .btn-outline-brand {
+            color: var(--brand-orange);
+            border: 1px solid var(--brand-orange);
+            background: transparent;
+            border-radius: 8px;
+            font-weight: 700;
+            width: 100%;
+            padding: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-outline-brand:hover { background: var(--brand-orange); color: white; }
+
+        /* --- Cart Sidebar --- */
+        .sticky-sidebar {
+            position: sticky;
+            top: 90px;
+            z-index: 10;
         }
 
-        .social-icons a {
-            display: inline-flex;
+        .cart-sidebar {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+            overflow: hidden; /* Скрывает все, что пытается вылезти за края */
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .cart-header h4 { font-weight: 800; font-size: 1.2rem; margin: 0; }
+        .cart-header a { color: #e63946; text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+        
+        .cart-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .cart-item-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .cart-item-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0; /* Защита от выталкивания */
+        }
+        .cart-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2px;
+        }
+        .cart-item-title { font-weight: 800; font-size: 0.9rem; margin: 0; }
+        .btn-trash { 
+            color: #ccc; 
+            background: none; 
+            border: none; 
+            padding: 0; 
+            font-size: 0.9rem; 
+            cursor: pointer;
+            line-height: 1;
+        }
+        .btn-trash:hover { color: #e63946; }
+        
+        .cart-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
+        
+        .cart-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .qty-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            padding: 0;
+            line-height: 1;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .qty-btn:hover { color: var(--brand-orange); }
+        .cart-item-price { font-weight: 800; font-size: 0.95rem; }
+
+        /* --- ПРОМОКОД (ИСПРАВЛЕН) --- */
+        .promo-input-wrapper {
+            display: flex;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .promo-input {
+            flex: 1; 
+            min-width: 0; /* Не дает инпуту вытолкнуть кнопку */
+            background: transparent;
+            border: none;
+            font-size: 0.85rem;
+            padding: 8px 10px;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+        }
+        
+        .btn-promo {
+            background: var(--brand-orange);
+            color: white;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 8px 15px;
+            cursor: pointer;
+            flex-shrink: 0; 
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 32px;  
-            height: 32px; 
-            transition: transform 0.3s, opacity 0.3s;
-            border-radius: 8px; 
-            overflow: hidden; 
+            white-space: nowrap;
         }
 
-        .social-icons a:hover {
-            transform: translateY(-3px); 
-            opacity: 0.8; 
+        /* Итоги */
+        .cart-totals {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
         }
-
-        .social-icons img {
+        .cart-totals-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .cart-totals-row.total {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #eaeaea;
+        }
+        
+        .btn-checkout {
+            background: var(--brand-orange);
+            color: white;
+            border: none;
+            border-radius: 10px;
             width: 100%;
+            padding: 12px;
+            font-weight: 800;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .btn-checkout:hover { background: var(--brand-orange-hover); }
+
+        /* --- Promo Banner --- */
+        .promo-banner {
+            background: #ffe8d6;
+            border-radius: 16px;
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .promo-banner-text { z-index: 2; position: relative; }
+        .promo-banner h4 { font-weight: 800; font-size: 1.25rem; line-height: 1.2; margin-bottom: 15px; color: #222; }
+        .promo-code {
+            background: white;
+            color: #e63946;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .promo-banner-img {
+            position: absolute;
+            right: -15px;
+            bottom: -10px;
+            width: 140px;
+            z-index: 1;
+            mask-image: linear-gradient(to right, transparent, black 30%);
+        }
+
+        /* --- Features Cards --- */
+        .feature-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             height: 100%;
-            object-fit: contain; 
-            display: block;
-            filter: brightness(0) invert(1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .feature-card i {
+            font-size: 2.2rem;
+            color: var(--brand-orange);
+            flex-shrink: 0;
+        }
+        .feature-card h6 {
+            margin: 0 0 2px 0;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+        .feature-card p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
         }
 
-        /* ================= АДАПТИВНОСТЬ (ПЛАНШЕТЫ) ================= */
-        @media (max-width: 1024px) {
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .dishes-grid { grid-template-columns: repeat(2, 1fr); }
-            .booking-inner { grid-template-columns: 1fr; }
-            .booking-image { min-height: 300px; }
-            .hero-slogan { display: none; }
-            .hero-content { padding-left: 0; }
+        /* --- Footer --- */
+        .footer {
+            background-color: #1a1a1a;
+            color: #a0a0a0;
+            padding: 50px 0 30px 0;
+            font-size: 0.85rem;
+            width: 100% !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            flex-shrink: 0;
+        }
+        
+        .footer-brand {
+            color: white;
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .footer-brand i { 
+            color: var(--brand-orange); 
+            font-size: 1.8rem; 
+        }
+        
+        .footer-desc {
+            color: #a0a0a0;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
-        /* ================= АДАПТИВНОСТЬ (ТЕЛЕФОНЫ ПО СХЕМЕ) ================= */
-        @media (max-width: 768px) {
-            /* 1. Header (flex) */
-            .header-inner {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .nav-links, .search-btn, .header-actions .btn-primary {
-                display: none;
-            }
-            .burger-menu {
-                display: block;
-            }
-
-            /* 2. Герой-секция (1 колонка) */
-            .hero {
-                padding: 50px 0;
-            }
-            .hero h1 {
-                font-size: 2.8rem;
-                margin-bottom: 15px;
-            }
-            .hero p {
-                font-size: 0.95rem;
-                margin-bottom: 25px;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                width: 100%;
-                gap: 10px;
-            }
-            .hero-buttons .btn-primary, 
-            .hero-buttons .btn-outline {
-                width: 100%;
-                text-align: center;
-            }
-            .hero-slogan {
-                display: none;
-            }
-
-            /* === ЦЕНТРИРОВАНИЕ ТЕКСТА В HERO ДЛЯ МОБИЛЬНОЙ ВЕРСИИ === */
-            .hero-content {
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding-left: 0;
-            }
-            .hero-logo {
-                justify-content: center;
-            }
-            .hero h1,
-            .hero p {
-                text-align: center;
-            }
-            /* ======================================================== */
-
-            /* 3. Преимущества (2 колонки) */
-            .features {
-                padding: 30px 0;
-            }
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px 15px;
-            }
-            .feature-item {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            .feature-icon {
-                width: 32px;
-                height: 32px;
-            }
-            .feature-text h4 {
-                font-size: 0.8rem;
-            }
-            .feature-text p {
-                display: block;
-                font-size: 0.65rem;
-                line-height: 1.3;
-                margin-top: 2px;
-            }
-
-            /* 4. Популярные блюда (1 колонка) */
-            .dishes-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
-            .dish-card {
-                flex-direction: row;
-                height: 120px;
-            }
-            .dish-image {
-                width: 120px;
-                height: 120px;
-                border-radius: 8px 0 0 8px;
-                flex-shrink: 0;
-            }
-            .dish-info {
-                padding: 12px 15px;
-                justify-content: space-between;
-            }
-            .dish-title {
-                font-size: 1rem;
-                margin-bottom: 2px;
-            }
-            .dish-desc {
-                display: none;
-            }
-            .dish-bottom {
-                margin-top: 0;
-            }
-            .dish-price {
-                font-size: 1rem;
-            }
-            .btn-cart {
-                width: 30px;
-                height: 30px;
-            }
-            .btn-cart svg {
-                width: 14px;
-                height: 14px;
-            }
-
-            /* 5. Блок бронирования (1 колонка) */
-            .booking-inner {
-                display: flex;
-                flex-direction: column-reverse;
-            }
-            .booking-form-wrapper {
-                padding: 25px 20px;
-            }
-            .booking-form {
-                margin-top: 15px;
-                gap: 10px;
-            }
-            .booking-image {
-                min-height: 220px;
-            }
-            .booking-image-text {
-                font-size: 1.8rem;
-                bottom: 15px;
-                right: 15px;
-            }
-
-            /* 6. Отзывы (1 колонка) */
-            .reviews {
-                padding: 40px 0;
-            }
-            .reviews-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            .review-card {
-                padding: 20px;
-            }
-
-            /* 7. Footer (1 колонка) */
-            footer {
-                padding: 40px 0 20px;
-            }
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
-                gap: 25px;
-                align-items: center;
-            }
-            .footer-col {
-                width: 100%;
-            }
-            .social-icons {
-                justify-content: center;
-            }
+        .footer h6 { 
+            color: white; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            font-size: 1rem; 
+        }
+        
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { 
+            color: #a0a0a0; 
+            text-decoration: none; 
+            transition: color 0.2s; 
+            font-weight: 600; 
+        }
+        .footer-links a:hover { color: white; }
+        
+        .footer-contact { list-style: none; padding: 0; margin: 0; }
+        .footer-contact li { 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-weight: 600; 
+        }
+        .footer-contact i { 
+            color: #777; 
+            font-size: 1.1rem; 
+        }
+        
+        /* Иконки соцсетей в плашках */
+        .footer-socials { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 10px; 
+        }
+        .footer-socials a { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background-color: #2a2a2a;
+            color: white; 
+            font-size: 1.2rem; 
+            border-radius: 8px;
+            transition: background-color 0.2s, color 0.2s;
+            text-decoration: none;
+        }
+        .footer-socials a:hover { 
+            background-color: var(--brand-orange); 
+            color: white; 
+        }
+        
+        @media (max-width: 991px) {
+            .hero-banner { padding: 40px 20px; text-align: center; }
+            .hero-features-card { margin: 30px auto 0; text-align: left; }
+            .sticky-sidebar { position: static; margin-top: 30px; }
+            .search-bar { min-width: 100%; }
+            .nav-link-custom { margin: 0; padding: 10px 0 !important; border-bottom: none; }
+            .nav-link-custom.active { border-bottom: none; color: var(--brand-orange) !important; }
         }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-    <!-- ================= HEADER ================= -->
-    <header>
-        <div class="container header-inner">
-            <a href="#" class="logo">
-                <span class="logo-title">Gusto</span>
-                <span class="logo-subtitle">Ресторан с вкусом</span>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-fork-knife"></i> FoodExpress
             </a>
             
-            <nav class="nav-links">
-                <a href="#menu">Меню</a>
-                <a href="#about">О нас</a>
-                <a href="#events">События</a>
-                <a href="#gallery">Галерея</a>
-                <a href="#contacts">Контакты</a>
-            </nav>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-lg-4 me-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link nav-link-custom active" href="#">Главная</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Рестораны</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Акции</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Доставка</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">О нас</a></li>
+                </ul>
 
-            <div class="header-actions">
-                <button class="search-btn" aria-label="Поиск">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </button>
-                <button class="btn-primary">Забронировать стол</button>
-                <button class="burger-menu" aria-label="Меню">
-                    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-                </button>
+                <div class="dropdown me-lg-4 my-2 my-lg-0">
+                    <button class="btn btn-link text-dark text-decoration-none fw-bold dropdown-toggle p-0 d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-geo-alt-fill text-danger me-1 fs-5"></i> Москва
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Санкт-Петербург</a></li>
+                        <li><a class="dropdown-item" href="#">Казань</a></li>
+                    </ul>
+                </div>
+
+                <form class="d-flex me-lg-4 my-2 my-lg-0 position-relative">
+                    <input class="search-bar" type="search" placeholder="Поиск блюд, ресторанов..." aria-label="Search">
+                    <i class="bi bi-search position-absolute text-muted" style="right: 15px; top: 50%; transform: translateY(-50%); font-size: 1rem;"></i>
+                </form>
+
+                <div class="header-icons d-flex align-items-center mt-3 mt-lg-0">
+                    <a href="#"><i class="bi bi-heart"></i></a>
+                    <a href="#" class="position-relative">
+                        <i class="bi bi-cart3"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge">3</span>
+                    </a>
+                    <a href="#" class="d-flex align-items-center text-dark text-decoration-none ms-4" style="font-size: 0.95rem; white-space: nowrap;">
+                        <i class="bi bi-person me-1 fs-5"></i> <span class="fw-bold">Войти</span>
+                    </a>
+                </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        <!-- ================= HERO ================= -->
-        <section class="hero">
-            <div class="container hero-content">
-                <div class="hero-logo">
-                    <span></span> Gusto
+    <!-- Основной контейнер -->
+    <div class="container flex-grow-1">
+        
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="row align-items-center h-100">
+                <div class="col-lg-7">
+                    <h1 class="hero-title">Любимая еда<br>доставляется быстрее</h1>
+                    <p class="hero-subtitle">Более 500 ресторанов и кафе в твоем городе</p>
+                    <a href="#" class="btn btn-brand">Перейти к ресторанам <i class="bi bi-arrow-right ms-1"></i></a>
+                </div>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div class="hero-features-card">
+                        <div class="hero-feature-item">
+                            <i class="bi bi-truck"></i>
+                            <div>
+                                <h6>Быстрая доставка</h6>
+                                <p>от 30 минут</p>
+                            </div>
+                        </div>
+                        <div class="hero-feature-item">
+                            <i class="bi bi-shield-check"></i>
+                            <div>
+                                <h6>Только проверенные</h6>
+                                <p>рестораны</p>
+                            </div>
+                        </div>
+                        <div class="hero-feature-item">
+                            <i class="bi bi-gift"></i>
+                            <div>
+                                <h6>Бонусы за заказы</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Категории -->
+        <div class="category-pills">
+            <a href="#" class="category-btn active">
+                <i class="bi bi-grid-fill category-icon text-white"></i> Все кухни
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-pizza category-icon text-warning"></i> Пицца
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-egg-fried category-icon text-warning"></i> Суши
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-cup-hot category-icon text-warning"></i> Бургеры
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-pie-chart category-icon text-warning"></i> Паста
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-flower1 category-icon text-success"></i> Здоровая еда
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-cake2 category-icon text-danger"></i> Десерты
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-cup-straw category-icon text-info"></i> Напитки
+            </a>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="row">
+            <!-- Левая колонка -->
+            <div class="col-lg-8 col-xl-9">
+                
+                <!-- Популярные рестораны -->
+                <div class="section-header">
+                    <h3>Популярные рестораны</h3>
+                    <a href="#">Смотреть все <i class="bi bi-arrow-right"></i></a>
                 </div>
                 
-                <h1>Вкус<br>вдохновляет</h1>
-                <p>Современная кухня, уютная атмосфера и особенные моменты — в самом сердце города.</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary">Забронировать стол</button>
-                    <button class="btn-outline">Посмотреть меню</button>
+                <div class="row g-3">
+                    <!-- Ресторан 1 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper">
+                                <img src="img/mamma-mia.jpg" data-fb="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=600&auto=format&fit=crop" alt="Mamma Mia">
+                                <span class="badge-discount">20%</span>
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Mamma Mia</div>
+                                <div class="restaurant-desc">Итальянская кухня</div>
+                                <div class="rating-box">
+                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.8 (320)</span>
+                                    <span class="delivery">30-40 мин</span>
+                                </div>
+                                <button class="btn-outline-brand">Перейти</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ресторан 2 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper">
+                                <img src="img/sushi-house.jpg" data-fb="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600&auto=format&fit=crop" alt="Sushi House">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Sushi House</div>
+                                <div class="restaurant-desc">Японская кухня</div>
+                                <div class="rating-box">
+                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.6 (210)</span>
+                                    <span class="delivery free">Бесплатная доставка</span>
+                                </div>
+                                <button class="btn-outline-brand">Перейти</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ресторан 3 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper">
+                                <img src="img/burger-club.jpg" data-fb="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" alt="Burger Club">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Burger Club</div>
+                                <div class="restaurant-desc">Американская кухня</div>
+                                <div class="rating-box">
+                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.5 (180)</span>
+                                    <span class="delivery">от 99 ₽</span>
+                                </div>
+                                <button class="btn-outline-brand">Перейти</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ресторан 4 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper">
+                                <img src="img/green-bowl.jpg" data-fb="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600&auto=format&fit=crop" alt="Green Bowl">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Green Bowl</div>
+                                <div class="restaurant-desc">Здоровая еда</div>
+                                <div class="rating-box">
+                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.7 (95)</span>
+                                    <span class="delivery free">Бесплатная доставка</span>
+                                </div>
+                                <button class="btn-outline-brand">Перейти</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="hero-slogan">
-                Хорошая<br>еда —<br>всегда<br>отличная<br>идея
-                <span>❤</span>
-            </div>
-        </section>
 
-        <!-- ================= ПРЕИМУЩЕСТВА ================= -->
-        <section class="features">
-            <div class="container features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="photo/shlyapa.svg" alt="Авторская кухня">
+                <!-- Популярные блюда -->
+                <div class="section-header mt-5">
+                    <h3>Популярные блюда</h3>
+                    <a href="#">Смотреть все <i class="bi bi-arrow-right"></i></a>
+                </div>
+                
+                <div class="row g-3">
+                    <!-- Блюдо 1 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper" style="height: 140px;">
+                                <img src="img/pepperoni.jpg" data-fb="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=600&auto=format&fit=crop" alt="Пепперони">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Пепперони</div>
+                                <div class="restaurant-desc">30 см</div>
+                                <div class="rating-box d-none"></div>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-6">690 ₽</span>
+                                    <button class="btn btn-sm btn-brand px-3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="feature-text">
-                        <h4>Авторская кухня</h4>
-                        <p>Уникальные рецепты от шеф-повара</p>
+                    <!-- Блюдо 2 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper" style="height: 140px;">
+                                <img src="img/philadelphia.jpg" data-fb="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=600&auto=format&fit=crop" alt="Филадельфия">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Филадельфия</div>
+                                <div class="restaurant-desc">8 шт</div>
+                                <div class="rating-box d-none"></div>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-6">590 ₽</span>
+                                    <button class="btn btn-sm btn-brand px-3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Блюдо 3 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper" style="height: 140px;">
+                                <img src="img/caesar.jpg" data-fb="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&auto=format&fit=crop" alt="Цезарь">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Цезарь с курицей</div>
+                                <div class="restaurant-desc">250 г</div>
+                                <div class="rating-box d-none"></div>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-6">350 ₽</span>
+                                    <button class="btn btn-sm btn-brand px-3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Блюдо 4 -->
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-restaurant">
+                            <div class="card-img-wrapper" style="height: 140px;">
+                                <img src="img/burger-classic.jpg" data-fb="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop" alt="Бургер">
+                                <button class="btn-like"><i class="bi bi-heart"></i></button>
+                            </div>
+                            <div class="restaurant-info">
+                                <div class="restaurant-title">Бургер Классик</div>
+                                <div class="restaurant-desc">300 г</div>
+                                <div class="rating-box d-none"></div>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <span class="fw-bold fs-6">450 ₽</span>
+                                    <button class="btn btn-sm btn-brand px-3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="photo/list.svg" alt="Свежие ингредиенты">
-                    </div>
-                    <div class="feature-text">
-                        <h4>Свежие ингредиенты</h4>
-                        <p>Только отборные продукты</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="photo/vino.svg" alt="Широкий выбор вин">
-                    </div>
-                    <div class="feature-text">
-                        <h4>Широкий выбор вин</h4>
-                        <p>Более 100 позиций в карте</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <img src="photo/zvezda.svg" alt="Высокие оценки">
-                    </div>
-                    <div class="feature-text">
-                        <h4>Высокие оценки</h4>
-                        <p>4.9 из 5 по отзывам гостей</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- ================= ПОПУЛЯРНЫЕ БЛЮДА ================= -->
-        <section class="popular-dishes" id="menu">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Популярные блюда</h2>
-                    <a href="#">Смотреть все &rarr;</a>
-                </div>
-                <div class="dishes-grid">
-                    <article class="dish-card">
-                        <img src="https://eda.rambler.ru/images/RecipeOpenGraph/1200x630/spagetti-karbonara-s-bekonom_15630_ogimage.jpg" alt="Паста Карбонара" class="dish-image">
-                        <div class="dish-info">
-                            <h3 class="dish-title">Паста Карбонара</h3>
-                            <p class="dish-desc">Классический рецепт с панчеттой и пармезаном</p>
-                            <div class="dish-bottom">
-                                <span class="dish-price">590 ₽</span>
-                                <button class="btn-cart" aria-label="Добавить в корзину">
-                                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="dish-card">
-                        <img src="https://media.istockphoto.com/id/1456242985/ru/фото/барбекю-на-гриле-и-нарезанный-стейк-из-говядины-риб-ай-на-тарелке-темный-фон-вид-сверху.jpg?s=612x612&w=0&k=20&c=J1-2NIqplgqRdgxKKIYdZUvkRP1OH02xomMxMzGbu0g=" alt="Стейк из говядины" class="dish-image">
-                        <div class="dish-info">
-                            <h3 class="dish-title">Стейк из говядины</h3>
-                            <p class="dish-desc">Подается с овощами гриль и соусом чимичурри</p>
-                            <div class="dish-bottom">
-                                <span class="dish-price">1 290 ₽</span>
-                                <button class="btn-cart" aria-label="Добавить в корзину">
-                                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="dish-card">
-                        <img src="https://images.gastronom.ru/U54HBICa-9aymZj6DA7LfLEyB5nJ1TbnYoVGJTkEOSQ/pr:recipe-cover-image/g:ce/rs:auto:0:0:0/L2Ntcy9hbGwtaW1hZ2VzLzFiOGJlZWY1LTQ4MWUtNDVjZS04YmUyLTBmZmY2MzZjYjc2Mi5wbmc.webp" alt="Салат с креветками" class="dish-image">
-                        <div class="dish-info">
-                            <h3 class="dish-title">Салат с креветками</h3>
-                            <p class="dish-desc">Свежие овощи, авокадо, тигровые креветки</p>
-                            <div class="dish-bottom">
-                                <span class="dish-price">690 ₽</span>
-                                <button class="btn-cart" aria-label="Добавить в корзину">
-                                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="dish-card">
-                        <img src="https://www.koolinar.ru/all_image/article/4/4391/article-304135e2-a959-4e02-b311-a373f1343ae4_large.webp" alt="Тирамису" class="dish-image" style="object-position: center bottom;">
-                        <div class="dish-info">
-                            <h3 class="dish-title">Тирамису</h3>
-                            <p class="dish-desc">Классический итальянский десерт с маскарпоне</p>
-                            <div class="dish-bottom">
-                                <span class="dish-price">450 ₽</span>
-                                <button class="btn-cart" aria-label="Добавить в корзину">
-                                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
+            </div> <!-- Конец левой колонки -->
 
-        <!-- ================= БРОНИРОВАНИЕ ================= -->
-        <section class="booking" id="booking">
-            <div class="container">
-                <div class="booking-inner">
-                    <div class="booking-image">
-                        <div class="booking-image-text">
-                            Место<br>для особенных<br>встреч ♡
+            <!-- Правая колонка (Корзина) -->
+            <div class="col-lg-4 col-xl-3 mt-4 mt-lg-0">
+                
+                <div class="sticky-sidebar" style="margin-top: 45px;">
+                    
+                    <div class="cart-sidebar">
+                        <div class="cart-header">
+                            <h4>Ваш заказ</h4>
+                            <a href="#">Очистить</a>
                         </div>
+
+                        <!-- Товар 1 -->
+                        <div class="cart-item">
+                            <img src="img/pepperoni.jpg" data-fb="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=150&auto=format&fit=crop" class="cart-item-img" alt="Пицца">
+                            <div class="cart-item-content">
+                                <div class="cart-item-top">
+                                    <h6 class="cart-item-title">Пицца Маргарита</h6>
+                                    <button class="btn-trash"><i class="bi bi-trash"></i></button>
+                                </div>
+                                <div class="cart-item-desc">30 см</div>
+                                <div class="cart-item-bottom">
+                                    <div class="qty-control">
+                                        <button class="qty-btn">-</button>
+                                        <span>1</span>
+                                        <button class="qty-btn">+</button>
+                                    </div>
+                                    <span class="cart-item-price">690 ₽</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Товар 2 -->
+                        <div class="cart-item">
+                            <img src="img/philadelphia.jpg" data-fb="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=150&auto=format&fit=crop" class="cart-item-img" alt="Роллы">
+                            <div class="cart-item-content">
+                                <div class="cart-item-top">
+                                    <h6 class="cart-item-title">Роллы Филадельфия</h6>
+                                    <button class="btn-trash"><i class="bi bi-trash"></i></button>
+                                </div>
+                                <div class="cart-item-desc">8 шт</div>
+                                <div class="cart-item-bottom">
+                                    <div class="qty-control">
+                                        <button class="qty-btn">-</button>
+                                        <span>1</span>
+                                        <button class="qty-btn">+</button>
+                                    </div>
+                                    <span class="cart-item-price">590 ₽</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Товар 3 -->
+                        <div class="cart-item">
+                            <img src="img/cola.jpg" data-fb="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=150&auto=format&fit=crop" class="cart-item-img" alt="Кола">
+                            <div class="cart-item-content">
+                                <div class="cart-item-top">
+                                    <h6 class="cart-item-title">Кола-кола</h6>
+                                    <button class="btn-trash"><i class="bi bi-trash"></i></button>
+                                </div>
+                                <div class="cart-item-desc">0.5 л</div>
+                                <div class="cart-item-bottom">
+                                    <div class="qty-control">
+                                        <button class="qty-btn">-</button>
+                                        <span>1</span>
+                                        <button class="qty-btn">+</button>
+                                    </div>
+                                    <span class="cart-item-price">120 ₽</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Промокод (Ничего не выезжает) -->
+                        <div class="promo-input-wrapper">
+                            <input type="text" class="promo-input" placeholder="Введите промокод">
+                            <button class="btn-promo" type="button">Применить</button>
+                        </div>
+
+                        <!-- Итоги -->
+                        <div class="cart-totals">
+                            <div class="cart-totals-row">
+                                <span>Сумма</span>
+                                <span class="text-dark">1400 ₽</span>
+                            </div>
+                            <div class="cart-totals-row">
+                                <span>Доставка</span>
+                                <span class="text-success">Бесплатно</span>
+                            </div>
+                            <div class="cart-totals-row total">
+                                <span>Итого</span>
+                                <span>1400 ₽</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-checkout">Оформить заказ</button>
                     </div>
-                    <div class="booking-form-wrapper">
-                        <h2>Забронировать столик</h2>
-                        <p style="color: var(--text-muted); font-size: 0.9rem;">Выберите дату, время и количество гостей</p>
-                        <form class="booking-form" onsubmit="event.preventDefault(); alert('Стол забронирован!');">
-                            <label>Дата</label>
-                            <input type="date" required value="2025-01-12">
-                            <label>Время</label>
-                            <input type="time" required value="19:00">
-                            <label>Количество гостей</label>
-                            <select required>
-                                <option value="2" selected>2 гостя</option>
-                                <option value="1">1 гость</option>
-                                <option value="3">3 гостя</option>
-                                <option value="4">4 гостя</option>
-                                <option value="5+">5+ гостей</option>
-                            </select>
-                            <button type="submit" class="btn-primary">Забронировать стол</button>
-                        </form>
+
+                    <!-- Промо баннер -->
+                    <div class="promo-banner">
+                        <div class="promo-banner-text">
+                            <h4>Скидка 20%<br>на первый заказ</h4>
+                            <div class="promo-code">ПРОМОКОД<br>WELCOME</div>
+                        </div>
+                        <img src="img/promo.jpg" data-fb="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=300&auto=format&fit=crop" class="promo-banner-img" alt="Promo">
+                    </div>
+
+                </div> <!-- Конец sticky-sidebar -->
+
+            </div>
+        </div> <!-- Конец основной сетки -->
+
+        <!-- Блок преимуществ -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-4 mb-5">
+            <div class="col">
+                <div class="feature-card">
+                    <i class="bi bi-truck"></i>
+                    <div>
+                        <h6>Быстрая доставка</h6>
+                        <p>от 30 минут</p>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- ================= ОТЗЫВЫ ================= -->
-        <section class="reviews" id="reviews">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Отзывы гостей</h2>
-                    <a href="#">Смотреть все &rarr;</a>
-                </div>
-                <div class="reviews-grid">
-                    <article class="review-card">
-                        <div class="review-header">
-                            <img src="https://i.pravatar.cc/150?img=5" alt="Анна К." class="review-avatar">
-                            <div class="review-author">
-                                <h4>Анна К.</h4>
-                                <div class="review-stars">★★★★★</div>
-                            </div>
-                        </div>
-                        <p class="review-text">"Отличная кухня и приятная атмосфера. Обязательно вернемся!"</p>
-                    </article>
-                    <article class="review-card">
-                        <div class="review-header">
-                            <img src="https://i.pravatar.cc/150?img=12" alt="Игорь М." class="review-avatar">
-                            <div class="review-author">
-                                <h4>Игорь М.</h4>
-                                <div class="review-stars">★★★★★</div>
-                            </div>
-                        </div>
-                        <p class="review-text">"Лучший стейк в городе. Прекрасное обслуживание!"</p>
-                    </article>
-                    <article class="review-card">
-                        <div class="review-header">
-                            <img src="https://i.pravatar.cc/150?img=32" alt="Екатерина Л." class="review-avatar">
-                            <div class="review-author">
-                                <h4>Екатерина Л.</h4>
-                                <div class="review-stars">★★★★☆</div>
-                            </div>
-                        </div>
-                        <p class="review-text">"Уютное место для встречи с друзьями. Вкусные десерты!"</p>
-                    </article>
+            <div class="col">
+                <div class="feature-card">
+                    <i class="bi bi-shop"></i>
+                    <div>
+                        <h6>Более 500 ресторанов</h6>
+                        <p>в твоем городе</p>
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- ================= FOOTER ================= -->
-    <footer id="contacts">
-        <div class="container footer-inner">
-            <div class="footer-col">
-                <div class="footer-logo">
-                    <span class="logo-title">Gusto</span>
-                    <span class="logo-subtitle">Ресторан с вкусом</span>
+            <div class="col">
+                <div class="feature-card">
+                    <i class="bi bi-credit-card"></i>
+                    <div>
+                        <h6>Удобная оплата</h6>
+                        <p>картой или наличными</p>
+                    </div>
                 </div>
             </div>
-            <div class="footer-col">
-                <h4>Меню</h4>
-                <p>О нас</p>
-                <p>События</p>
-                <p>Галерея</p>
-                <p>Контакты</p>
-            </div>
-            <div class="footer-col">
-                <h4>Контакты</h4>
-                <p>Йошкар-Ола, ул. Вкусная, 76</p>
-                <p>+7 (495) 123-45-67</p>
-                <p>Ежедневно: 12:00 – 23:00</p>
-            </div>
-            <div class="footer-col" style="text-align: center;">
-                <h4>Соцсети</h4>
-                <div class="social-icons">
-                    <a href="#" aria-label="ВКонтакте">
-                        <img src="photo/vk.svg" alt="ВКонтакте">
-                    </a>
-                    <a href="#" aria-label="Telegram">
-                        <img src="photo/tg.svg" alt="Telegram">
-                    </a>
-                    <a href="#" aria-label="Instagram">
-                        <img src="photo/ig.svg" alt="Instagram">
-                    </a>
-                    <a href="#" aria-label="YouTube">
-                        <img src="photo/youtube.svg" alt="YouTube">
-                    </a>
+            <div class="col">
+                <div class="feature-card">
+                    <i class="bi bi-gift"></i>
+                    <div>
+                        <h6>Бонусы и акции</h6>
+                        <p>для постоянных клиентов</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container" style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 20px; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
-            © 2026 Gusto. Все права защищены.
+
+    </div> <!-- Конец основного контейнера -->
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <div class="container">
+            <div class="row">
+                <!-- Лого и описание -->
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                    <a href="#" class="footer-brand">
+                        <i class="bi bi-fork-knife"></i> FoodExpress
+                    </a>
+                    <p class="footer-desc">Вкусная еда — ближе, чем ты думаешь.</p>
+                    
+                    <!-- Соцсети в плашках (ВК заменен на SVG, так как иконки нет в библиотеке) -->
+                    <div class="footer-socials">
+                        <a href="#" aria-label="VK">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 576 512">
+                                <path d="M545 117.7c3.7-12.5 0-21.7-17.8-21.7h-58.9c-15 0-21.9 7.9-25.6 16.7 0 0-30 73.1-72.4 120.5-13.7 13.7-20 18.1-27.5 18.1-3.7 0-9.4-4.4-9.4-16.9V117.7c0-15-4.2-21.7-16.6-21.7h-92.6c-9.4 0-15 7-15 13.5 0 14.2 21.2 17.5 23.4 57.5v86.8c0 19-3.4 22.5-10.9 22.5-20 0-68.6-73.4-97.4-157.4-5.8-16.3-11.5-22.9-26.6-22.9H38.9c-16.6 0-20 7.9-20 16.7 0 15.6 20 93.1 93.1 195.6 48.7 69.8 117.2 107.6 179.6 107.6 37.5 0 42.1-8.4 42.1-22.9 0-17.5-1.1-63.1 1.1-75 4.2-15 14.2-18.6 27.5-18.6 13.7 0 33.8 38.3 70.8 38.3h58.9c15 0 22.5-7.9 18.1-22.5-4.5-15-23.4-38.3-45.3-59.2-12.5-11.7-30.1-25-30.1-37.5 0-14.2 10.9-21.7 18.1-30.8 15-18.6 33.8-42.5 45.3-65.8z"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Навигация -->
+                <div class="col-lg-2 col-md-3 col-6 mb-4 mb-md-0">
+                    <h6>Навигация</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Главная</a></li>
+                        <li><a href="#">Рестораны</a></li>
+                        <li><a href="#">Акции</a></li>
+                        <li><a href="#">Доставка</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <!-- Помощь -->
+                <div class="col-lg-2 col-md-3 col-6 mb-4 mb-md-0">
+                    <h6>Помощь</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Вопросы и ответы</a></li>
+                        <li><a href="#">Условия доставки</a></li>
+                        <li><a href="#">Способы оплаты</a></li>
+                        <li><a href="#">Возврат и отмена</a></li>
+                        <li><a href="#">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+
+                <!-- Контакты -->
+                <div class="col-lg-4 col-md-6">
+                    <h6>Контакты</h6>
+                    <ul class="footer-contact">
+                        <li><i class="bi bi-telephone"></i> <a href="tel:+79991234567" class="text-white text-decoration-none">+7 (999) 123-45-67</a></li>
+                        <li><i class="bi bi-envelope"></i> <a href="mailto:info@foodexpress.ru" class="text-white text-decoration-none">info@foodexpress.ru</a></li>
+                        <li><i class="bi bi-geo-alt"></i> <span class="text-white">Москва, ул. Примерная, 10</span></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
