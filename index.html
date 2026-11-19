@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FoodExpress - Доставка еды</title>
+    <
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-
+    
+    
     <script>
         document.addEventListener("error", function (e) {
             var i = e.target;
             if (i.tagName !== "IMG" || i.dataset.done) return;
+            if (i.dataset.fb && !i.dataset.tried) { i.dataset.tried = 1; i.src = i.dataset.fb; return; }
             i.dataset.done = 1;
             i.src = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="#ffe0cc"/><text x="2" y="2" font-size="1.4" text-anchor="middle">\u{1F37D}\uFE0F</text></svg>');
         }, true);
@@ -25,123 +30,602 @@
             --text-dark: #222;
             --text-muted: #8e8e93;
         }
-        html, body { margin: 0 !important; padding: 0 !important; width: 100%; max-width: 100%; overflow-x: hidden; background-color: var(--bg-body); }
-        body { font-family: 'Nunito', sans-serif; color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-body);
+        }
 
-        .navbar-custom { background-color: #fff; padding: 12px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); width: 100%; }
-        .navbar-brand { font-weight: 800; font-size: 1.6rem; color: var(--brand-orange) !important; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Navbar --- */
+        .navbar-custom {
+            background-color: #fff;
+            padding: 12px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--brand-orange) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
         .navbar-brand i { font-size: 2rem; }
-        .nav-link-custom { font-weight: 700; color: #333 !important; margin: 0 12px; font-size: 0.95rem; padding-bottom: 5px !important; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
-        .nav-link-custom:hover, .nav-link-custom.active { color: var(--brand-orange) !important; border-bottom: 2px solid var(--brand-orange); }
-        .search-bar { background-color: #f1f3f5; border-radius: 8px; border: none; padding: 10px 15px; font-size: 0.9rem; min-width: 300px; }
-        .search-bar:focus { background-color: #fff; outline: none; box-shadow: 0 0 0 2px rgba(242, 91, 34, 0.2); }
-        .header-icons a { color: #333; font-size: 1.5rem; margin-left: 20px; text-decoration: none; transition: color 0.2s; }
-        .header-icons a:hover { color: var(--brand-orange); }
-        .cart-badge { font-size: 0.65rem; padding: 4px 7px; background-color: #e63946 !important; transform: translate(-30%, -30%) !important; border: 2px solid #fff; }
+        
+        .nav-link-custom {
+            font-weight: 700;
+            color: #333 !important;
+            margin: 0 12px;
+            font-size: 0.95rem;
+            padding-bottom: 5px !important;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-link-custom:hover, .nav-link-custom.active {
+            color: var(--brand-orange) !important;
+            border-bottom: 2px solid var(--brand-orange);
+        }
 
-        .hero-banner { background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop') center/cover #3a2a22; border-radius: 16px; padding: 65px 50px; color: white; margin-top: 25px; position: relative; }
-        .hero-title { font-size: 2.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 15px; }
-        .hero-subtitle { font-size: 1.1rem; opacity: 0.9; margin-bottom: 35px; }
-        .btn-brand { background-color: var(--brand-orange); color: white; border-radius: 8px; font-weight: 700; padding: 12px 32px; border: none; font-size: 1rem; transition: background 0.2s; }
+        .search-bar {
+            background-color: #f1f3f5;
+            border-radius: 8px;
+            border: none;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            min-width: 300px;
+        }
+        .search-bar:focus { background-color: #fff; outline: none; box-shadow: 0 0 0 2px rgba(242, 91, 34, 0.2); }
+
+        .header-icons a {
+            color: #333;
+            font-size: 1.5rem;
+            margin-left: 20px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .header-icons a:hover { color: var(--brand-orange); }
+        .cart-badge {
+            font-size: 0.65rem;
+            padding: 4px 7px;
+            background-color: #e63946 !important;
+            transform: translate(-30%, -30%) !important;
+            border: 2px solid #fff;
+        }
+
+        /* --- Hero Banner --- */
+        .hero-banner {
+            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%), 
+                        url('img/hero.jpg') center/cover,
+                        url('img/hero-food.jpg') center/cover #3a2a22;
+            border-radius: 16px;
+            padding: 65px 50px;
+            color: white;
+            margin-top: 25px;
+            position: relative;
+        }
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 15px;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 35px;
+        }
+        .btn-brand {
+            background-color: var(--brand-orange);
+            color: white;
+            border-radius: 8px;
+            font-weight: 700;
+            padding: 12px 32px;
+            border: none;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
         .btn-brand:hover { background-color: var(--brand-orange-hover); color: white; }
-        .hero-features-card { background: white; border-radius: 16px; padding: 25px; color: var(--text-dark); box-shadow: 0 8px 25px rgba(0,0,0,0.15); max-width: 340px; margin-left: auto; }
-        .hero-feature-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        
+        .hero-features-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            color: var(--text-dark);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-width: 340px;
+            margin-left: auto;
+        }
+        .hero-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
         .hero-feature-item:last-child { margin-bottom: 0; }
-        .hero-feature-item i { color: var(--brand-orange); font-size: 2rem; }
+        .hero-feature-item i {
+            color: var(--brand-orange);
+            font-size: 2rem;
+        }
         .hero-feature-item h6 { margin: 0; font-weight: 800; font-size: 1rem; }
         .hero-feature-item p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
 
-        .category-pills { display: flex; overflow-x: auto; gap: 12px; padding-bottom: 10px; scrollbar-width: none; margin-top: 30px; width: 100%; }
+        /* --- Categories --- */
+        .category-pills {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+            margin-top: 30px;
+            width: 100%;
+        }
         .category-pills::-webkit-scrollbar { display: none; }
-        .category-btn { background: #fff; border: 1px solid #f0f0f0; border-radius: 10px; padding: 10px 20px; font-weight: 700; color: #444; font-size: 0.9rem; white-space: nowrap; display: flex; align-items: center; gap: 10px; transition: all 0.2s; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.02); flex-shrink: 0; }
-        .category-btn:hover, .category-btn.active { background: var(--brand-orange); color: white; border-color: var(--brand-orange); }
-        .category-icon { font-size: 1.1rem; display: flex; align-items: center; }
+        
+        .category-btn {
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 700;
+            color: #444;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            flex-shrink: 0;
+        }
+        .category-btn:hover, .category-btn.active {
+            background: var(--brand-orange);
+            color: white;
+            border-color: var(--brand-orange);
+        }
+        
+        .category-icon {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
         .category-btn.active .category-icon { color: white !important; }
-        @media (min-width: 992px) { .category-pills { overflow-x: visible; } .category-btn { flex: 1; justify-content: center; } }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 45px; }
+        @media (min-width: 992px) {
+            .category-pills { overflow-x: visible; }
+            .category-btn { flex: 1; justify-content: center; }
+        }
+
+        /* --- Section Titles --- */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: 45px;
+        }
         .section-header h3 { font-weight: 800; font-size: 1.4rem; margin: 0; }
-        .section-header a { color: var(--brand-orange); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+        .section-header a {
+            color: var(--brand-orange);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
         .section-header a:hover { text-decoration: underline; }
 
-        .card-restaurant { border: none; border-radius: 14px; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
+        /* --- Restaurant Cards --- */
+        .card-restaurant {
+            border: none;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            transition: transform 0.2s;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
         .card-restaurant:hover { transform: translateY(-5px); }
-        .card-img-wrapper { position: relative; height: 170px; width: 100%; }
-        .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-        .badge-discount { position: absolute; bottom: 12px; left: 12px; background: #ffc107; color: #000; font-weight: 800; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; }
-        .btn-like { position: absolute; top: 12px; right: 12px; background: white; border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; color: #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: color 0.2s; font-size: 1.1rem; }
+        
+        .card-img-wrapper { 
+            position: relative; 
+            height: 170px; 
+            width: 100%;
+        }
+        .card-img-wrapper img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
+        
+        .badge-discount {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: #ffc107;
+            color: #000;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        
+        .btn-like {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: color 0.2s;
+            font-size: 1.1rem;
+        }
         .btn-like:hover { color: var(--brand-orange); }
-        .restaurant-info { padding: 16px; display: flex; flex-direction: column; flex-grow: 1; }
+        
+        .restaurant-info { 
+            padding: 16px; 
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
         .restaurant-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 2px; }
         .restaurant-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
-        .rating-box { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; margin-top: auto; }
+        
+        .rating-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            margin-top: auto;
+        }
         .rating-box .stars { color: #ffb703; display: flex; align-items: center; gap: 4px; }
         .rating-box .delivery { color: var(--text-muted); font-weight: 600; }
         .rating-box .delivery.free { color: #2a9d8f; }
-        .btn-outline-brand { color: var(--brand-orange); border: 1px solid var(--brand-orange); background: transparent; border-radius: 8px; font-weight: 700; width: 100%; padding: 8px; font-size: 0.9rem; transition: all 0.2s; }
+        
+        .btn-outline-brand {
+            color: var(--brand-orange);
+            border: 1px solid var(--brand-orange);
+            background: transparent;
+            border-radius: 8px;
+            font-weight: 700;
+            width: 100%;
+            padding: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
         .btn-outline-brand:hover { background: var(--brand-orange); color: white; }
 
-        .sticky-sidebar { position: sticky; top: 90px; z-index: 10; }
-        .cart-sidebar { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; overflow: hidden; }
-        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        /* --- Cart Sidebar --- */
+        .sticky-sidebar {
+            position: sticky;
+            top: 90px;
+            z-index: 10;
+        }
+
+        .cart-sidebar {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 20px;
+            overflow: hidden; /* Скрывает все, что пытается вылезти за края */
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
         .cart-header h4 { font-weight: 800; font-size: 1.2rem; margin: 0; }
         .cart-header a { color: #e63946; text-decoration: none; font-size: 0.85rem; font-weight: 700; }
-        .cart-item { display: flex; padding: 15px 0; border-bottom: 1px solid #f0f0f0; }
-        .cart-item-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; margin-right: 12px; }
-        .cart-item-content { flex-grow: 1; display: flex; flex-direction: column; min-width: 0; }
-        .cart-item-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2px; }
+        
+        .cart-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .cart-item-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        .cart-item-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0; /* Защита от выталкивания */
+        }
+        .cart-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2px;
+        }
         .cart-item-title { font-weight: 800; font-size: 0.9rem; margin: 0; }
-        .btn-trash { color: #ccc; background: none; border: none; padding: 0; font-size: 0.9rem; cursor: pointer; line-height: 1; }
+        .btn-trash { 
+            color: #ccc; 
+            background: none; 
+            border: none; 
+            padding: 0; 
+            font-size: 0.9rem; 
+            cursor: pointer;
+            line-height: 1;
+        }
         .btn-trash:hover { color: #e63946; }
+        
         .cart-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
-        .cart-item-bottom { display: flex; justify-content: space-between; align-items: center; }
-        .qty-control { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; font-weight: 700; }
-        .qty-btn { background: none; border: none; color: #ccc; font-size: 1.2rem; padding: 0; line-height: 1; cursor: pointer; font-weight: 700; }
+        
+        .cart-item-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+        .qty-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            padding: 0;
+            line-height: 1;
+            cursor: pointer;
+            font-weight: 700;
+        }
         .qty-btn:hover { color: var(--brand-orange); }
         .cart-item-price { font-weight: 800; font-size: 0.95rem; }
 
-        .promo-input-wrapper { display: flex; width: 100%; margin-top: 15px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #eaeaea; overflow: hidden; background: #f8f9fa; }
-        .promo-input { flex: 1; min-width: 0; background: transparent; border: none; font-size: 0.85rem; padding: 8px 10px; text-align: center; outline: none; box-sizing: border-box; }
-        .btn-promo { background: var(--brand-orange); color: white; border: none; font-size: 0.85rem; font-weight: 700; padding: 8px 15px; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+        /* --- ПРОМОКОД (ИСПРАВЛЕН) --- */
+        .promo-input-wrapper {
+            display: flex;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .promo-input {
+            flex: 1; 
+            min-width: 0; /* Не дает инпуту вытолкнуть кнопку */
+            background: transparent;
+            border: none;
+            font-size: 0.85rem;
+            padding: 8px 10px;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+        }
+        
+        .btn-promo {
+            background: var(--brand-orange);
+            color: white;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 8px 15px;
+            cursor: pointer;
+            flex-shrink: 0; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
 
-        .cart-totals { font-size: 0.9rem; margin-bottom: 15px; }
-        .cart-totals-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
-        .cart-totals-row.total { font-weight: 800; font-size: 1.1rem; color: var(--text-dark); margin-top: 12px; padding-top: 12px; border-top: 1px dashed #eaeaea; }
-        .btn-checkout { background: var(--brand-orange); color: white; border: none; border-radius: 10px; width: 100%; padding: 12px; font-weight: 800; font-size: 1rem; transition: background 0.2s; }
+        /* Итоги */
+        .cart-totals {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        .cart-totals-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .cart-totals-row.total {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed #eaeaea;
+        }
+        
+        .btn-checkout {
+            background: var(--brand-orange);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            padding: 12px;
+            font-weight: 800;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
         .btn-checkout:hover { background: var(--brand-orange-hover); }
 
-        .promo-banner { background: #ffe8d6; border-radius: 16px; padding: 25px 20px; position: relative; overflow: hidden; display: flex; align-items: center; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
-        .promo-banner:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(242,91,34,0.15); }
-        .promo-banner:active { transform: translateY(0); }
-        .promo-banner.applied { outline: 2px solid #2a9d8f; }
+        /* --- Promo Banner --- */
+        .promo-banner {
+            background: #ffe8d6;
+            border-radius: 16px;
+            padding: 25px 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
         .promo-banner-text { z-index: 2; position: relative; }
         .promo-banner h4 { font-weight: 800; font-size: 1.25rem; line-height: 1.2; margin-bottom: 15px; color: #222; }
-        .promo-code { background: white; color: #e63946; font-weight: 800; font-size: 0.8rem; padding: 6px 12px; border-radius: 6px; display: inline-block; letter-spacing: 1px; line-height: 1.3; }
-        .promo-banner-hint { display: inline-block; margin-top: 10px; font-size: 0.75rem; font-weight: 700; color: #d94b16; opacity: 0.85; }
-        .promo-banner.applied .promo-banner-hint { color: #2a9d8f; }
-        .promo-banner-img { position: absolute; right: -15px; bottom: -10px; width: 140px; z-index: 1; mask-image: linear-gradient(to right, transparent, black 30%); -webkit-mask-image: linear-gradient(to right, transparent, black 30%); }
+        .promo-code {
+            background: white;
+            color: #e63946;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+        .promo-banner-img {
+            position: absolute;
+            right: -15px;
+            bottom: -10px;
+            width: 140px;
+            z-index: 1;
+            mask-image: linear-gradient(to right, transparent, black 30%);
+        }
 
-        .feature-card { background: #fff; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 15px; height: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-        .feature-card i { font-size: 2.2rem; color: var(--brand-orange); flex-shrink: 0; }
-        .feature-card h6 { margin: 0 0 2px 0; font-weight: 800; font-size: 0.95rem; color: var(--text-dark); }
-        .feature-card p { margin: 0; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+        /* --- Features Cards --- */
+        .feature-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .feature-card i {
+            font-size: 2.2rem;
+            color: var(--brand-orange);
+            flex-shrink: 0;
+        }
+        .feature-card h6 {
+            margin: 0 0 2px 0;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+        .feature-card p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
 
-        .footer { background-color: #1a1a1a; color: #a0a0a0; padding: 50px 0 30px 0; font-size: 0.85rem; width: 100% !important; margin: 0 !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; flex-shrink: 0; }
-        .footer-brand { color: white; font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; text-decoration: none; margin-bottom: 10px; }
-        .footer-brand i { color: var(--brand-orange); font-size: 1.8rem; }
-        .footer-desc { color: #a0a0a0; margin-bottom: 25px; font-weight: 600; }
-        .footer h6 { color: white; font-weight: 800; margin-bottom: 20px; font-size: 1rem; }
+        /* --- Footer --- */
+        .footer {
+            background-color: #1a1a1a;
+            color: #a0a0a0;
+            padding: 50px 0 30px 0;
+            font-size: 0.85rem;
+            width: 100% !important;
+            margin: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            flex-shrink: 0;
+        }
+        
+        .footer-brand {
+            color: white;
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .footer-brand i { 
+            color: var(--brand-orange); 
+            font-size: 1.8rem; 
+        }
+        
+        .footer-desc {
+            color: #a0a0a0;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .footer h6 { 
+            color: white; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            font-size: 1rem; 
+        }
+        
         .footer-links { list-style: none; padding: 0; margin: 0; }
         .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: #a0a0a0; text-decoration: none; transition: color 0.2s; font-weight: 600; }
+        .footer-links a { 
+            color: #a0a0a0; 
+            text-decoration: none; 
+            transition: color 0.2s; 
+            font-weight: 600; 
+        }
         .footer-links a:hover { color: white; }
+        
         .footer-contact { list-style: none; padding: 0; margin: 0; }
-        .footer-contact li { margin-bottom: 15px; display: flex; align-items: center; gap: 12px; font-weight: 600; }
-        .footer-contact i { color: #777; font-size: 1.1rem; }
-        .footer-socials { display: flex; gap: 10px; margin-top: 10px; }
-        .footer-socials a { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; background-color: #2a2a2a; color: white; font-size: 1.2rem; border-radius: 8px; transition: background-color 0.2s, color 0.2s; text-decoration: none; }
-        .footer-socials a:hover { background-color: var(--brand-orange); color: white; }
-
+        .footer-contact li { 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            font-weight: 600; 
+        }
+        .footer-contact i { 
+            color: #777; 
+            font-size: 1.1rem; 
+        }
+        
+        /* Иконки соцсетей в плашках */
+        .footer-socials { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 10px; 
+        }
+        .footer-socials a { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background-color: #2a2a2a;
+            color: white; 
+            font-size: 1.2rem; 
+            border-radius: 8px;
+            transition: background-color 0.2s, color 0.2s;
+            text-decoration: none;
+        }
+        .footer-socials a:hover { 
+            background-color: var(--brand-orange); 
+            color: white; 
+        }
+        
         @media (max-width: 991px) {
             .hero-banner { padding: 40px 20px; text-align: center; }
             .hero-features-card { margin: 30px auto 0; text-align: left; }
@@ -154,14 +638,17 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <i class="bi bi-fork-knife"></i> FoodExpress
             </a>
+            
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-lg-4 me-auto mb-2 mb-lg-0 align-items-lg-center">
                     <li class="nav-item"><a class="nav-link nav-link-custom active" href="#">Главная</a></li>
@@ -170,6 +657,7 @@
                     <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Доставка</a></li>
                     <li class="nav-item"><a class="nav-link nav-link-custom" href="#">О нас</a></li>
                 </ul>
+
                 <div class="dropdown me-lg-4 my-2 my-lg-0">
                     <button class="btn btn-link text-dark text-decoration-none fw-bold dropdown-toggle p-0 d-flex align-items-center" type="button" data-bs-toggle="dropdown">
                         <i class="bi bi-geo-alt-fill text-danger me-1 fs-5"></i> Москва
@@ -179,15 +667,17 @@
                         <li><a class="dropdown-item" href="#">Казань</a></li>
                     </ul>
                 </div>
+
                 <form class="d-flex me-lg-4 my-2 my-lg-0 position-relative">
                     <input class="search-bar" type="search" placeholder="Поиск блюд, ресторанов..." aria-label="Search">
                     <i class="bi bi-search position-absolute text-muted" style="right: 15px; top: 50%; transform: translateY(-50%); font-size: 1rem;"></i>
                 </form>
+
                 <div class="header-icons d-flex align-items-center mt-3 mt-lg-0">
                     <a href="#"><i class="bi bi-heart"></i></a>
                     <a href="#" class="position-relative">
                         <i class="bi bi-cart3"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge" id="cartBadge" style="display:none;">0</span>
+                        <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge">0</span>
                     </a>
                     <a href="#" class="d-flex align-items-center text-dark text-decoration-none ms-4" style="font-size: 0.95rem; white-space: nowrap;">
                         <i class="bi bi-person me-1 fs-5"></i> <span class="fw-bold">Войти</span>
@@ -197,8 +687,10 @@
         </div>
     </nav>
 
+    <!-- Основной контейнер -->
     <div class="container flex-grow-1">
-
+        
+        <!-- Hero Banner -->
         <div class="hero-banner">
             <div class="row align-items-center h-100">
                 <div class="col-lg-7">
@@ -210,45 +702,74 @@
                     <div class="hero-features-card">
                         <div class="hero-feature-item">
                             <i class="bi bi-truck"></i>
-                            <div><h6>Быстрая доставка</h6><p>от 30 минут</p></div>
+                            <div>
+                                <h6>Быстрая доставка</h6>
+                                <p>от 30 минут</p>
+                            </div>
                         </div>
                         <div class="hero-feature-item">
                             <i class="bi bi-shield-check"></i>
-                            <div><h6>Только проверенные</h6><p>рестораны</p></div>
+                            <div>
+                                <h6>Только проверенные</h6>
+                                <p>рестораны</p>
+                            </div>
                         </div>
                         <div class="hero-feature-item">
                             <i class="bi bi-gift"></i>
-                            <div><h6>Бонусы за заказы</h6></div>
+                            <div>
+                                <h6>Бонусы за заказы</h6>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Категории -->
         <div class="category-pills">
-            <a href="#" class="category-btn active"><i class="bi bi-grid-fill category-icon text-white"></i> Все кухни</a>
-            <a href="#" class="category-btn"><i class="bi bi-pizza category-icon text-warning"></i> Пицца</a>
-            <a href="#" class="category-btn"><i class="bi bi-egg-fried category-icon text-warning"></i> Суши</a>
-            <a href="#" class="category-btn"><i class="bi bi-cup-hot category-icon text-warning"></i> Бургеры</a>
-            <a href="#" class="category-btn"><i class="bi bi-pie-chart category-icon text-warning"></i> Паста</a>
-            <a href="#" class="category-btn"><i class="bi bi-flower1 category-icon text-success"></i> Здоровая еда</a>
-            <a href="#" class="category-btn"><i class="bi bi-cake2 category-icon text-danger"></i> Десерты</a>
-            <a href="#" class="category-btn"><i class="bi bi-cup-straw category-icon text-info"></i> Напитки</a>
+            <a href="#" class="category-btn active">
+                <i class="bi bi-grid-fill category-icon text-white"></i> Все кухни
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-pizza category-icon text-warning"></i> Пицца
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-egg-fried category-icon text-warning"></i> Суши
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-cup-hot category-icon text-warning"></i> Бургеры
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-pie-chart category-icon text-warning"></i> Паста
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-flower1 category-icon text-success"></i> Здоровая еда
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-cake2 category-icon text-danger"></i> Десерты
+            </a>
+            <a href="#" class="category-btn">
+                <i class="bi bi-cup-straw category-icon text-info"></i> Напитки
+            </a>
         </div>
 
+        <!-- Основной контент -->
         <div class="row">
+            <!-- Левая колонка -->
             <div class="col-lg-8 col-xl-9">
-
+                
+                <!-- Популярные рестораны -->
                 <div class="section-header">
                     <h3>Популярные рестораны</h3>
                     <a href="#">Смотреть все <i class="bi bi-arrow-right"></i></a>
                 </div>
-
+                
                 <div class="row g-3">
+                    <!-- Ресторан 1 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=600&auto=format&fit=crop" alt="Mamma Mia">
+                                <img src="img/restaurant-pizza.jpg"  alt="Mamma Mia">
                                 <span class="badge-discount">20%</span>
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
@@ -263,10 +784,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Ресторан 2 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600&auto=format&fit=crop" alt="Sushi House">
+                                <img src="img/restaurant-sushi.jpg"  alt="Sushi House">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -280,10 +802,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Ресторан 3 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" alt="Burger Club">
+                                <img src="img/restaurant-burger.jpg"  alt="Burger Club">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -297,10 +820,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Ресторан 4 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600&auto=format&fit=crop" alt="Green Bowl">
+                                <img src="img/restaurant-salad.jpg"  alt="Green Bowl">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -316,16 +840,18 @@
                     </div>
                 </div>
 
+                <!-- Популярные блюда -->
                 <div class="section-header mt-5">
                     <h3>Популярные блюда</h3>
                     <a href="#">Смотреть все <i class="bi bi-arrow-right"></i></a>
                 </div>
-
+                
                 <div class="row g-3">
+                    <!-- Блюдо 1 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=600&auto=format&fit=crop" alt="Пепперони">
+                                <img src="img/dish-pepperoni.jpg"  alt="Пепперони">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -334,15 +860,16 @@
                                 <div class="rating-box d-none"></div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <span class="fw-bold fs-6">690 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3 js-add-to-cart" data-id="1"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="pepperoni"><i class="bi bi-cart3 me-1"></i> В корзину</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Блюдо 2 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=600&auto=format&fit=crop" alt="Филадельфия">
+                                <img src="img/dish-philadelphia.jpg"  alt="Филадельфия">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -351,15 +878,16 @@
                                 <div class="rating-box d-none"></div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <span class="fw-bold fs-6">590 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3 js-add-to-cart" data-id="2"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="philadelphia"><i class="bi bi-cart3 me-1"></i> В корзину</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Блюдо 3 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600&auto=format&fit=crop" alt="Цезарь">
+                                <img src="img/dish-caesar.jpg"  alt="Цезарь">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -368,15 +896,16 @@
                                 <div class="rating-box d-none"></div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <span class="fw-bold fs-6">350 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3 js-add-to-cart" data-id="3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                    <button class="btn btn-sm btn-brand px-3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Блюдо 4 -->
                     <div class="col-12 col-md-6 col-xl-3">
                         <div class="card-restaurant">
                             <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=600&auto=format&fit=crop" alt="Бургер">
+                                <img src="img/dish-burger.jpg"  alt="Бургер">
                                 <button class="btn-like"><i class="bi bi-heart"></i></button>
                             </div>
                             <div class="restaurant-info">
@@ -385,101 +914,126 @@
                                 <div class="rating-box d-none"></div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <span class="fw-bold fs-6">450 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3 js-add-to-cart" data-id="4"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="burger-classic"><i class="bi bi-cart3 me-1"></i> В корзину</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
+            </div> <!-- Конец левой колонки -->
 
+            <!-- Правая колонка (Корзина) -->
             <div class="col-lg-4 col-xl-3 mt-4 mt-lg-0">
+                
                 <div class="sticky-sidebar" style="margin-top: 45px;">
-
+                    
                     <div class="cart-sidebar">
                         <div class="cart-header">
                             <h4>Ваш заказ</h4>
                             <a href="#" id="clearCart">Очистить</a>
                         </div>
 
-                        <div id="cartItems"></div>
-
-                        <div class="promo-input-wrapper">
-                            <input type="text" class="promo-input" id="promoInput" placeholder="Введите промокод">
-                            <button class="btn-promo" type="button" id="applyPromo">Применить</button>
+                        <div id="cartItems" aria-live="polite">
+                            <div class="text-center text-muted py-4" id="emptyCart">
+                                <i class="bi bi-cart3 fs-2 d-block mb-2"></i>
+                                Корзина пока пуста
+                            </div>
                         </div>
 
+                        <!-- Промокод (Ничего не выезжает) -->
+                        <div class="promo-input-wrapper">
+                            <input id="promoInput" type="text" class="promo-input" placeholder="Введите промокод" aria-label="Промокод">
+                            <button id="applyPromo" class="btn-promo" type="button">Применить</button>
+                        </div>
+
+                        <!-- Итоги -->
                         <div class="cart-totals">
                             <div class="cart-totals-row">
                                 <span>Сумма</span>
-                                <span class="text-dark" id="cartSubtotal">0 ₽</span>
-                            </div>
-                            <div class="cart-totals-row" id="discountRow" style="display:none;">
-                                <span>Скидка</span>
-                                <span class="text-success" id="cartDiscount">0 ₽</span>
+                                <span class="text-dark">1400 ₽</span>
                             </div>
                             <div class="cart-totals-row">
                                 <span>Доставка</span>
-                                <span class="text-success" id="cartDelivery">Бесплатно</span>
+                                <span class="text-success">Бесплатно</span>
                             </div>
                             <div class="cart-totals-row total">
                                 <span>Итого</span>
-                                <span id="cartTotal">0 ₽</span>
+                                <span>1400 ₽</span>
                             </div>
                         </div>
 
-                        <button class="btn-checkout" id="checkoutBtn">Оформить заказ</button>
+                        <button class="btn-checkout">Оформить заказ</button>
                     </div>
 
-                    <div class="promo-banner" id="promoBanner" role="button" tabindex="0" title="Нажмите, чтобы применить промокод">
+                    <!-- Промо баннер -->
+                    <div class="promo-banner">
                         <div class="promo-banner-text">
                             <h4>Скидка 20%<br>на первый заказ</h4>
                             <div class="promo-code">ПРОМОКОД<br>WELCOME</div>
-                            <div class="promo-banner-hint">Нажмите, чтобы применить</div>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=300&auto=format&fit=crop" class="promo-banner-img" alt="Promo">
+                        <img src="img/hero-food.jpg"  class="promo-banner-img" alt="Promo">
                     </div>
 
-                </div>
-            </div>
-        </div>
+                </div> <!-- Конец sticky-sidebar -->
 
+            </div>
+        </div> <!-- Конец основной сетки -->
+
+        <!-- Блок преимуществ -->
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-4 mb-5">
             <div class="col">
                 <div class="feature-card">
                     <i class="bi bi-truck"></i>
-                    <div><h6>Быстрая доставка</h6><p>от 30 минут</p></div>
+                    <div>
+                        <h6>Быстрая доставка</h6>
+                        <p>от 30 минут</p>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="feature-card">
                     <i class="bi bi-shop"></i>
-                    <div><h6>Более 500 ресторанов</h6><p>в твоем городе</p></div>
+                    <div>
+                        <h6>Более 500 ресторанов</h6>
+                        <p>в твоем городе</p>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="feature-card">
                     <i class="bi bi-credit-card"></i>
-                    <div><h6>Удобная оплата</h6><p>картой или наличными</p></div>
+                    <div>
+                        <h6>Удобная оплата</h6>
+                        <p>картой или наличными</p>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="feature-card">
                     <i class="bi bi-gift"></i>
-                    <div><h6>Бонусы и акции</h6><p>для постоянных клиентов</p></div>
+                    <div>
+                        <h6>Бонусы и акции</h6>
+                        <p>для постоянных клиентов</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-    </div>
+    </div> <!-- Конец основного контейнера -->
 
+    <!-- Footer -->
     <footer class="footer mt-auto">
         <div class="container">
             <div class="row">
+                <!-- Лого и описание -->
                 <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                    <a href="#" class="footer-brand"><i class="bi bi-fork-knife"></i> FoodExpress</a>
+                    <a href="#" class="footer-brand">
+                        <i class="bi bi-fork-knife"></i> FoodExpress
+                    </a>
                     <p class="footer-desc">Вкусная еда — ближе, чем ты думаешь.</p>
+                    
+                    <!-- Соцсети в плашках (ВК заменен на SVG, так как иконки нет в библиотеке) -->
                     <div class="footer-socials">
                         <a href="#" aria-label="VK">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 576 512">
@@ -491,6 +1045,8 @@
                         <a href="#" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
                     </div>
                 </div>
+                
+                <!-- Навигация -->
                 <div class="col-lg-2 col-md-3 col-6 mb-4 mb-md-0">
                     <h6>Навигация</h6>
                     <ul class="footer-links">
@@ -501,6 +1057,8 @@
                         <li><a href="#">Контакты</a></li>
                     </ul>
                 </div>
+
+                <!-- Помощь -->
                 <div class="col-lg-2 col-md-3 col-6 mb-4 mb-md-0">
                     <h6>Помощь</h6>
                     <ul class="footer-links">
@@ -511,6 +1069,8 @@
                         <li><a href="#">Политика конфиденциальности</a></li>
                     </ul>
                 </div>
+
+                <!-- Контакты -->
                 <div class="col-lg-4 col-md-6">
                     <h6>Контакты</h6>
                     <ul class="footer-contact">
@@ -523,231 +1083,113 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+    <style>
+      .cart-status {font-size:.78rem;margin:-10px 0 12px}
+      .cart-status.success {color:#198754}
+      .cart-status.error {color:#dc3545}
+      .cart-empty-note {color:#8e8e93;text-align:center;padding:22px 8px}
+      .cart-item {gap:0}
+      .cart-item-img {flex:0 0 50px}
+      .cart-item-price {white-space:nowrap}
+      .qty-btn {min-width:18px}
+    </style>
     <script>
-    /* ========== КАТАЛОГ (все картинки — рабочие URL) ========== */
-    const PRODUCTS = {
-        1: { id: 1, title: 'Пепперони',        desc: '30 см', price: 690,
-             img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=150&auto=format&fit=crop' },
-        2: { id: 2, title: 'Филадельфия',      desc: '8 шт',  price: 590,
-             img: 'https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=150&auto=format&fit=crop' },
-        3: { id: 3, title: 'Цезарь с курицей', desc: '250 г', price: 350,
-             img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=150&auto=format&fit=crop' },
-        4: { id: 4, title: 'Бургер Классик',   desc: '300 г', price: 450,
-             img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=150&auto=format&fit=crop' },
-        5: { id: 5, title: 'Кола',             desc: '0.5 л', price: 120,
-             img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=150&auto=format&fit=crop' }
-    };
+    (() => {
+      const cart = new Map();
+      const promoInput = document.getElementById('promoInput');
+      const promoStatus = document.createElement('div');
+      promoStatus.className = 'cart-status';
+      promoStatus.setAttribute('aria-live','polite');
+      document.querySelector('.promo-input-wrapper').after(promoStatus);
+      let promo = null;
 
-    const PROMOS = { WELCOME: 20, FOOD10: 10 };
-    const DELIVERY_COST = 0;
-    const FREE_DELIVERY_FROM = 1500;
+      const products = {
+        'pepperoni': {id:'pepperoni',name:'Пепперони',desc:'30 см',price:690,image:'img/dish-pepperoni.jpg'},
+        'philadelphia': {id:'philadelphia',name:'Филадельфия',desc:'8 шт',price:590,image:'img/dish-philadelphia.jpg'},
+        'caesar': {id:'caesar',name:'Цезарь с курицей',desc:'250 г',price:350,image:'img/dish-caesar.jpg'},
+        'burger-classic': {id:'burger-classic',name:'Бургер Классик',desc:'300 г',price:450,image:'img/dish-burger.jpg'}
+      };
+      const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+      const count = () => [...cart.values()].reduce((sum,p)=>sum+p.qty,0);
+      const subtotal = () => [...cart.values()].reduce((sum,p)=>sum+p.price*p.qty,0);
 
-    /* ========== СОСТОЯНИЕ ========== */
-    let cart = {};
-    let appliedPromo = null;
-
-    const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
-
-    /* ========== РАСЧЁТЫ ========== */
-    function calcSubtotal() {
-        return Object.entries(cart).reduce((sum, [id, qty]) => {
-            const p = PRODUCTS[id];
-            return p ? sum + p.price * qty : sum;
-        }, 0);
-    }
-    function calcDiscount(subtotal) {
-        return appliedPromo ? Math.round(subtotal * appliedPromo.percent / 100) : 0;
-    }
-    function calcDelivery(afterDiscount) {
-        if (DELIVERY_COST === 0) return 0;
-        return afterDiscount >= FREE_DELIVERY_FROM ? 0 : DELIVERY_COST;
-    }
-    function calcTotal() {
-        const subtotal = calcSubtotal();
-        const discount = calcDiscount(subtotal);
-        const delivery = calcDelivery(subtotal - discount);
-        return { subtotal, discount, delivery, total: subtotal - discount + delivery };
-    }
-
-    /* ========== МУТАТОРЫ ========== */
-    function addToCart(id) {
-        if (!PRODUCTS[id]) return;
-        cart[id] = (cart[id] || 0) + 1;
-        render();
-    }
-    function changeQty(id, delta) {
-        if (!cart[id]) return;
-        const next = cart[id] + delta;
-        if (next <= 0) delete cart[id];
-        else cart[id] = next;
-        render();
-    }
-    function removeFromCart(id) { delete cart[id]; render(); }
-
-    function clearCart() {
-        cart = {};
-        appliedPromo = null;
-        const inp = document.getElementById('promoInput');
-        if (inp) inp.value = '';
-        syncPromoBanner();
-        render();
-    }
-
-    /* ========== ПРОМОКОД ========== */
-    function applyPromoCode(code) {
-        code = String(code || '').trim().toUpperCase();
-        if (!code) return;
-
-        if (!Object.keys(cart).length) {
-            alert('Сначала добавьте товары в корзину');
-            return;
-        }
-
-        if (appliedPromo && appliedPromo.code === code) {
-            alert(`Промокод ${code} уже применён`);
-            return;
-        }
-
-        if (PROMOS[code]) {
-            appliedPromo = { code, percent: PROMOS[code] };
-            document.getElementById('promoInput').value = code;
-            syncPromoBanner();
-            render();
-            alert(`Промокод ${code} применён: −${PROMOS[code]}%`);
+      function render() {
+        const host=document.getElementById('cartItems');
+        host.innerHTML='';
+        if (!cart.size) {
+          host.innerHTML='<div class="cart-empty-note"><i class="bi bi-cart3 fs-2 d-block mb-2"></i>Корзина пока пуста</div>';
         } else {
-            alert('Промокод не найден');
+          cart.forEach(p => {
+            const item=document.createElement('div');
+            item.className='cart-item';
+            item.innerHTML=`
+              <img class="cart-item-img" src="${p.image}" alt="${p.name}">
+              <div class="cart-item-content">
+                <div class="cart-item-top">
+                  <h6 class="cart-item-title"></h6>
+                  <button class="btn-trash" type="button" aria-label="Удалить ${p.name}" data-remove="${p.id}"><i class="bi bi-trash"></i></button>
+                </div>
+                <div class="cart-item-desc"></div>
+                <div class="cart-item-bottom">
+                  <div class="qty-control">
+                    <button class="qty-btn" type="button" aria-label="Уменьшить количество" data-minus="${p.id}">−</button>
+                    <span>${p.qty}</span>
+                    <button class="qty-btn" type="button" aria-label="Увеличить количество" data-plus="${p.id}">+</button>
+                  </div>
+                  <span class="cart-item-price">${rub(p.price*p.qty)}</span>
+                </div>
+              </div>`;
+            item.querySelector('.cart-item-title').textContent=p.name;
+            item.querySelector('.cart-item-desc').textContent=p.desc;
+            host.appendChild(item);
+          });
         }
-    }
-
-    function syncPromoBanner() {
-        const banner = document.getElementById('promoBanner');
-        if (!banner) return;
-        const hint = banner.querySelector('.promo-banner-hint');
-        const isApplied = appliedPromo && appliedPromo.code === 'WELCOME';
-
-        banner.classList.toggle('applied', !!isApplied);
-        if (hint) {
-            hint.textContent = isApplied ? '✓ Промокод применён' : 'Нажмите, чтобы применить';
+        const sum=subtotal();
+        const discount=promo ? Math.round(sum*promo.rate) : 0;
+        document.getElementById('cartCount').textContent=count();
+        document.getElementById('subtotal').textContent=rub(sum);
+        document.getElementById('discountRow').style.display=discount ? 'flex' : 'none';
+        document.getElementById('discountAmount').textContent='−'+rub(discount);
+        document.getElementById('grandTotal').textContent=rub(sum-discount);
+        document.querySelectorAll('[data-add-product]').forEach(btn=>{
+          const inCart=cart.has(btn.dataset.addProduct);
+          btn.innerHTML=inCart ? '<i class="bi bi-check2 me-1"></i> Добавить ещё' : '<i class="bi bi-cart3 me-1"></i> В корзину';
+        });
+      }
+      document.addEventListener('click', e => {
+        const add=e.target.closest('[data-add-product]');
+        if(add) {
+          const p=products[add.dataset.addProduct];
+          if(p) { const old=cart.get(p.id); cart.set(p.id,{...p,qty:old?old.qty+1:1}); render(); }
         }
-    }
-
-    /* ========== РЕНДЕР ========== */
-    function renderCartItems() {
-        const wrap = document.getElementById('cartItems');
-        const entries = Object.entries(cart);
-
-        if (!entries.length) {
-            wrap.innerHTML = `
-                <div class="text-center text-muted py-4" style="font-size:.9rem;">
-                    <i class="bi bi-cart-x fs-2 d-block mb-2"></i>
-                    Корзина пуста
-                </div>`;
-            return;
-        }
-
-        wrap.innerHTML = entries.map(([id, qty]) => {
-            const p = PRODUCTS[id];
-            return `
-                <div class="cart-item" data-id="${id}">
-                    <img src="${p.img}" class="cart-item-img" alt="${p.title}">
-                    <div class="cart-item-content">
-                        <div class="cart-item-top">
-                            <h6 class="cart-item-title">${p.title}</h6>
-                            <button class="btn-trash js-remove" data-id="${id}" title="Удалить">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                        <div class="cart-item-desc">${p.desc}</div>
-                        <div class="cart-item-bottom">
-                            <div class="qty-control">
-                                <button class="qty-btn js-dec" data-id="${id}">−</button>
-                                <span>${qty}</span>
-                                <button class="qty-btn js-inc" data-id="${id}">+</button>
-                            </div>
-                            <span class="cart-item-price">${fmt(p.price * qty)}</span>
-                        </div>
-                    </div>
-                </div>`;
-        }).join('');
-    }
-
-    function renderTotals() {
-        const { subtotal, discount, delivery, total } = calcTotal();
-        document.getElementById('cartSubtotal').textContent = fmt(subtotal);
-
-        const dRow = document.getElementById('discountRow');
-        if (discount > 0) {
-            dRow.style.display = '';
-            document.getElementById('cartDiscount').textContent = '−' + fmt(discount);
-        } else {
-            dRow.style.display = 'none';
-        }
-
-        document.getElementById('cartDelivery').textContent = delivery === 0 ? 'Бесплатно' : fmt(delivery);
-        document.getElementById('cartTotal').textContent = fmt(total);
-
-        const count = Object.values(cart).reduce((a, b) => a + b, 0);
-        const badge = document.getElementById('cartBadge');
-        badge.textContent = count;
-        badge.style.display = count ? '' : 'none';
-    }
-
-    function render() {
-        renderCartItems();
-        renderTotals();
-    }
-
-    /* ========== СОБЫТИЯ ========== */
-    document.addEventListener('click', (e) => {
-        const addBtn = e.target.closest('.js-add-to-cart');
-        if (addBtn) { addToCart(addBtn.dataset.id); return; }
-
-        const inc = e.target.closest('.js-inc');
-        if (inc) { changeQty(inc.dataset.id, +1); return; }
-
-        const dec = e.target.closest('.js-dec');
-        if (dec) { changeQty(dec.dataset.id, -1); return; }
-
-        const rm = e.target.closest('.js-remove');
-        if (rm) { removeFromCart(rm.dataset.id); return; }
-    });
-
-    document.getElementById('applyPromo').addEventListener('click', () => {
-        applyPromoCode(document.getElementById('promoInput').value);
-    });
-
-    document.getElementById('promoInput').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            applyPromoCode(e.target.value);
-        }
-    });
-
-    document.getElementById('promoBanner').addEventListener('click', () => {
-        applyPromoCode('WELCOME');
-    });
-    document.getElementById('promoBanner').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            applyPromoCode('WELCOME');
-        }
-    });
-
-    document.getElementById('clearCart').addEventListener('click', (e) => {
-        e.preventDefault();
-        if (Object.keys(cart).length) clearCart();
-    });
-
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
-        if (!Object.keys(cart).length) { alert('Корзина пуста'); return; }
-        const { total } = calcTotal();
-        alert(`Заказ на ${fmt(total)} оформлен!`);
-    });
-
-    /* ========== СТАРТ ========== */
-    render();
+        const plus=e.target.closest('[data-plus]');
+        if(plus) { const p=cart.get(plus.dataset.plus); if(p){p.qty++;render();} }
+        const minus=e.target.closest('[data-minus]');
+        if(minus) { const p=cart.get(minus.dataset.minus); if(p){p.qty--;if(p.qty<=0)cart.delete(p.id);render();} }
+        const remove=e.target.closest('[data-remove]');
+        if(remove) {cart.delete(remove.dataset.remove);render();}
+        if(e.target.closest('#clearCart')) {e.preventDefault();cart.clear();promo=null;promoInput.value='';promoStatus.textContent='';render();}
+      });
+      document.getElementById('applyPromo').addEventListener('click',()=>{
+        const code=promoInput.value.trim().toUpperCase();
+        const codes={WELCOME:.20,FOOD10:.10};
+        if(!code){promo=null;promoStatus.className='cart-status error';promoStatus.textContent='Введите промокод.';}
+        else if(codes[code]) {
+          if(!cart.size){promoStatus.className='cart-status error';promoStatus.textContent='Сначала добавьте товары в корзину.';return;}
+          promo={code,rate:codes[code]};
+          promoStatus.className='cart-status success';
+          promoStatus.textContent=`Промокод ${code} применён: скидка ${codes[code]*100}%.`;
+        } else {promo=null;promoStatus.className='cart-status error';promoStatus.textContent='Такого промокода нет.';}
+        render();
+      });
+      document.getElementById('promoInput').addEventListener('keydown',e=>{
+        if(e.key==='Enter'){e.preventDefault();document.getElementById('applyPromo').click();}
+      });
+      render();
+    })();
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
