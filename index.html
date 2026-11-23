@@ -731,7 +731,18 @@
                 <i class="bi bi-grid-fill category-icon text-white"></i> Все кухни
             </a>
             <a href="#" class="category-btn">
-                <i class="bi bi-pizza category-icon text-warning"></i> Пицца
+                <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                     viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                     style="vertical-align: -4px; margin-right: 5px;">
+                    <path d="M3.2 5.1C9.1 2.2 15.7 2.4 21 5.5L12.1 21.2 3.2 5.1Z"
+                          fill="#f4a62a" stroke="#f4a62a" stroke-width="1.2"
+                          stroke-linejoin="round"/>
+                    <path d="M5.1 8.4 17.9 6.7M7.2 12.1l8.9-1.2"
+                          stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity=".9"/>
+                    <circle cx="9" cy="7.7" r="1.15" fill="#fff"/>
+                    <circle cx="13.4" cy="13.2" r="1.15" fill="#fff"/>
+                    <circle cx="8.5" cy="15.1" r=".85" fill="#fff"/>
+                </svg> Пицца
             </a>
             <a href="#" class="category-btn">
                 <i class="bi bi-egg-fried category-icon text-warning"></i> Суши
@@ -896,7 +907,7 @@
                                 <div class="rating-box d-none"></div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <span class="fw-bold fs-6">350 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3"><i class="bi bi-cart3 me-1"></i> В корзину</button>
+                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="caesar"><i class="bi bi-cart3 me-1"></i> В корзину</button>
                                 </div>
                             </div>
                         </div>
@@ -928,7 +939,7 @@
                 
                 <div class="sticky-sidebar" style="margin-top: 45px;">
                     
-                    <div class="cart-sidebar">
+                    <div class="cart-sidebar" id="cartPanel">
                         <div class="cart-header">
                             <h4>Ваш заказ</h4>
                             <a href="#" id="clearCart">Очистить</a>
@@ -951,15 +962,19 @@
                         <div class="cart-totals">
                             <div class="cart-totals-row">
                                 <span>Сумма</span>
-                                <span class="text-dark">1400 ₽</span>
+                                <span class="text-dark" id="subtotal">0 ₽</span>
+                            </div>
+                            <div class="cart-totals-row">
+                                <span>Скидка</span>
+                                <span class="text-success" id="discountAmount">0 ₽</span>
                             </div>
                             <div class="cart-totals-row">
                                 <span>Доставка</span>
-                                <span class="text-success">Бесплатно</span>
+                                <span class="text-success" id="deliveryAmount">Бесплатно</span>
                             </div>
                             <div class="cart-totals-row total">
                                 <span>Итого</span>
-                                <span>1400 ₽</span>
+                                <span id="grandTotal">0 ₽</span>
                             </div>
                         </div>
 
@@ -1085,111 +1100,292 @@
 
 
     <style>
-      .cart-status {font-size:.78rem;margin:-10px 0 12px}
+      .cart-status {font-size:.8rem;margin:10px 0 0;min-height:1.1em}
       .cart-status.success {color:#198754}
       .cart-status.error {color:#dc3545}
       .cart-empty-note {color:#8e8e93;text-align:center;padding:22px 8px}
       .cart-item {gap:0}
       .cart-item-img {flex:0 0 50px}
       .cart-item-price {white-space:nowrap}
-      .qty-btn {min-width:18px}
+      .qty-btn {min-width:22px}
+      .cart-item + .cart-item {border-top:0}
+      .btn-trash {min-width:24px}
+      .btn-checkout:disabled {opacity:.55;cursor:not-allowed}
+      .promo-applied {font-weight:700}
     </style>
+
     <script>
     (() => {
+      'use strict';
+
+      const products = {
+        pepperoni: {id:'pepperoni', name:'Пепперони', desc:'30 см', price:690, image:'img/dish-pepperoni.jpg'},
+        philadelphia: {id:'philadelphia', name:'Филадельфия', desc:'8 шт', price:590, image:'img/dish-philadelphia.jpg'},
+        caesar: {id:'caesar', name:'Цезарь с курицей', desc:'250 г', price:350, image:'img/dish-caesar.jpg'},
+        'burger-classic': {id:'burger-classic', name:'Бургер Классик', desc:'300 г', price:450, image:'img/dish-burger.jpg'}
+      };
+
+      const PROMOS = { WELCOME: 0.20, FOOD10: 0.10 };
+      const STORAGE_KEY = 'foodexpress-cart-v1';
       const cart = new Map();
       const promoInput = document.getElementById('promoInput');
       const promoStatus = document.createElement('div');
       promoStatus.className = 'cart-status';
-      promoStatus.setAttribute('aria-live','polite');
+      promoStatus.setAttribute('aria-live', 'polite');
       document.querySelector('.promo-input-wrapper').after(promoStatus);
+
       let promo = null;
 
-      const products = {
-        'pepperoni': {id:'pepperoni',name:'Пепперони',desc:'30 см',price:690,image:'img/dish-pepperoni.jpg'},
-        'philadelphia': {id:'philadelphia',name:'Филадельфия',desc:'8 шт',price:590,image:'img/dish-philadelphia.jpg'},
-        'caesar': {id:'caesar',name:'Цезарь с курицей',desc:'250 г',price:350,image:'img/dish-caesar.jpg'},
-        'burger-classic': {id:'burger-classic',name:'Бургер Классик',desc:'300 г',price:450,image:'img/dish-burger.jpg'}
-      };
-      const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
-      const count = () => [...cart.values()].reduce((sum,p)=>sum+p.qty,0);
-      const subtotal = () => [...cart.values()].reduce((sum,p)=>sum+p.price*p.qty,0);
+      const rub = value => Math.round(value).toLocaleString('ru-RU') + ' ₽';
+      const count = () => [...cart.values()].reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = () => [...cart.values()].reduce((sum, item) => sum + item.price * item.qty, 0);
+      const discount = () => promo ? Math.round(subtotal() * promo.rate) : 0;
+
+      function saveCart() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            items: [...cart.values()],
+            promo: promo ? promo.code : null
+          }));
+        } catch (error) {
+          console.warn('Не удалось сохранить корзину в браузере:', error);
+        }
+      }
+
+      function loadCart() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+          if (!saved || !Array.isArray(saved.items)) return;
+          saved.items.forEach(item => {
+            const product = products[item.id];
+            const qty = Number(item.qty);
+            if (product && Number.isInteger(qty) && qty > 0 && qty < 1000) {
+              cart.set(product.id, {...product, qty});
+            }
+          });
+          if (saved.promo && PROMOS[saved.promo]) {
+            promo = {code: saved.promo, rate: PROMOS[saved.promo]};
+            promoInput.value = saved.promo;
+          }
+        } catch (error) {
+          console.warn('Не удалось восстановить корзину:', error);
+          cart.clear();
+          promo = null;
+        }
+      }
+
+      function showPromoMessage(message, type) {
+        promoStatus.className = 'cart-status ' + (type || '');
+        promoStatus.textContent = message;
+      }
 
       function render() {
-        const host=document.getElementById('cartItems');
-        host.innerHTML='';
-        if (!cart.size) {
-          host.innerHTML='<div class="cart-empty-note"><i class="bi bi-cart3 fs-2 d-block mb-2"></i>Корзина пока пуста</div>';
+        const host = document.getElementById('cartItems');
+        host.replaceChildren();
+
+        if (cart.size === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'cart-empty-note';
+          empty.innerHTML = '<i class="bi bi-cart3 fs-2 d-block mb-2"></i>Корзина пока пуста';
+          host.appendChild(empty);
+          if (promo) {
+            promo = null;
+            promoInput.value = '';
+            showPromoMessage('Промокод сброшен: корзина пуста.', 'error');
+          }
         } else {
-          cart.forEach(p => {
-            const item=document.createElement('div');
-            item.className='cart-item';
-            item.innerHTML=`
-              <img class="cart-item-img" src="${p.image}" alt="${p.name}">
-              <div class="cart-item-content">
-                <div class="cart-item-top">
-                  <h6 class="cart-item-title"></h6>
-                  <button class="btn-trash" type="button" aria-label="Удалить ${p.name}" data-remove="${p.id}"><i class="bi bi-trash"></i></button>
-                </div>
-                <div class="cart-item-desc"></div>
-                <div class="cart-item-bottom">
-                  <div class="qty-control">
-                    <button class="qty-btn" type="button" aria-label="Уменьшить количество" data-minus="${p.id}">−</button>
-                    <span>${p.qty}</span>
-                    <button class="qty-btn" type="button" aria-label="Увеличить количество" data-plus="${p.id}">+</button>
-                  </div>
-                  <span class="cart-item-price">${rub(p.price*p.qty)}</span>
-                </div>
-              </div>`;
-            item.querySelector('.cart-item-title').textContent=p.name;
-            item.querySelector('.cart-item-desc').textContent=p.desc;
-            host.appendChild(item);
+          cart.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'cart-item';
+
+            const image = document.createElement('img');
+            image.className = 'cart-item-img';
+            image.src = item.image;
+            image.alt = item.name;
+
+            const content = document.createElement('div');
+            content.className = 'cart-item-content';
+
+            const top = document.createElement('div');
+            top.className = 'cart-item-top';
+
+            const title = document.createElement('h6');
+            title.className = 'cart-item-title';
+            title.textContent = item.name;
+
+            const remove = document.createElement('button');
+            remove.className = 'btn-trash';
+            remove.type = 'button';
+            remove.dataset.remove = item.id;
+            remove.setAttribute('aria-label', 'Удалить ' + item.name);
+            remove.innerHTML = '<i class="bi bi-trash"></i>';
+
+            top.append(title, remove);
+
+            const desc = document.createElement('div');
+            desc.className = 'cart-item-desc';
+            desc.textContent = item.desc;
+
+            const bottom = document.createElement('div');
+            bottom.className = 'cart-item-bottom';
+
+            const controls = document.createElement('div');
+            controls.className = 'qty-control';
+
+            const minus = document.createElement('button');
+            minus.className = 'qty-btn';
+            minus.type = 'button';
+            minus.dataset.minus = item.id;
+            minus.setAttribute('aria-label', 'Уменьшить количество');
+            minus.textContent = '−';
+
+            const quantity = document.createElement('span');
+            quantity.textContent = item.qty;
+
+            const plus = document.createElement('button');
+            plus.className = 'qty-btn';
+            plus.type = 'button';
+            plus.dataset.plus = item.id;
+            plus.setAttribute('aria-label', 'Увеличить количество');
+            plus.textContent = '+';
+
+            controls.append(minus, quantity, plus);
+
+            const price = document.createElement('span');
+            price.className = 'cart-item-price';
+            price.textContent = rub(item.price * item.qty);
+
+            bottom.append(controls, price);
+            content.append(top, desc, bottom);
+            row.append(image, content);
+            host.appendChild(row);
           });
         }
-        const sum=subtotal();
-        const discount=promo ? Math.round(sum*promo.rate) : 0;
-        document.getElementById('cartCount').textContent=count();
-        document.getElementById('subtotal').textContent=rub(sum);
-        document.getElementById('discountRow').style.display=discount ? 'flex' : 'none';
-        document.getElementById('discountAmount').textContent='−'+rub(discount);
-        document.getElementById('grandTotal').textContent=rub(sum-discount);
-        document.querySelectorAll('[data-add-product]').forEach(btn=>{
-          const inCart=cart.has(btn.dataset.addProduct);
-          btn.innerHTML=inCart ? '<i class="bi bi-check2 me-1"></i> Добавить ещё' : '<i class="bi bi-cart3 me-1"></i> В корзину';
+
+        const sum = subtotal();
+        const saved = discount();
+        document.getElementById('cartCount').textContent = count();
+        document.getElementById('subtotal').textContent = rub(sum);
+        document.getElementById('discountAmount').textContent = saved ? '−' + rub(saved) : '0 ₽';
+        document.getElementById('grandTotal').textContent = rub(Math.max(0, sum - saved));
+
+        const checkout = document.querySelector('.btn-checkout');
+        checkout.disabled = cart.size === 0;
+        checkout.setAttribute('aria-disabled', String(cart.size === 0));
+
+        document.querySelectorAll('[data-add-product]').forEach(button => {
+          const inCart = cart.has(button.dataset.addProduct);
+          button.innerHTML = inCart
+            ? '<i class="bi bi-plus-circle me-1"></i> Добавить ещё'
+            : '<i class="bi bi-cart3 me-1"></i> В корзину';
         });
+
+        saveCart();
       }
-      document.addEventListener('click', e => {
-        const add=e.target.closest('[data-add-product]');
-        if(add) {
-          const p=products[add.dataset.addProduct];
-          if(p) { const old=cart.get(p.id); cart.set(p.id,{...p,qty:old?old.qty+1:1}); render(); }
+
+      document.addEventListener('click', event => {
+        const addButton = event.target.closest('[data-add-product]');
+        if (addButton) {
+          const product = products[addButton.dataset.addProduct];
+          if (product) {
+            const current = cart.get(product.id);
+            cart.set(product.id, {...product, qty: current ? current.qty + 1 : 1});
+            render();
+          }
+          return;
         }
-        const plus=e.target.closest('[data-plus]');
-        if(plus) { const p=cart.get(plus.dataset.plus); if(p){p.qty++;render();} }
-        const minus=e.target.closest('[data-minus]');
-        if(minus) { const p=cart.get(minus.dataset.minus); if(p){p.qty--;if(p.qty<=0)cart.delete(p.id);render();} }
-        const remove=e.target.closest('[data-remove]');
-        if(remove) {cart.delete(remove.dataset.remove);render();}
-        if(e.target.closest('#clearCart')) {e.preventDefault();cart.clear();promo=null;promoInput.value='';promoStatus.textContent='';render();}
+
+        const plusButton = event.target.closest('[data-plus]');
+        if (plusButton) {
+          const item = cart.get(plusButton.dataset.plus);
+          if (item) { item.qty += 1; render(); }
+          return;
+        }
+
+        const minusButton = event.target.closest('[data-minus]');
+        if (minusButton) {
+          const item = cart.get(minusButton.dataset.minus);
+          if (item) {
+            item.qty -= 1;
+            if (item.qty <= 0) cart.delete(item.id);
+            render();
+          }
+          return;
+        }
+
+        const removeButton = event.target.closest('[data-remove]');
+        if (removeButton) {
+          cart.delete(removeButton.dataset.remove);
+          render();
+          return;
+        }
+
+        if (event.target.closest('#clearCart')) {
+          event.preventDefault();
+          cart.clear();
+          promo = null;
+          promoInput.value = '';
+          showPromoMessage('Корзина очищена.', 'success');
+          render();
+          return;
+        }
+
+        if (event.target.closest('#cartLink')) {
+          event.preventDefault();
+          document.getElementById('cartPanel').scrollIntoView({behavior:'smooth', block:'center'});
+        }
       });
-      document.getElementById('applyPromo').addEventListener('click',()=>{
-        const code=promoInput.value.trim().toUpperCase();
-        const codes={WELCOME:.20,FOOD10:.10};
-        if(!code){promo=null;promoStatus.className='cart-status error';promoStatus.textContent='Введите промокод.';}
-        else if(codes[code]) {
-          if(!cart.size){promoStatus.className='cart-status error';promoStatus.textContent='Сначала добавьте товары в корзину.';return;}
-          promo={code,rate:codes[code]};
-          promoStatus.className='cart-status success';
-          promoStatus.textContent=`Промокод ${code} применён: скидка ${codes[code]*100}%.`;
-        } else {promo=null;promoStatus.className='cart-status error';promoStatus.textContent='Такого промокода нет.';}
+
+      document.getElementById('applyPromo').addEventListener('click', () => {
+        const code = promoInput.value.trim().toUpperCase();
+
+        if (!code) {
+          promo = null;
+          showPromoMessage('Введите промокод.', 'error');
+        } else if (!cart.size) {
+          promo = null;
+          showPromoMessage('Сначала добавьте товары в корзину.', 'error');
+        } else if (Object.prototype.hasOwnProperty.call(PROMOS, code)) {
+          promo = {code, rate: PROMOS[code]};
+          promoInput.value = code;
+          showPromoMessage('Промокод ' + code + ' применён: скидка ' + Math.round(PROMOS[code] * 100) + '%.', 'success');
+        } else {
+          promo = null;
+          showPromoMessage('Такого промокода нет. Проверьте написание.', 'error');
+        }
+
         render();
       });
-      document.getElementById('promoInput').addEventListener('keydown',e=>{
-        if(e.key==='Enter'){e.preventDefault();document.getElementById('applyPromo').click();}
+
+      promoInput.addEventListener('keydown', event => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          document.getElementById('applyPromo').click();
+        }
       });
+
+      document.querySelector('.btn-checkout').addEventListener('click', () => {
+        if (!cart.size) return;
+        const lines = [...cart.values()].map(item => item.name + ' × ' + item.qty + ' — ' + rub(item.price * item.qty));
+        const message = [
+          'Демо-оформление заказа FoodExpress',
+          '',
+          ...lines,
+          '',
+          'Сумма: ' + rub(subtotal()),
+          'Скидка: ' + rub(discount()),
+          'Итого: ' + rub(subtotal() - discount()),
+          '',
+          'Это демонстрационный сайт: заказ не отправлен в ресторан и оплата не производится.'
+        ].join('\n');
+        window.alert(message);
+      });
+
+      loadCart();
       render();
     })();
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
