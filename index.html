@@ -1,1391 +1,203 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodExpress - Доставка еды</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-
-    <script>
-        document.addEventListener("error", function (e) {
-            var i = e.target;
-            if (i.tagName !== "IMG" || i.dataset.done) return;
-            if (i.dataset.fb && !i.dataset.tried) { i.dataset.tried = 1; i.src = i.dataset.fb; return; }
-            i.dataset.done = 1;
-            i.src = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 3"><rect width="4" height="3" fill="#ffe0cc"/><text x="2" y="2" font-size="1.4" text-anchor="middle">\u{1F37D}\uFE0F</text></svg>');
-        }, true);
-    </script>
-
-    <style>
-        :root {
-            --brand-orange: #f25b22;
-            --brand-orange-hover: #d94b16;
-            --bg-body: #f5f6f8;
-            --text-dark: #222;
-            --text-muted: #8e8e93;
-        }
-        
-        html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-            background-color: var(--bg-body);
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            color: var(--text-dark);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- Navbar --- */
-        .navbar-custom {
-            background-color: #fff;
-            padding: 12px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            width: 100%;
-        }
-        .navbar-brand {
-            font-weight: 800;
-            font-size: 1.6rem;
-            color: var(--brand-orange) !important;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            white-space: nowrap;
-        }
-        .navbar-brand i { font-size: 2rem; }
-        
-        .nav-link-custom {
-            font-weight: 700;
-            color: #333 !important;
-            margin: 0 12px;
-            font-size: 0.95rem;
-            padding-bottom: 5px !important;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .nav-link-custom:hover, .nav-link-custom.active {
-            color: var(--brand-orange) !important;
-            border-bottom: 2px solid var(--brand-orange);
-        }
-
-        .search-bar {
-            background-color: #f1f3f5;
-            border-radius: 8px;
-            border: none;
-            padding: 10px 15px;
-            font-size: 0.9rem;
-            min-width: 300px;
-        }
-        .search-bar:focus { background-color: #fff; outline: none; box-shadow: 0 0 0 2px rgba(242, 91, 34, 0.2); }
-
-        .header-icons a {
-            color: #333;
-            font-size: 1.5rem;
-            margin-left: 20px;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .header-icons a:hover { color: var(--brand-orange); }
-        .cart-badge {
-            font-size: 0.65rem;
-            padding: 4px 7px;
-            background-color: #e63946 !important;
-            transform: translate(-30%, -30%) !important;
-            border: 2px solid #fff;
-        }
-
-        /* --- Hero Banner --- */
-        .hero-banner {
-            background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%), 
-                        url('img/hero.jpg') center/cover,
-                        url('img/hero-food.jpg') center/cover #3a2a22;
-            border-radius: 16px;
-            padding: 65px 50px;
-            color: white;
-            margin-top: 25px;
-            position: relative;
-        }
-        .hero-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 15px;
-        }
-        .hero-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-bottom: 35px;
-        }
-        .btn-brand {
-            background-color: var(--brand-orange);
-            color: white;
-            border-radius: 8px;
-            font-weight: 700;
-            padding: 12px 32px;
-            border: none;
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-        .btn-brand:hover { background-color: var(--brand-orange-hover); color: white; }
-        
-        .hero-features-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            color: var(--text-dark);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            max-width: 340px;
-            margin-left: auto;
-        }
-        .hero-feature-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .hero-feature-item:last-child { margin-bottom: 0; }
-        .hero-feature-item i {
-            color: var(--brand-orange);
-            font-size: 2rem;
-        }
-        .hero-feature-item h6 { margin: 0; font-weight: 800; font-size: 1rem; }
-        .hero-feature-item p { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
-
-        /* --- Categories --- */
-        .category-pills {
-            display: flex;
-            overflow-x: auto;
-            gap: 12px;
-            padding-bottom: 10px;
-            scrollbar-width: none;
-            margin-top: 30px;
-            width: 100%;
-        }
-        .category-pills::-webkit-scrollbar { display: none; }
-        
-        .category-btn {
-            background: #fff;
-            border: 1px solid #f0f0f0;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font-weight: 700;
-            color: #444;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.2s;
-            text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            flex-shrink: 0;
-        }
-        .category-btn:hover, .category-btn.active {
-            background: var(--brand-orange);
-            color: white;
-            border-color: var(--brand-orange);
-        }
-        
-        .category-icon {
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-        }
-        .category-btn.active .category-icon { color: white !important; }
-
-        @media (min-width: 992px) {
-            .category-pills { overflow-x: visible; }
-            .category-btn { flex: 1; justify-content: center; }
-        }
-
-        /* --- Section Titles --- */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            margin-top: 45px;
-        }
-        .section-header h3 { font-weight: 800; font-size: 1.4rem; margin: 0; }
-        .section-header a {
-            color: var(--brand-orange);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        .section-header a:hover { text-decoration: underline; }
-
-        /* --- Restaurant Cards --- */
-        .card-restaurant {
-            border: none;
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            transition: transform 0.2s;
-            overflow: hidden;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .card-restaurant:hover { transform: translateY(-5px); }
-        
-        .card-img-wrapper { 
-            position: relative; 
-            height: 170px; 
-            width: 100%;
-        }
-        .card-img-wrapper img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-        }
-        
-        .badge-discount {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            background: #ffc107;
-            color: #000;
-            font-weight: 800;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-        }
-        
-        .btn-like {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: white;
-            border: none;
-            border-radius: 50%;
-            width: 34px;
-            height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ccc;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            transition: color 0.2s;
-            font-size: 1.1rem;
-        }
-        .btn-like:hover { color: var(--brand-orange); }
-        
-        .restaurant-info { 
-            padding: 16px; 
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .restaurant-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 2px; }
-        .restaurant-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
-        
-        .rating-box {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            margin-top: auto;
-        }
-        .rating-box .stars { color: #ffb703; display: flex; align-items: center; gap: 4px; }
-        .rating-box .delivery { color: var(--text-muted); font-weight: 600; }
-        .rating-box .delivery.free { color: #2a9d8f; }
-        
-        .btn-outline-brand {
-            color: var(--brand-orange);
-            border: 1px solid var(--brand-orange);
-            background: transparent;
-            border-radius: 8px;
-            font-weight: 700;
-            width: 100%;
-            padding: 8px;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .btn-outline-brand:hover { background: var(--brand-orange); color: white; }
-
-        /* --- Cart Sidebar --- */
-        .sticky-sidebar {
-            position: sticky;
-            top: 90px;
-            z-index: 10;
-        }
-
-        .cart-sidebar {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 20px;
-            overflow: hidden; /* Скрывает все, что пытается вылезти за края */
-        }
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .cart-header h4 { font-weight: 800; font-size: 1.2rem; margin: 0; }
-        .cart-header a { color: #e63946; text-decoration: none; font-size: 0.85rem; font-weight: 700; }
-        
-        .cart-item {
-            display: flex;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .cart-item-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-right: 12px;
-        }
-        .cart-item-content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0; /* Защита от выталкивания */
-        }
-        .cart-item-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 2px;
-        }
-        .cart-item-title { font-weight: 800; font-size: 0.9rem; margin: 0; }
-        .btn-trash { 
-            color: #ccc; 
-            background: none; 
-            border: none; 
-            padding: 0; 
-            font-size: 0.9rem; 
-            cursor: pointer;
-            line-height: 1;
-        }
-        .btn-trash:hover { color: #e63946; }
-        
-        .cart-item-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; }
-        
-        .cart-item-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .qty-control {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-        .qty-btn {
-            background: none;
-            border: none;
-            color: #ccc;
-            font-size: 1.2rem;
-            padding: 0;
-            line-height: 1;
-            cursor: pointer;
-            font-weight: 700;
-        }
-        .qty-btn:hover { color: var(--brand-orange); }
-        .cart-item-price { font-weight: 800; font-size: 0.95rem; }
-
-        /* --- ПРОМОКОД (ИСПРАВЛЕН) --- */
-        .promo-input-wrapper {
-            display: flex;
-            width: 100%;
-            margin-top: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #eaeaea;
-            overflow: hidden;
-            background: #f8f9fa;
-        }
-        
-        .promo-input {
-            flex: 1; 
-            min-width: 0; /* Не дает инпуту вытолкнуть кнопку */
-            background: transparent;
-            border: none;
-            font-size: 0.85rem;
-            padding: 8px 10px;
-            text-align: center;
-            outline: none;
-            box-sizing: border-box;
-        }
-        
-        .btn-promo {
-            background: var(--brand-orange);
-            color: white;
-            border: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            padding: 8px 15px;
-            cursor: pointer;
-            flex-shrink: 0; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
-        }
-
-        /* Итоги */
-        .cart-totals {
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        .cart-totals-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        .cart-totals-row.total {
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed #eaeaea;
-        }
-        
-        .btn-checkout {
-            background: var(--brand-orange);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            width: 100%;
-            padding: 12px;
-            font-weight: 800;
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-        .btn-checkout:hover { background: var(--brand-orange-hover); }
-
-        /* --- Promo Banner --- */
-        .promo-banner {
-            background: #ffe8d6;
-            border-radius: 16px;
-            padding: 25px 20px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-        }
-        .promo-banner-text { z-index: 2; position: relative; }
-        .promo-banner h4 { font-weight: 800; font-size: 1.25rem; line-height: 1.2; margin-bottom: 15px; color: #222; }
-        .promo-code {
-            background: white;
-            color: #e63946;
-            font-weight: 800;
-            font-size: 0.8rem;
-            padding: 6px 12px;
-            border-radius: 6px;
-            display: inline-block;
-            letter-spacing: 1px;
-            line-height: 1.3;
-        }
-        .promo-banner-img {
-            position: absolute;
-            right: -15px;
-            bottom: -10px;
-            width: 140px;
-            z-index: 1;
-            mask-image: linear-gradient(to right, transparent, black 30%);
-        }
-
-        /* --- Features Cards --- */
-        .feature-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            height: 100%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .feature-card i {
-            font-size: 2.2rem;
-            color: var(--brand-orange);
-            flex-shrink: 0;
-        }
-        .feature-card h6 {
-            margin: 0 0 2px 0;
-            font-weight: 800;
-            font-size: 0.95rem;
-            color: var(--text-dark);
-        }
-        .feature-card p {
-            margin: 0;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        /* --- Footer --- */
-        .footer {
-            background-color: #1a1a1a;
-            color: #a0a0a0;
-            padding: 50px 0 30px 0;
-            font-size: 0.85rem;
-            width: 100% !important;
-            margin: 0 !important;
-            border: none !important;
-            box-shadow: none !important;
-            border-radius: 0 !important;
-            flex-shrink: 0;
-        }
-        
-        .footer-brand {
-            color: white;
-            font-weight: 800;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            margin-bottom: 10px;
-        }
-        .footer-brand i { 
-            color: var(--brand-orange); 
-            font-size: 1.8rem; 
-        }
-        
-        .footer-desc {
-            color: #a0a0a0;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
-
-        .footer h6 { 
-            color: white; 
-            font-weight: 800; 
-            margin-bottom: 20px; 
-            font-size: 1rem; 
-        }
-        
-        .footer-links { list-style: none; padding: 0; margin: 0; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a { 
-            color: #a0a0a0; 
-            text-decoration: none; 
-            transition: color 0.2s; 
-            font-weight: 600; 
-        }
-        .footer-links a:hover { color: white; }
-        
-        .footer-contact { list-style: none; padding: 0; margin: 0; }
-        .footer-contact li { 
-            margin-bottom: 15px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            font-weight: 600; 
-        }
-        .footer-contact i { 
-            color: #777; 
-            font-size: 1.1rem; 
-        }
-        
-        /* Иконки соцсетей в плашках */
-        .footer-socials { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 10px; 
-        }
-        .footer-socials a { 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 38px;
-            height: 38px;
-            background-color: #2a2a2a;
-            color: white; 
-            font-size: 1.2rem; 
-            border-radius: 8px;
-            transition: background-color 0.2s, color 0.2s;
-            text-decoration: none;
-        }
-        .footer-socials a:hover { 
-            background-color: var(--brand-orange); 
-            color: white; 
-        }
-        
-        @media (max-width: 991px) {
-            .hero-banner { padding: 40px 20px; text-align: center; }
-            .hero-features-card { margin: 30px auto 0; text-align: left; }
-            .sticky-sidebar { position: static; margin-top: 30px; }
-            .search-bar { min-width: 100%; }
-            .nav-link-custom { margin: 0; padding: 10px 0 !important; border-bottom: none; }
-            .nav-link-custom.active { border-bottom: none; color: var(--brand-orange) !important; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Электронная библиотека</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
+<div class="app">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="bi bi-fork-knife"></i> FoodExpress
-            </a>
-            
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-lg-4 me-auto mb-2 mb-lg-0 align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link nav-link-custom active" href="#">Главная</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Рестораны</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Акции</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">Доставка</a></li>
-                    <li class="nav-item"><a class="nav-link nav-link-custom" href="#">О нас</a></li>
-                </ul>
-
-                <div class="dropdown me-lg-4 my-2 my-lg-0">
-                    <button class="btn btn-link text-dark text-decoration-none fw-bold dropdown-toggle p-0 d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-geo-alt-fill text-danger me-1 fs-5"></i> Москва
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Санкт-Петербург</a></li>
-                        <li><a class="dropdown-item" href="#">Казань</a></li>
-                    </ul>
-                </div>
-
-                <form class="d-flex me-lg-4 my-2 my-lg-0 position-relative">
-                    <input class="search-bar" type="search" placeholder="Поиск блюд, ресторанов..." aria-label="Search">
-                    <i class="bi bi-search position-absolute text-muted" style="right: 15px; top: 50%; transform: translateY(-50%); font-size: 1rem;"></i>
-                </form>
-
-                <div class="header-icons d-flex align-items-center mt-3 mt-lg-0">
-                    <a href="#"><i class="bi bi-heart"></i></a>
-                    <a href="#" class="position-relative">
-                        <i class="bi bi-cart3"></i>
-                        <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge">0</span>
-                    </a>
-                    <a href="#" class="d-flex align-items-center text-dark text-decoration-none ms-4" style="font-size: 0.95rem; white-space: nowrap;">
-                        <i class="bi bi-person me-1 fs-5"></i> <span class="fw-bold">Войти</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+  <!-- Боковое меню -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <span class="logo-icon" aria-hidden="true">
+        <span data-ic="book-open" data-size="30"></span>
+      </span>
+      <span class="logo-text">Электронная<br>библиотека</span>
+    </div>
+    <nav>
+      <ul class="nav" id="nav"></ul>
     </nav>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
 
-    <!-- Основной контейнер -->
-    <div class="container flex-grow-1">
-        
-        <!-- Hero Banner -->
-        <div class="hero-banner">
-            <div class="row align-items-center h-100">
-                <div class="col-lg-7">
-                    <h1 class="hero-title">Любимая еда<br>доставляется быстрее</h1>
-                    <p class="hero-subtitle">Более 500 ресторанов и кафе в твоем городе</p>
-                    <a href="#" class="btn btn-brand">Перейти к ресторанам <i class="bi bi-arrow-right ms-1"></i></a>
-                </div>
-                <div class="col-lg-5 d-none d-lg-block">
-                    <div class="hero-features-card">
-                        <div class="hero-feature-item">
-                            <i class="bi bi-truck"></i>
-                            <div>
-                                <h6>Быстрая доставка</h6>
-                                <p>от 30 минут</p>
-                            </div>
-                        </div>
-                        <div class="hero-feature-item">
-                            <i class="bi bi-shield-check"></i>
-                            <div>
-                                <h6>Только проверенные</h6>
-                                <p>рестораны</p>
-                            </div>
-                        </div>
-                        <div class="hero-feature-item">
-                            <i class="bi bi-gift"></i>
-                            <div>
-                                <h6>Бонусы за заказы</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn burger" id="burger" aria-label="Открыть меню">☰</button>
+      <div class="page-title">
+        <h1 id="pageTitle">Электронная библиотека</h1>
+        <p id="pageSub">Открывай новые книги. Читай. Развивайся. Сохраняй любимое.</p>
+      </div>
+      <label class="search">
+        <span data-ic="search" data-size="18"></span>
+        <input type="search" id="search" placeholder="Поиск книг, авторов, жанров..." aria-label="Поиск книг">
+      </label>
+      <button class="icon-btn" id="favBtn" aria-label="Избранное">
+        <span data-ic="heart" data-size="20"></span>
+        <span class="badge" id="favCount">0</span>
+      </button>
+      <button class="icon-btn" aria-label="Профиль">
+        <span data-ic="user" data-size="20"></span>
+      </button>
+    </header>
+
+    <div class="tabs-row">
+      <div class="tabs" id="tabs" role="tablist" aria-label="Жанры"></div>
+      <button class="btn btn-primary add-btn" id="addBtn"><span data-ic="plus" data-size="16"></span>Добавить книгу</button>
+    </div>
+
+    <div class="workspace">
+      <!-- Фильтры -->
+      <aside class="filters" id="filters">
+        <div class="filters-head">
+          <h2>Фильтры</h2>
+          <button class="link-btn" id="resetBtn">Сбросить все</button>
         </div>
 
-        <!-- Категории -->
-        <div class="category-pills">
-            <a href="#" class="category-btn active">
-                <i class="bi bi-grid-fill category-icon text-white"></i> Все кухни
-            </a>
-            <a href="#" class="category-btn">
-                <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                     viewBox="0 0 24 24" fill="none" aria-hidden="true"
-                     style="vertical-align: -4px; margin-right: 5px;">
-                    <path d="M3.2 5.1C9.1 2.2 15.7 2.4 21 5.5L12.1 21.2 3.2 5.1Z"
-                          fill="#f4a62a" stroke="#f4a62a" stroke-width="1.2"
-                          stroke-linejoin="round"/>
-                    <path d="M5.1 8.4 17.9 6.7M7.2 12.1l8.9-1.2"
-                          stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity=".9"/>
-                    <circle cx="9" cy="7.7" r="1.15" fill="#fff"/>
-                    <circle cx="13.4" cy="13.2" r="1.15" fill="#fff"/>
-                    <circle cx="8.5" cy="15.1" r=".85" fill="#fff"/>
-                </svg> Пицца
-            </a>
-            <a href="#" class="category-btn">
-                <i class="bi bi-egg-fried category-icon text-warning"></i> Суши
-            </a>
-            <a href="#" class="category-btn">
-                <i class="bi bi-cup-hot category-icon text-warning"></i> Бургеры
-            </a>
-            <a href="#" class="category-btn">
-                <i class="bi bi-pie-chart category-icon text-warning"></i> Паста
-            </a>
-            <a href="#" class="category-btn">
-                <i class="bi bi-flower1 category-icon text-success"></i> Здоровая еда
-            </a>
-            <a href="#" class="category-btn">
-                <i class="bi bi-cake2 category-icon text-danger"></i> Десерты
-            </a>
-            <a href="#" class="category-btn">
-                <i class="bi bi-cup-straw category-icon text-info"></i> Напитки
-            </a>
+        <h3>Жанр</h3>
+        <div class="checks" id="genreChecks"></div>
+        <button class="link-btn more" id="genreMore">Показать ещё ⌄</button>
+
+        <h3>Автор</h3>
+        <label class="author-search">
+          <span data-ic="search" data-size="15"></span>
+          <input type="search" id="authorSearch" placeholder="Поиск автора..." aria-label="Поиск автора">
+        </label>
+        <div class="checks" id="authorChecks"></div>
+        <button class="link-btn more" id="authorMore">Показать ещё ⌄</button>
+
+        <h3>Статус</h3>
+        <div class="checks" id="statusChecks"></div>
+      </aside>
+
+      <!-- Список книг -->
+      <section class="listing">
+        <div class="toolbar">
+          <button class="btn btn-secondary filters-toggle" id="filtersToggle">Фильтры</button>
+          <label class="sort">Сортировка:
+            <select id="sort">
+              <option value="popular">Сначала популярные</option>
+              <option value="rating">По рейтингу</option>
+              <option value="title">По названию</option>
+              <option value="year">Сначала новые</option>
+            </select>
+          </label>
+          <div class="view-toggle">
+            <button class="view-btn active" id="gridBtn" aria-label="Сетка" title="Сетка"><span data-ic="grid" data-size="16"></span></button>
+            <button class="view-btn" id="listBtn" aria-label="Список" title="Список"><span data-ic="list" data-size="16"></span></button>
+          </div>
+          <span class="found" id="found"></span>
         </div>
+        <ul class="cards grid" id="cards"></ul>
+        <div class="empty" id="empty" hidden></div>
+      </section>
 
-        <!-- Основной контент -->
-        <div class="row">
-            <!-- Левая колонка -->
-            <div class="col-lg-8 col-xl-9">
-                
-                <!-- Популярные рестораны -->
-                <div class="section-header">
-                    <h3>Популярные рестораны</h3>
-                    <a href="#">Смотреть все <i class="bi bi-arrow-right"></i></a>
-                </div>
-                
-                <div class="row g-3">
-                    <!-- Ресторан 1 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper">
-                                <img src="img/restaurant-pizza.jpg"  alt="Mamma Mia">
-                                <span class="badge-discount">20%</span>
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Mamma Mia</div>
-                                <div class="restaurant-desc">Итальянская кухня</div>
-                                <div class="rating-box">
-                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.8 (320)</span>
-                                    <span class="delivery">30-40 мин</span>
-                                </div>
-                                <button class="btn-outline-brand">Перейти</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ресторан 2 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper">
-                                <img src="img/restaurant-sushi.jpg"  alt="Sushi House">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Sushi House</div>
-                                <div class="restaurant-desc">Японская кухня</div>
-                                <div class="rating-box">
-                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.6 (210)</span>
-                                    <span class="delivery free">Бесплатная доставка</span>
-                                </div>
-                                <button class="btn-outline-brand">Перейти</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ресторан 3 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper">
-                                <img src="img/restaurant-burger.jpg"  alt="Burger Club">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Burger Club</div>
-                                <div class="restaurant-desc">Американская кухня</div>
-                                <div class="rating-box">
-                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.5 (180)</span>
-                                    <span class="delivery">от 99 ₽</span>
-                                </div>
-                                <button class="btn-outline-brand">Перейти</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ресторан 4 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper">
-                                <img src="img/restaurant-salad.jpg"  alt="Green Bowl">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Green Bowl</div>
-                                <div class="restaurant-desc">Здоровая еда</div>
-                                <div class="rating-box">
-                                    <span class="stars"><i class="bi bi-star-fill"></i> 4.7 (95)</span>
-                                    <span class="delivery free">Бесплатная доставка</span>
-                                </div>
-                                <button class="btn-outline-brand">Перейти</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <!-- Карточка книги -->
+      <aside class="detail" id="detail"></aside>
+    </div>
+  </div>
+</div>
 
-                <!-- Популярные блюда -->
-                <div class="section-header mt-5">
-                    <h3>Популярные блюда</h3>
-                    <a href="#">Смотреть все <i class="bi bi-arrow-right"></i></a>
-                </div>
-                
-                <div class="row g-3">
-                    <!-- Блюдо 1 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="img/dish-pepperoni.jpg"  alt="Пепперони">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Пепперони</div>
-                                <div class="restaurant-desc">30 см</div>
-                                <div class="rating-box d-none"></div>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <span class="fw-bold fs-6">690 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="pepperoni"><i class="bi bi-cart3 me-1"></i> В корзину</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Блюдо 2 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="img/dish-philadelphia.jpg"  alt="Филадельфия">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Филадельфия</div>
-                                <div class="restaurant-desc">8 шт</div>
-                                <div class="rating-box d-none"></div>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <span class="fw-bold fs-6">590 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="philadelphia"><i class="bi bi-cart3 me-1"></i> В корзину</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Блюдо 3 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="img/dish-caesar.jpg"  alt="Цезарь">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Цезарь с курицей</div>
-                                <div class="restaurant-desc">250 г</div>
-                                <div class="rating-box d-none"></div>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <span class="fw-bold fs-6">350 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="caesar"><i class="bi bi-cart3 me-1"></i> В корзину</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Блюдо 4 -->
-                    <div class="col-12 col-md-6 col-xl-3">
-                        <div class="card-restaurant">
-                            <div class="card-img-wrapper" style="height: 140px;">
-                                <img src="img/dish-burger.jpg"  alt="Бургер">
-                                <button class="btn-like"><i class="bi bi-heart"></i></button>
-                            </div>
-                            <div class="restaurant-info">
-                                <div class="restaurant-title">Бургер Классик</div>
-                                <div class="restaurant-desc">300 г</div>
-                                <div class="rating-box d-none"></div>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <span class="fw-bold fs-6">450 ₽</span>
-                                    <button class="btn btn-sm btn-brand px-3" type="button" data-add-product="burger-classic"><i class="bi bi-cart3 me-1"></i> В корзину</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!-- Конец левой колонки -->
-
-            <!-- Правая колонка (Корзина) -->
-            <div class="col-lg-4 col-xl-3 mt-4 mt-lg-0">
-                
-                <div class="sticky-sidebar" style="margin-top: 45px;">
-                    
-                    <div class="cart-sidebar" id="cartPanel">
-                        <div class="cart-header">
-                            <h4>Ваш заказ</h4>
-                            <a href="#" id="clearCart">Очистить</a>
-                        </div>
-
-                        <div id="cartItems" aria-live="polite">
-                            <div class="text-center text-muted py-4" id="emptyCart">
-                                <i class="bi bi-cart3 fs-2 d-block mb-2"></i>
-                                Корзина пока пуста
-                            </div>
-                        </div>
-
-                        <!-- Промокод (Ничего не выезжает) -->
-                        <div class="promo-input-wrapper">
-                            <input id="promoInput" type="text" class="promo-input" placeholder="Введите промокод" aria-label="Промокод">
-                            <button id="applyPromo" class="btn-promo" type="button">Применить</button>
-                        </div>
-
-                        <!-- Итоги -->
-                        <div class="cart-totals">
-                            <div class="cart-totals-row">
-                                <span>Сумма</span>
-                                <span class="text-dark" id="subtotal">0 ₽</span>
-                            </div>
-                            <div class="cart-totals-row">
-                                <span>Скидка</span>
-                                <span class="text-success" id="discountAmount">0 ₽</span>
-                            </div>
-                            <div class="cart-totals-row">
-                                <span>Доставка</span>
-                                <span class="text-success" id="deliveryAmount">Бесплатно</span>
-                            </div>
-                            <div class="cart-totals-row total">
-                                <span>Итого</span>
-                                <span id="grandTotal">0 ₽</span>
-                            </div>
-                        </div>
-
-                        <button class="btn-checkout">Оформить заказ</button>
-                    </div>
-
-                    <!-- Промо баннер -->
-                    <div class="promo-banner">
-                        <div class="promo-banner-text">
-                            <h4>Скидка 20%<br>на первый заказ</h4>
-                            <div class="promo-code">ПРОМОКОД<br>WELCOME</div>
-                        </div>
-                        <img src="img/hero-food.jpg"  class="promo-banner-img" alt="Promo">
-                    </div>
-
-                </div> <!-- Конец sticky-sidebar -->
-
-            </div>
-        </div> <!-- Конец основной сетки -->
-
-        <!-- Блок преимуществ -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-4 mb-5">
-            <div class="col">
-                <div class="feature-card">
-                    <i class="bi bi-truck"></i>
-                    <div>
-                        <h6>Быстрая доставка</h6>
-                        <p>от 30 минут</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="feature-card">
-                    <i class="bi bi-shop"></i>
-                    <div>
-                        <h6>Более 500 ресторанов</h6>
-                        <p>в твоем городе</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="feature-card">
-                    <i class="bi bi-credit-card"></i>
-                    <div>
-                        <h6>Удобная оплата</h6>
-                        <p>картой или наличными</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="feature-card">
-                    <i class="bi bi-gift"></i>
-                    <div>
-                        <h6>Бонусы и акции</h6>
-                        <p>для постоянных клиентов</p>
-                    </div>
-                </div>
-            </div>
+<!-- Модальное окно: добавить книгу -->
+<dialog id="addDialog">
+  <form id="addForm" novalidate>
+    <div class="modal-head">
+      <h2>Добавить книгу</h2>
+      <button type="button" class="close-btn" data-close="addDialog" aria-label="Закрыть"><span data-ic="x" data-size="20"></span></button>
+    </div>
+    <div class="add-grid">
+      <div class="cover-slot" id="addCover"></div>
+      <div class="add-fields">
+        <div class="field">
+          <label for="aTitle">Название книги *</label>
+          <input id="aTitle" type="text" maxlength="80" autocomplete="off">
+          <span class="error" id="aTitleError"></span>
         </div>
-
-    </div> <!-- Конец основного контейнера -->
-
-    <!-- Footer -->
-    <footer class="footer mt-auto">
-        <div class="container">
-            <div class="row">
-                <!-- Лого и описание -->
-                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                    <a href="#" class="footer-brand">
-                        <i class="bi bi-fork-knife"></i> FoodExpress
-                    </a>
-                    <p class="footer-desc">Вкусная еда — ближе, чем ты думаешь.</p>
-                    
-                    <!-- Соцсети в плашках (ВК заменен на SVG, так как иконки нет в библиотеке) -->
-                    <div class="footer-socials">
-                        <a href="#" aria-label="VK">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 576 512">
-                                <path d="M545 117.7c3.7-12.5 0-21.7-17.8-21.7h-58.9c-15 0-21.9 7.9-25.6 16.7 0 0-30 73.1-72.4 120.5-13.7 13.7-20 18.1-27.5 18.1-3.7 0-9.4-4.4-9.4-16.9V117.7c0-15-4.2-21.7-16.6-21.7h-92.6c-9.4 0-15 7-15 13.5 0 14.2 21.2 17.5 23.4 57.5v86.8c0 19-3.4 22.5-10.9 22.5-20 0-68.6-73.4-97.4-157.4-5.8-16.3-11.5-22.9-26.6-22.9H38.9c-16.6 0-20 7.9-20 16.7 0 15.6 20 93.1 93.1 195.6 48.7 69.8 117.2 107.6 179.6 107.6 37.5 0 42.1-8.4 42.1-22.9 0-17.5-1.1-63.1 1.1-75 4.2-15 14.2-18.6 27.5-18.6 13.7 0 33.8 38.3 70.8 38.3h58.9c15 0 22.5-7.9 18.1-22.5-4.5-15-23.4-38.3-45.3-59.2-12.5-11.7-30.1-25-30.1-37.5 0-14.2 10.9-21.7 18.1-30.8 15-18.6 33.8-42.5 45.3-65.8z"/>
-                            </svg>
-                        </a>
-                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-                        <a href="#" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
-                    </div>
-                </div>
-                
-                <!-- Навигация -->
-                <div class="col-lg-2 col-md-3 col-6 mb-4 mb-md-0">
-                    <h6>Навигация</h6>
-                    <ul class="footer-links">
-                        <li><a href="#">Главная</a></li>
-                        <li><a href="#">Рестораны</a></li>
-                        <li><a href="#">Акции</a></li>
-                        <li><a href="#">Доставка</a></li>
-                        <li><a href="#">Контакты</a></li>
-                    </ul>
-                </div>
-
-                <!-- Помощь -->
-                <div class="col-lg-2 col-md-3 col-6 mb-4 mb-md-0">
-                    <h6>Помощь</h6>
-                    <ul class="footer-links">
-                        <li><a href="#">Вопросы и ответы</a></li>
-                        <li><a href="#">Условия доставки</a></li>
-                        <li><a href="#">Способы оплаты</a></li>
-                        <li><a href="#">Возврат и отмена</a></li>
-                        <li><a href="#">Политика конфиденциальности</a></li>
-                    </ul>
-                </div>
-
-                <!-- Контакты -->
-                <div class="col-lg-4 col-md-6">
-                    <h6>Контакты</h6>
-                    <ul class="footer-contact">
-                        <li><i class="bi bi-telephone"></i> <a href="tel:+79991234567" class="text-white text-decoration-none">+7 (999) 123-45-67</a></li>
-                        <li><i class="bi bi-envelope"></i> <a href="mailto:info@foodexpress.ru" class="text-white text-decoration-none">info@foodexpress.ru</a></li>
-                        <li><i class="bi bi-geo-alt"></i> <span class="text-white">Москва, ул. Примерная, 10</span></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="row-2">
+          <div class="field">
+            <label for="aAuthor">Автор *</label>
+            <input id="aAuthor" type="text" maxlength="60" autocomplete="off">
+            <span class="error" id="aAuthorError"></span>
+          </div>
+          <div class="field">
+            <label for="aGenre">Жанр *</label>
+            <select id="aGenre"><option value="">Выберите жанр</option></select>
+            <span class="error" id="aGenreError"></span>
+          </div>
         </div>
-    </footer>
+        <div class="row-2">
+          <div class="field">
+            <label for="aYear">Год издания</label>
+            <select id="aYear"></select>
+          </div>
+          <div class="field">
+            <label>Формат</label>
+            <div class="radios">
+              <label><input type="radio" name="aFormat" value="PDF" checked>PDF</label>
+              <label><input type="radio" name="aFormat" value="EPUB">EPUB</label>
+              <label><input type="radio" name="aFormat" value="FB2">FB2</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="aDesc">Описание (необязательно)</label>
+      <textarea id="aDesc" rows="3" maxlength="400" placeholder="Краткое описание книги..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" data-close="addDialog">Отмена</button>
+      <button type="submit" class="btn btn-primary">Добавить</button>
+    </div>
+  </form>
+</dialog>
 
+<!-- Модальное окно: редактирование статуса -->
+<dialog id="statusDialog">
+  <form id="statusForm" novalidate>
+    <div class="modal-head">
+      <h2>Редактирование статуса</h2>
+      <button type="button" class="close-btn" data-close="statusDialog" aria-label="Закрыть"><span data-ic="x" data-size="20"></span></button>
+    </div>
+    <div class="status-top">
+      <div class="cover-slot small" id="stCover"></div>
+      <div>
+        <div class="st-title" id="stTitle"></div>
+        <div class="st-author" id="stAuthor"></div>
+      </div>
+    </div>
+    <div class="status-grid">
+      <div>
+        <div class="st-label">Текущий статус</div>
+        <span class="status-badge" id="stCurrent"></span>
+        <div class="st-label mt">Новый статус</div>
+        <div class="radios col" id="stRadios"></div>
+      </div>
+      <div>
+        <div class="st-label">Прогресс чтения</div>
+        <div class="progress-row">
+          <input type="range" id="stRange" min="0" max="100" value="0" aria-label="Прогресс чтения">
+          <b id="stPercent">0%</b>
+        </div>
+        <div class="page-row">
+          <input type="number" id="stPage" min="0" aria-label="Текущая страница">
+          <span id="stOf"></span>
+        </div>
+        <div class="st-label mt">Заметки (необязательно)</div>
+        <textarea id="stNotes" rows="4" maxlength="300" placeholder="Интересные мысли и цитаты..."></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-secondary" data-close="statusDialog">Отмена</button>
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+  </form>
+</dialog>
 
-    <style>
-      .cart-status {font-size:.8rem;margin:10px 0 0;min-height:1.1em}
-      .cart-status.success {color:#198754}
-      .cart-status.error {color:#dc3545}
-      .cart-empty-note {color:#8e8e93;text-align:center;padding:22px 8px}
-      .cart-item {gap:0}
-      .cart-item-img {flex:0 0 50px}
-      .cart-item-price {white-space:nowrap}
-      .qty-btn {min-width:22px}
-      .cart-item + .cart-item {border-top:0}
-      .btn-trash {min-width:24px}
-      .btn-checkout:disabled {opacity:.55;cursor:not-allowed}
-      .promo-applied {font-weight:700}
-    </style>
-
-    <script>
-    (() => {
-      'use strict';
-
-      const products = {
-        pepperoni: {id:'pepperoni', name:'Пепперони', desc:'30 см', price:690, image:'img/dish-pepperoni.jpg'},
-        philadelphia: {id:'philadelphia', name:'Филадельфия', desc:'8 шт', price:590, image:'img/dish-philadelphia.jpg'},
-        caesar: {id:'caesar', name:'Цезарь с курицей', desc:'250 г', price:350, image:'img/dish-caesar.jpg'},
-        'burger-classic': {id:'burger-classic', name:'Бургер Классик', desc:'300 г', price:450, image:'img/dish-burger.jpg'}
-      };
-
-      const PROMOS = { WELCOME: 0.20, FOOD10: 0.10 };
-      const STORAGE_KEY = 'foodexpress-cart-v1';
-      const cart = new Map();
-      const promoInput = document.getElementById('promoInput');
-      const promoStatus = document.createElement('div');
-      promoStatus.className = 'cart-status';
-      promoStatus.setAttribute('aria-live', 'polite');
-      document.querySelector('.promo-input-wrapper').after(promoStatus);
-
-      let promo = null;
-
-      const rub = value => Math.round(value).toLocaleString('ru-RU') + ' ₽';
-      const count = () => [...cart.values()].reduce((sum, item) => sum + item.qty, 0);
-      const subtotal = () => [...cart.values()].reduce((sum, item) => sum + item.price * item.qty, 0);
-      const discount = () => promo ? Math.round(subtotal() * promo.rate) : 0;
-
-      function saveCart() {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            items: [...cart.values()],
-            promo: promo ? promo.code : null
-          }));
-        } catch (error) {
-          console.warn('Не удалось сохранить корзину в браузере:', error);
-        }
-      }
-
-      function loadCart() {
-        try {
-          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-          if (!saved || !Array.isArray(saved.items)) return;
-          saved.items.forEach(item => {
-            const product = products[item.id];
-            const qty = Number(item.qty);
-            if (product && Number.isInteger(qty) && qty > 0 && qty < 1000) {
-              cart.set(product.id, {...product, qty});
-            }
-          });
-          if (saved.promo && PROMOS[saved.promo]) {
-            promo = {code: saved.promo, rate: PROMOS[saved.promo]};
-            promoInput.value = saved.promo;
-          }
-        } catch (error) {
-          console.warn('Не удалось восстановить корзину:', error);
-          cart.clear();
-          promo = null;
-        }
-      }
-
-      function showPromoMessage(message, type) {
-        promoStatus.className = 'cart-status ' + (type || '');
-        promoStatus.textContent = message;
-      }
-
-      function render() {
-        const host = document.getElementById('cartItems');
-        host.replaceChildren();
-
-        if (cart.size === 0) {
-          const empty = document.createElement('div');
-          empty.className = 'cart-empty-note';
-          empty.innerHTML = '<i class="bi bi-cart3 fs-2 d-block mb-2"></i>Корзина пока пуста';
-          host.appendChild(empty);
-          if (promo) {
-            promo = null;
-            promoInput.value = '';
-            showPromoMessage('Промокод сброшен: корзина пуста.', 'error');
-          }
-        } else {
-          cart.forEach(item => {
-            const row = document.createElement('div');
-            row.className = 'cart-item';
-
-            const image = document.createElement('img');
-            image.className = 'cart-item-img';
-            image.src = item.image;
-            image.alt = item.name;
-
-            const content = document.createElement('div');
-            content.className = 'cart-item-content';
-
-            const top = document.createElement('div');
-            top.className = 'cart-item-top';
-
-            const title = document.createElement('h6');
-            title.className = 'cart-item-title';
-            title.textContent = item.name;
-
-            const remove = document.createElement('button');
-            remove.className = 'btn-trash';
-            remove.type = 'button';
-            remove.dataset.remove = item.id;
-            remove.setAttribute('aria-label', 'Удалить ' + item.name);
-            remove.innerHTML = '<i class="bi bi-trash"></i>';
-
-            top.append(title, remove);
-
-            const desc = document.createElement('div');
-            desc.className = 'cart-item-desc';
-            desc.textContent = item.desc;
-
-            const bottom = document.createElement('div');
-            bottom.className = 'cart-item-bottom';
-
-            const controls = document.createElement('div');
-            controls.className = 'qty-control';
-
-            const minus = document.createElement('button');
-            minus.className = 'qty-btn';
-            minus.type = 'button';
-            minus.dataset.minus = item.id;
-            minus.setAttribute('aria-label', 'Уменьшить количество');
-            minus.textContent = '−';
-
-            const quantity = document.createElement('span');
-            quantity.textContent = item.qty;
-
-            const plus = document.createElement('button');
-            plus.className = 'qty-btn';
-            plus.type = 'button';
-            plus.dataset.plus = item.id;
-            plus.setAttribute('aria-label', 'Увеличить количество');
-            plus.textContent = '+';
-
-            controls.append(minus, quantity, plus);
-
-            const price = document.createElement('span');
-            price.className = 'cart-item-price';
-            price.textContent = rub(item.price * item.qty);
-
-            bottom.append(controls, price);
-            content.append(top, desc, bottom);
-            row.append(image, content);
-            host.appendChild(row);
-          });
-        }
-
-        const sum = subtotal();
-        const saved = discount();
-        document.getElementById('cartCount').textContent = count();
-        document.getElementById('subtotal').textContent = rub(sum);
-        document.getElementById('discountAmount').textContent = saved ? '−' + rub(saved) : '0 ₽';
-        document.getElementById('grandTotal').textContent = rub(Math.max(0, sum - saved));
-
-        const checkout = document.querySelector('.btn-checkout');
-        checkout.disabled = cart.size === 0;
-        checkout.setAttribute('aria-disabled', String(cart.size === 0));
-
-        document.querySelectorAll('[data-add-product]').forEach(button => {
-          const inCart = cart.has(button.dataset.addProduct);
-          button.innerHTML = inCart
-            ? '<i class="bi bi-plus-circle me-1"></i> Добавить ещё'
-            : '<i class="bi bi-cart3 me-1"></i> В корзину';
-        });
-
-        saveCart();
-      }
-
-      document.addEventListener('click', event => {
-        const addButton = event.target.closest('[data-add-product]');
-        if (addButton) {
-          const product = products[addButton.dataset.addProduct];
-          if (product) {
-            const current = cart.get(product.id);
-            cart.set(product.id, {...product, qty: current ? current.qty + 1 : 1});
-            render();
-          }
-          return;
-        }
-
-        const plusButton = event.target.closest('[data-plus]');
-        if (plusButton) {
-          const item = cart.get(plusButton.dataset.plus);
-          if (item) { item.qty += 1; render(); }
-          return;
-        }
-
-        const minusButton = event.target.closest('[data-minus]');
-        if (minusButton) {
-          const item = cart.get(minusButton.dataset.minus);
-          if (item) {
-            item.qty -= 1;
-            if (item.qty <= 0) cart.delete(item.id);
-            render();
-          }
-          return;
-        }
-
-        const removeButton = event.target.closest('[data-remove]');
-        if (removeButton) {
-          cart.delete(removeButton.dataset.remove);
-          render();
-          return;
-        }
-
-        if (event.target.closest('#clearCart')) {
-          event.preventDefault();
-          cart.clear();
-          promo = null;
-          promoInput.value = '';
-          showPromoMessage('Корзина очищена.', 'success');
-          render();
-          return;
-        }
-
-        if (event.target.closest('#cartLink')) {
-          event.preventDefault();
-          document.getElementById('cartPanel').scrollIntoView({behavior:'smooth', block:'center'});
-        }
-      });
-
-      document.getElementById('applyPromo').addEventListener('click', () => {
-        const code = promoInput.value.trim().toUpperCase();
-
-        if (!code) {
-          promo = null;
-          showPromoMessage('Введите промокод.', 'error');
-        } else if (!cart.size) {
-          promo = null;
-          showPromoMessage('Сначала добавьте товары в корзину.', 'error');
-        } else if (Object.prototype.hasOwnProperty.call(PROMOS, code)) {
-          promo = {code, rate: PROMOS[code]};
-          promoInput.value = code;
-          showPromoMessage('Промокод ' + code + ' применён: скидка ' + Math.round(PROMOS[code] * 100) + '%.', 'success');
-        } else {
-          promo = null;
-          showPromoMessage('Такого промокода нет. Проверьте написание.', 'error');
-        }
-
-        render();
-      });
-
-      promoInput.addEventListener('keydown', event => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          document.getElementById('applyPromo').click();
-        }
-      });
-
-      document.querySelector('.btn-checkout').addEventListener('click', () => {
-        if (!cart.size) return;
-        const lines = [...cart.values()].map(item => item.name + ' × ' + item.qty + ' — ' + rub(item.price * item.qty));
-        const message = [
-          'Демо-оформление заказа FoodExpress',
-          '',
-          ...lines,
-          '',
-          'Сумма: ' + rub(subtotal()),
-          'Скидка: ' + rub(discount()),
-          'Итого: ' + rub(subtotal() - discount()),
-          '',
-          'Это демонстрационный сайт: заказ не отправлен в ресторан и оплата не производится.'
-        ].join('\n');
-        window.alert(message);
-      });
-
-      loadCart();
-      render();
-    })();
-    </script>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="toast" id="toast" role="status"></div>
+<script src="covers.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
